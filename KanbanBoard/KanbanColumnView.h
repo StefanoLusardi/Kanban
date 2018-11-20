@@ -26,6 +26,7 @@ signals:
 protected:
 	void setupListView() const;
     QString toVertical(const QString &title) const;
+	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 private:
     Ui::KanbanColumnView *ui;

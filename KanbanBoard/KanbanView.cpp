@@ -239,12 +239,10 @@ QString KanbanView::getUniqueName(const QString& name) const
 {
     QStringList spoilerNames;
     for (auto idx = 0; idx < ui->mSpoilerLayout->count(); ++idx)
-    {
-        auto w = ui->mSpoilerLayout->itemAt(idx)->widget();
-        if(w)
-        {
-            auto s = dynamic_cast<KanbanColumnView*>(w);
-            if (s)
+    {        
+        if(const auto w = ui->mSpoilerLayout->itemAt(idx)->widget(); w)
+        {            
+            if (const auto s = dynamic_cast<KanbanColumnView*>(w); s)
             {
                 spoilerNames.append(s->getTitle());
             }

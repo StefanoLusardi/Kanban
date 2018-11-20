@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "KanbanView.h"
 #include "KanbanModel.h"
+
 #include <QItemSelectionModel>
 
 MainWindow::MainWindow(QWidget *parent)

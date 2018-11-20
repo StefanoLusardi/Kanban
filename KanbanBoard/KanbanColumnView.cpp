@@ -52,7 +52,6 @@ KanbanColumnView::KanbanColumnView(const QString& title, QWidget *parent) :
         ui->mLabelTitle->setVisible(!mIsCollapsed);        
         ui->mButtonOptions->setVisible(!mIsCollapsed);
         ui->mLabelTitleVertical->setVisible(mIsCollapsed);
-
     });
 
     connect(ui->mButtonOptions, &QToolButton::clicked, [this](bool)
@@ -116,4 +115,10 @@ QString KanbanColumnView::toVertical(const QString& title) const
         vTitle.append(c+'\n');
     }
     return vTitle;
+}
+
+void KanbanColumnView::mouseDoubleClickEvent(QMouseEvent* event)
+{
+	Q_UNUSED(event);
+	ui->mButtonSpoiler->click();
 }
