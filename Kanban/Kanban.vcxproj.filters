@@ -36,72 +36,14 @@
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KanbanView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KanbanDelegate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KanbanModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KanbanDelegateEditor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KanbanColumnProxyModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="KanbanColumnView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="MainWindow.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="KanbanView.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="KanbanDelegate.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="KanbanModel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="KanbanDelegateEditor.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="KanbanColumnProxyModel.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="KanbanColumnView.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="KanbanView.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="KanbanDelegateEditor.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
-    <QtUic Include="KanbanColumnView.ui">
-      <Filter>Form Files</Filter>
-    </QtUic>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="KanbanBoard.qrc">
-      <Filter>Resource Files</Filter>
-    </QtRcc>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Kanban.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Roles.h">
+    <ClInclude Include="MainWindow.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28010.2041
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KanbanBoard", "KanbanBoard\KanbanBoard.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kanban", "Kanban\Kanban.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KanbanBoard", "Plugins\KanbanBoard\KanbanBoard.vcxproj", "{DD57C785-D09E-488D-AFEC-A78F09B9BB27}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,12 +17,16 @@ Global
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Debug|x64.Build.0 = Debug|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.ActiveCfg = Release|x64
 		{B12702AD-ABFB-343A-A199-8E24837244A3}.Release|x64.Build.0 = Release|x64
+		{DD57C785-D09E-488D-AFEC-A78F09B9BB27}.Debug|x64.ActiveCfg = Debug|x64
+		{DD57C785-D09E-488D-AFEC-A78F09B9BB27}.Debug|x64.Build.0 = Debug|x64
+		{DD57C785-D09E-488D-AFEC-A78F09B9BB27}.Release|x64.ActiveCfg = Release|x64
+		{DD57C785-D09E-488D-AFEC-A78F09B9BB27}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = Qt5.11.2_msvc2017_64
 		SolutionGuid = {36FC0E69-7128-4A58-8C29-C17B8209B39E}
+		Qt5Version = Qt5.11.2_msvc2017_64
 	EndGlobalSection
 EndGlobal

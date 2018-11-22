@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Kanban.h"
+#include "KanbanItem.h"
 
 #include <QAbstractListModel>
 
@@ -26,8 +26,8 @@ public:
 	QStringList mimeTypes() const override;
 	QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
-	QModelIndex addKanban(const Kanban& label);
+	QModelIndex addKanban(const KanbanItem& label);
 
 private:
-	std::vector<Kanban> mKanbanItems;
+	std::vector<KanbanItem> mKanbanItems;
 };

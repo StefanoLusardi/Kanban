@@ -13,7 +13,7 @@ QVariant KanbanModel::data(const QModelIndex& index, int role) const
 {
 	if (!index.isValid()) { return {}; }
 
-	const Kanban& label = mKanbanItems[index.row()];
+	const KanbanItem& label = mKanbanItems[index.row()];
 
 	switch(role)
 	{
@@ -28,7 +28,7 @@ bool KanbanModel::setData(const QModelIndex& index, const QVariant& value, int r
 {
 	if (!index.isValid()) {return false;}
 
-	Kanban& label = mKanbanItems[index.row()];
+	KanbanItem& label = mKanbanItems[index.row()];
 
 	switch(role)
 	{
@@ -150,7 +150,7 @@ bool KanbanModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int
 	return true;
 }
 
-QModelIndex KanbanModel::addKanban(const Kanban& label)
+QModelIndex KanbanModel::addKanban(const KanbanItem& label)
 {
 	const int row = rowCount();
 	beginInsertRows(QModelIndex(), row, row);

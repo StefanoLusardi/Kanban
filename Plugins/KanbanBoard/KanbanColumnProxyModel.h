@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Kanban.h"
+#include "KanbanItem.h"
 
 #include <QSortFilterProxyModel>
 

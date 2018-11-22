@@ -3,10 +3,10 @@
 #include <QString>
 #include <QColor>
 
-class Kanban
+class KanbanItem
 {
 public:
-	Kanban(const QString& text = QString(), const QColor& color = Qt::cyan, const QString& state = QString()) 
+	KanbanItem(const QString& text = QString(), const QColor& color = Qt::cyan, const QString& state = QString()) 
 	: mId{-1}, 
 	mText{text}, 
 	mColor{color},
