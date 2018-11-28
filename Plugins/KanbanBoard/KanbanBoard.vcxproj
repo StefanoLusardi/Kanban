@@ -165,6 +165,11 @@ start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Conf
     <QtUic Include="KanbanDelegateEditor.ui" />
     <QtUic Include="KanbanView.ui" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Widgets\Widgets\Widgets.vcxproj">
+      <Project>{5efa98f5-e48f-4686-913e-f64347681307}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
     <Import Project="$(QtMsBuild)\qt.targets" />

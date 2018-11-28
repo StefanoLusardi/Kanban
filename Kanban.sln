@@ -7,6 +7,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kanban", "Kanban\Kanban.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "KanbanBoard", "Plugins\KanbanBoard\KanbanBoard.vcxproj", "{DD57C785-D09E-488D-AFEC-A78F09B9BB27}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Widgets", "Widgets", "{499A5FA3-2399-44D7-80B7-A8506AE4600F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VerticalLabel", "Widgets\VerticalLabel\VerticalLabel.vcxproj", "{D9F891AD-20C3-44E7-8BA8-AC300DAEFBF5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Widgets", "Widgets\Widgets\Widgets.vcxproj", "{5EFA98F5-E48F-4686-913E-F64347681307}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,9 +27,21 @@ Global
 		{DD57C785-D09E-488D-AFEC-A78F09B9BB27}.Debug|x64.Build.0 = Debug|x64
 		{DD57C785-D09E-488D-AFEC-A78F09B9BB27}.Release|x64.ActiveCfg = Release|x64
 		{DD57C785-D09E-488D-AFEC-A78F09B9BB27}.Release|x64.Build.0 = Release|x64
+		{D9F891AD-20C3-44E7-8BA8-AC300DAEFBF5}.Debug|x64.ActiveCfg = Debug|x64
+		{D9F891AD-20C3-44E7-8BA8-AC300DAEFBF5}.Debug|x64.Build.0 = Debug|x64
+		{D9F891AD-20C3-44E7-8BA8-AC300DAEFBF5}.Release|x64.ActiveCfg = Release|x64
+		{D9F891AD-20C3-44E7-8BA8-AC300DAEFBF5}.Release|x64.Build.0 = Release|x64
+		{5EFA98F5-E48F-4686-913E-F64347681307}.Debug|x64.ActiveCfg = Debug|x64
+		{5EFA98F5-E48F-4686-913E-F64347681307}.Debug|x64.Build.0 = Debug|x64
+		{5EFA98F5-E48F-4686-913E-F64347681307}.Release|x64.ActiveCfg = Release|x64
+		{5EFA98F5-E48F-4686-913E-F64347681307}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D9F891AD-20C3-44E7-8BA8-AC300DAEFBF5} = {499A5FA3-2399-44D7-80B7-A8506AE4600F}
+		{5EFA98F5-E48F-4686-913E-F64347681307} = {499A5FA3-2399-44D7-80B7-A8506AE4600F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {36FC0E69-7128-4A58-8C29-C17B8209B39E}
