@@ -2,19 +2,39 @@
 
 #include <QtCore/qglobal.h>
 #if defined API_VERTICALLABEL
-	#define MSLABEL_BUILD_DLL_SPEC Q_DECL_EXPORT
+	#define API Q_DECL_EXPORT
 #else
-	#define MSLABEL_BUILD_DLL_SPEC Q_DECL_IMPORT
+	#define API Q_DECL_IMPORT
 #endif
 
 //#include <QtUiPlugin/QDesignerExportWidget> // QDESIGNER_WIDGET_EXPORT
 
 #include <QtWidgets/QLabel>
 
-class MSLABEL_BUILD_DLL_SPEC VerticalLabel : public QLabel
+class API VerticalLabel : public QLabel
 {
 	Q_OBJECT
+	Q_PROPERTY(QColor TextColor READ textColor WRITE setTextColor)
+	Q_PROPERTY(TextOrientation TextOrientation READ textOrientation WRITE setTextOrientation)
 
 public:
+	enum TextOrientation {Left, Right};
+	Q_ENUM(TextOrientation)
+
 	VerticalLabel(QWidget *parent = Q_NULLPTR);
+
+	QColor textColor() const { return mTextColor; }
+	void setTextColor(const QColor& color ) { mTextColor = color; }
+
+	TextOrientation textOrientation() const { return mTextOrientation; }
+	void setTextOrientation(const TextOrientation& orientation ) { mTextOrientation = orientation; }
+
+protected:
+	void paintEvent(QPaintEvent*) override;
+	QSize minimumSizeHint() const override;
+	QSize sizeHint() const override;
+
+private:
+	QColor mTextColor;
+	TextOrientation mTextOrientation;
 };

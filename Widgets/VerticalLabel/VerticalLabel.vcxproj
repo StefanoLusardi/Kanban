@@ -84,6 +84,9 @@
       <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtDesigner;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtUiPlugin;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>API_VERTICALLABEL;_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</Define>
     </QtMoc>
+    <PostBuildEvent>
+      <Command>start xcopy /Y "$(OutDir)$(TargetName).lib" "$(SolutionDir)Widgets\lib\$(Configuration)\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -107,6 +110,9 @@
       <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtDesigner;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;$(QTDIR)\include\QtUiPlugin;%(AdditionalIncludeDirectories)</IncludePath>
       <Define>API_VERTICALLABEL;_WINDOWS;QT_NO_DEBUG;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</Define>
     </QtMoc>
+    <PostBuildEvent>
+      <Command>start xcopy /Y "$(OutDir)$(TargetName).lib" "$(SolutionDir)Widgets\lib\$(Configuration)\"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

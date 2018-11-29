@@ -13,7 +13,7 @@ class VerticalLabelPlugin : public QObject, public QDesignerCustomWidgetInterfac
 public:
 	VerticalLabelPlugin(QObject *parent = Q_NULLPTR) : QObject(parent) { initialized = false; }
 
-	bool isContainer() const override { return true; }
+	bool isContainer() const override { return false; }
 
 	bool isInitialized() const override { return initialized; }
 
@@ -21,9 +21,9 @@ public:
 
 	QString group() const override { return "KB::Plugins"; }
 
-	QString includeFile() const override { return "VerticalLabel.h"; }
+	QString includeFile() const override { return "../../Widgets/VerticalLabel/VerticalLabel.h"; }
 
-	QString name() const override { return "Vertical Label"; }
+	QString name() const override { return "VerticalLabel"; }
 
 	QString toolTip() const override { return QString("Vertical Label widget"); }
 
