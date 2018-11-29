@@ -11,12 +11,12 @@
 KanbanBoardPlugin::KanbanBoardPlugin(QBoxLayout* container, Model* model, KanbanBoardPluginInterface* parent) : QObject (parent)
 {
 	// Register Container Button
-	mPluginButton = std::make_unique<QPushButton>(); // no parent, ok because is a unique_ptr
+	mPluginButton = new QPushButton(); // no smart_ptr because later container->addWidget() steals ownership
 	mPluginButton->setCheckable(true);
 	mPluginButton->setChecked(false);
 	mPluginButton->setText(parent->name());
     mPluginButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding);
-    container->addWidget(mPluginButton.get());	
+    container->addWidget(mPluginButton);	
 
 	// Create Plugin Ui class
 	mPluginDialog = std::make_unique<QDialog>();  // no parent, ok because is a unique_ptr
@@ -45,7 +45,7 @@ KanbanBoardPlugin::KanbanBoardPlugin(QBoxLayout* container, Model* model, Kanban
 		mPluginButton->setChecked(false);
 	});
 
-	connect(mPluginButton.get(), &QPushButton::clicked, [this]()
+	connect(mPluginButton, &QPushButton::clicked, [this]()
     {
         mPluginDialog->setVisible(mPluginButton->isChecked());
     });

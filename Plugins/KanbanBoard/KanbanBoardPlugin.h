@@ -18,8 +18,8 @@ public:
 	~KanbanBoardPlugin() = default;
 
 private:
+	QPushButton* mPluginButton;
 	std::unique_ptr<QDialog> mPluginDialog;
-	std::unique_ptr<QPushButton> mPluginButton;
 	std::unique_ptr<KanbanBoardView> mPluginView;
 };
 

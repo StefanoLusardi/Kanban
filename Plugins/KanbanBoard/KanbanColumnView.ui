@@ -96,7 +96,7 @@
       <item>
        <widget class="QLabel" name="mLabelTitle">
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffaa00;&quot;&gt;TITLE&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Title</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -143,7 +143,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="mLabelTitleVertical">
+      <widget class="VerticalLabel" name="mLabelTitleVertical">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -160,10 +160,10 @@
         <enum>QFrame::Box</enum>
        </property>
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffaa00;&quot;&gt;T&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffaa00;&quot;&gt;I&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffaa00;&quot;&gt;T&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffaa00;&quot;&gt;L&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600; color:#ffaa00;&quot;&gt;E&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Title</string>
        </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+       <property name="TextOrientation">
+        <enum>VerticalLabel::Right</enum>
        </property>
       </widget>
      </item>
@@ -213,6 +213,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>VerticalLabel</class>
+   <extends>QLabel</extends>
+   <header>../../Widgets/VerticalLabel/VerticalLabel.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
