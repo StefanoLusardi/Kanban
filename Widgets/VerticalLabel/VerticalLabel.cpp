@@ -10,24 +10,21 @@ void VerticalLabel::paintEvent(QPaintEvent*)
 	QPainter p(this);
 	p.setRenderHint(QPainter::Antialiasing);
 
-	// Draw rect gradient
-	/*QConicalGradient g(rect().center(), 270);
-	g.setColorAt(0, Qt::darkCyan);
-	g.setColorAt(0.5, Qt::blue);
-	p.fillRect(rect(), g);*/
-
 	// Draw rect contour
 	/*p.setPen(Qt::red);
 	p.drawRect(rect().adjusted(0, 0, -1, -1));*/
-
-	// Set Text Color
-	p.setPen(mTextColor);
 
 	switch(mTextOrientation) 
 	{ 	
 	case TextOrientation::Left: 
 	{
+		QLinearGradient g(rect().topLeft(), rect().bottomRight());
+		g.setColorAt(0.2, mBackgroundColor);
+		g.setColorAt(1.0, Qt::white);
+		p.fillRect(rect(), g);
+
 		p.rotate(90);
+		p.setPen(mTextColor);
 		const auto fw = fontMetrics().width(text());
 		const auto fh = fontMetrics().height();
 		const auto w = width() / 2 - fh / 2;
@@ -37,7 +34,13 @@ void VerticalLabel::paintEvent(QPaintEvent*)
 	}
 	case TextOrientation::Right: 
 	{
+		QLinearGradient g(rect().topLeft(), rect().bottomRight());
+		g.setColorAt(0.2, mBackgroundColor);
+		g.setColorAt(1.0, Qt::white);
+		p.fillRect(rect(), g);
+
 		p.rotate(270);
+		p.setPen(mTextColor);
 		const auto fw = fontMetrics().width(text());
 		const auto fh = fontMetrics().height();
 		const auto w = width() / 2 + fh / 2;

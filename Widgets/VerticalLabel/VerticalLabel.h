@@ -15,8 +15,8 @@ class API VerticalLabel : public QLabel
 {
 	Q_OBJECT
 	Q_PROPERTY(QColor TextColor READ textColor WRITE setTextColor)
+	Q_PROPERTY(QColor BackgroundColor READ backgroudColor WRITE setBackgroudColor)
 	Q_PROPERTY(TextOrientation TextOrientation READ textOrientation WRITE setTextOrientation)
-
 public:
 	enum TextOrientation {Left, Right};
 	Q_ENUM(TextOrientation)
@@ -25,6 +25,9 @@ public:
 
 	QColor textColor() const { return mTextColor; }
 	void setTextColor(const QColor& color ) { mTextColor = color; }
+
+	QColor backgroudColor() const { return mBackgroundColor; }
+	void setBackgroudColor(const QColor& color ) { mBackgroundColor = color; }
 
 	TextOrientation textOrientation() const { return mTextOrientation; }
 	void setTextOrientation(const TextOrientation& orientation ) { mTextOrientation = orientation; }
@@ -36,5 +39,6 @@ protected:
 
 private:
 	QColor mTextColor;
+	QColor mBackgroundColor;
 	TextOrientation mTextOrientation;
 };
