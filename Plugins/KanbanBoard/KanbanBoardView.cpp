@@ -24,6 +24,13 @@ KanbanBoardView::KanbanBoardView(QWidget *parent)
 	connect(ui->mButtonDelete, &QPushButton::clicked, this, &KanbanBoardView::onDeleteKanban);
 	connect(ui->mButtonNewColumn, &QPushButton::clicked, this, &KanbanBoardView::onCreateColumn);
 	connect(ui->mNewSpoilerButton, &QPushButton::clicked, this, &KanbanBoardView::onCreateColumn);
+
+	mColumnSplitter = new QSplitter(Qt::Horizontal, this);
+	mColumnSplitter->setFrameShape(QFrame::Box);
+    mColumnSplitter->setHandleWidth(5);
+	//mSplitter->setStyleSheet("QSplitter::handle {image: url(images/splitter.png);} ");
+	mColumnSplitter->setStyleSheet("QSplitter::handle {background: rgb(0, 0, 0);} ");
+	ui->mSpoilerLayout->insertWidget(ui->mSpoilerLayout->count()-1, mColumnSplitter);
 }
 
 KanbanBoardView::~KanbanBoardView()
@@ -35,28 +42,31 @@ void KanbanBoardView::onCreateColumn()
 {
 	bool ok;
 	QString columnName = QInputDialog::getText(this, "Kanban Column", "Create new Kanban column", QLineEdit::Normal, QString(), &ok);
+	
+	// TODO: get color from user dialog
+	QColor columnColor {Qt::darkGreen};
 
 	if (ok && !columnName.isEmpty())
 	{ 
-		createColumn(columnName);
+		createColumn(columnName, columnColor);
 	}	
 }
 
-void KanbanBoardView::createColumn(const QString& columnName)
+void KanbanBoardView::createColumn(const QString& columnName, const QColor& columnColor)
 {
-	auto columnModel = new KanbanColumnProxyModel(columnName, this);
-	columnModel->setSourceModel(mKanbanModel);
-	columnModel->setFilterRegExp(QRegExp(columnName, Qt::CaseInsensitive, QRegExp::FixedString));
+	auto columnView = new KanbanColumnView(getUniqueName(columnName), columnColor, mColumnSplitter);
+	auto columnModel = new KanbanColumnProxyModel(columnName, columnView);
 
-	auto columnView = new KanbanColumnView(getUniqueName(columnName), this);
 	columnView->setModel(columnModel);
 	columnView->setDelegate(new KanbanDelegate(this));
+
+	columnModel->setSourceModel(mKanbanModel);
+	columnModel->setFilterRegExp(QRegExp(columnName, Qt::CaseInsensitive, QRegExp::FixedString));
     
 	connect(columnView, &KanbanColumnView::columnDeleted, this, &KanbanBoardView::onDeleteColumnView);
 	connect(columnView, &KanbanColumnView::kanbanCreated, this, &KanbanBoardView::onAddColumnViewKanban);
 
-    ui->mSpoilerLayout->insertWidget(ui->mSpoilerLayout->count()-1, columnView);
-	ui->mSpoilerLayout->insertWidget(ui->mSpoilerLayout->count()-1, new QSplitter(Qt::Vertical, columnView));
+	mColumnSplitter->addWidget(columnView);
 	mColumnViews.emplace(columnName, columnView);
 }
 
@@ -154,11 +164,12 @@ void KanbanBoardView::onDeleteKanban()
 
 void KanbanBoardView::onDeleteColumnView(const QString& columnName)
 {
-	if(const auto columnIt = mColumnViews.find(columnName); columnIt!=mColumnViews.end())
+	if(auto columnIt = mColumnViews.find(columnName); columnIt!=mColumnViews.end())
 	{
-		mColumnViews.erase(columnIt);	
 		ui->mSpoilerLayout->removeWidget(columnIt->second);
 		columnIt->second->setParent(nullptr);
+		mColumnViews.erase(columnIt);
+		update();
 //    delete columnIt->second; // NO! columnView has already a parent that takes its ownership. Do not delete it explicitly.
 	}
 }

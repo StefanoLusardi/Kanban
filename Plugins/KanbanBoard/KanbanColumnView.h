@@ -13,9 +13,15 @@ class KanbanColumnView : public QWidget
     Q_OBJECT
 
 public:
-    explicit KanbanColumnView(const QString& title, QWidget *parent = nullptr);
+    explicit KanbanColumnView(const QString& title, const QColor& columnColor, QWidget *parent = nullptr);
     ~KanbanColumnView();
-    QString getTitle() const;
+    
+	void setTitle(const QString& title);
+	QString getTitle() const;
+
+	void setColor(const QColor& color);
+	QColor getColor() const;
+
 	void setModel(QSortFilterProxyModel* model) const;
 	void setDelegate(QStyledItemDelegate* delegate) const;
 
@@ -25,12 +31,12 @@ signals:
 
 protected:
 	void setupListView() const;
-    QString toVertical(const QString &title) const;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 private:
     Ui::KanbanColumnView *ui;
     QParallelAnimationGroup mAnimation;
+	int mAnimationTime {2000};
     int mMaxSize {300};
     int mMinSize {40};
     bool mIsCollapsed;

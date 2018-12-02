@@ -44,7 +44,7 @@
       </sizepolicy>
      </property>
      <property name="frameShape">
-      <enum>QFrame::Box</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>
@@ -72,14 +72,14 @@
        <widget class="QPushButton" name="mButtonAdd">
         <property name="minimumSize">
          <size>
-          <width>38</width>
-          <height>38</height>
+          <width>40</width>
+          <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>38</width>
-          <height>38</height>
+          <width>40</width>
+          <height>40</height>
          </size>
         </property>
         <property name="styleSheet">
@@ -95,6 +95,9 @@
       </item>
       <item>
        <widget class="QLabel" name="mLabelTitle">
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
         <property name="text">
          <string>Title</string>
         </property>
@@ -107,14 +110,14 @@
        <widget class="QToolButton" name="mButtonOptions">
         <property name="minimumSize">
          <size>
-          <width>38</width>
-          <height>38</height>
+          <width>40</width>
+          <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>38</width>
-          <height>38</height>
+          <width>40</width>
+          <height>40</height>
          </size>
         </property>
         <property name="text">
@@ -159,6 +162,9 @@
        <property name="frameShape">
         <enum>QFrame::Box</enum>
        </property>
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
        <property name="text">
         <string>Title</string>
        </property>
@@ -168,7 +174,17 @@
       </widget>
      </item>
      <item>
-      <widget class="QListView" name="mListView"/>
+      <widget class="QListView" name="mListView">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Plain</enum>
+       </property>
+       <property name="lineWidth">
+        <number>1</number>
+       </property>
+      </widget>
      </item>
     </layout>
    </item>

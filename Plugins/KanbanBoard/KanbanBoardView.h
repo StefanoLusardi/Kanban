@@ -2,6 +2,8 @@
 
 #include <QWidget>
 
+class QSplitter;
+
 class KanbanModel;
 class KanbanColumnView;
 class QItemSelectionModel;
@@ -44,6 +46,9 @@ private:
 	//QPersistentModelIndex* lastSelectedIdx;
 
 	QString getUniqueName(const QString& name) const;
-	void createColumn(const QString& columnName);
+	void createColumn(const QString& columnName, const QColor& columnColor);
 	void createKanban(const QString& text, const QColor& color, const QString& state) const;
+
+
+	QSplitter *mColumnSplitter;
 };
