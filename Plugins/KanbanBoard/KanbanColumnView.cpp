@@ -105,18 +105,6 @@ QString KanbanColumnView::getTitle() const
     return ui->mLabelTitle->text();
 }
 
-QString KanbanColumnView::toVertical(const QString& title) const
-{
-	// TODO: instead of create a vertical text, create a custom vertical Label class
-
-    QString vTitle{};
-    for (const auto& c : title)
-    {
-        vTitle.append(c+'\n');
-    }
-    return vTitle;
-}
-
 void KanbanColumnView::mouseDoubleClickEvent(QMouseEvent* event)
 {
 	Q_UNUSED(event);
