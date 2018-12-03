@@ -13,6 +13,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VerticalLabel", "Widgets\Ve
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Widgets", "Widgets\Widgets\Widgets.vcxproj", "{5EFA98F5-E48F-4686-913E-F64347681307}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Model", "Model\Model.vcxproj", "{CA982C30-539F-4B22-ABAE-D0EBFD787FBC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{B6B41C76-EF2A-439E-97DE-DCDDE73655C2}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Settings", "Plugins\Settings\Settings.vcxproj", "{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -35,16 +41,26 @@ Global
 		{5EFA98F5-E48F-4686-913E-F64347681307}.Debug|x64.Build.0 = Debug|x64
 		{5EFA98F5-E48F-4686-913E-F64347681307}.Release|x64.ActiveCfg = Release|x64
 		{5EFA98F5-E48F-4686-913E-F64347681307}.Release|x64.Build.0 = Release|x64
+		{CA982C30-539F-4B22-ABAE-D0EBFD787FBC}.Debug|x64.ActiveCfg = Debug|x64
+		{CA982C30-539F-4B22-ABAE-D0EBFD787FBC}.Debug|x64.Build.0 = Debug|x64
+		{CA982C30-539F-4B22-ABAE-D0EBFD787FBC}.Release|x64.ActiveCfg = Release|x64
+		{CA982C30-539F-4B22-ABAE-D0EBFD787FBC}.Release|x64.Build.0 = Release|x64
+		{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018}.Debug|x64.ActiveCfg = Debug|x64
+		{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018}.Debug|x64.Build.0 = Debug|x64
+		{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018}.Release|x64.ActiveCfg = Release|x64
+		{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{DD57C785-D09E-488D-AFEC-A78F09B9BB27} = {B6B41C76-EF2A-439E-97DE-DCDDE73655C2}
 		{D9F891AD-20C3-44E7-8BA8-AC300DAEFBF5} = {499A5FA3-2399-44D7-80B7-A8506AE4600F}
 		{5EFA98F5-E48F-4686-913E-F64347681307} = {499A5FA3-2399-44D7-80B7-A8506AE4600F}
+		{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018} = {B6B41C76-EF2A-439E-97DE-DCDDE73655C2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {36FC0E69-7128-4A58-8C29-C17B8209B39E}
 		Qt5Version = Qt5.11.2_msvc2017_64
+		SolutionGuid = {36FC0E69-7128-4A58-8C29-C17B8209B39E}
 	EndGlobalSection
 EndGlobal

@@ -1,6 +1,6 @@
 
 #include "MainWindow.h"
-//#include "KanbanModel.h"
+#include "../Model/Model.h"
 //#include "KanbanView.h"
 
 #include <QDebug>
@@ -66,10 +66,7 @@ bool MainWindow::loadModel(bool status)
 {
 	if (!status) return status;
 
-	//KanbanModel* kanbanModel = new KanbanModel(this);
-	//mKanbanView->setModel(kanbanModel);
-	//QItemSelectionModel* selectionKanbanModel = new QItemSelectionModel(kanbanModel, this);
-	//mKanbanView->setSelectionModel(selectionKanbanModel);
+	mModel = std::make_shared<Model>();
 
 	return status;
 }
@@ -117,8 +114,8 @@ bool MainWindow::loadUi(bool status)
 	
 	for (auto plugin : mPlugins)
 	{
-		//plugin->setup(mUi->mPluginsLayout, kanbanModel.get());
-		plugin->setup(mUi->mPluginsLayout, nullptr);
+		plugin->setup(mUi->mPluginsLayout, mModel.get());
+		//plugin->setup(mUi->mPluginsLayout, nullptr);
 	}
 
 	mMainWindow->show();

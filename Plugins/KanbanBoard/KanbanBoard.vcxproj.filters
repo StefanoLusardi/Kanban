@@ -49,14 +49,8 @@
     <ClCompile Include="KanbanDelegateEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KanbanModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Roles.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="KanbanItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -81,9 +75,6 @@
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="KanbanDelegateEditor.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="KanbanModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

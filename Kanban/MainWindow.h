@@ -5,8 +5,6 @@
 #include <QtWidgets/QMainWindow>
 
 
-//class KanbanView;
-
 class MainWindow final
 {	
 public:
@@ -22,7 +20,7 @@ protected:
 private:
 	std::unique_ptr<Ui::MainWindowClass> mUi;
 	std::unique_ptr<QMainWindow> mMainWindow;
-	//std::unique_ptr<Model> mModel;
+	std::shared_ptr<Model> mModel;
 	QList<PluginInterface*> mPlugins;
 
 	

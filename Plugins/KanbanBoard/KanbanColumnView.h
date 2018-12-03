@@ -36,6 +36,8 @@ protected:
 private:
     Ui::KanbanColumnView *ui;
     QParallelAnimationGroup mAnimation;
+	QColor mColor;
+	QString mTitle;
 	int mAnimationTime {2000};
     int mMaxSize {300};
     int mMinSize {40};

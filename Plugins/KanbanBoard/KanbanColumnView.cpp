@@ -9,6 +9,8 @@
 
 KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnColor, QWidget *parent) :
     QWidget(parent),
+	mTitle{title},
+	mColor{columnColor},
     ui(new Ui::KanbanColumnView)
 {
     ui->setupUi(this);
@@ -104,6 +106,11 @@ KanbanColumnView::~KanbanColumnView()
     delete ui;
 }
 
+void KanbanColumnView::setTitle(const QString& title)
+{
+	mTitle = title;
+}
+
 void KanbanColumnView::setupListView() const
 {
 	// TODO: check if all this settings are needed
@@ -123,6 +130,11 @@ void KanbanColumnView::setupListView() const
     ui->mListView->setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
+QColor KanbanColumnView::getColor() const
+{
+	return mColor;
+}
+
 void KanbanColumnView::setModel(QSortFilterProxyModel* model) const
 {
 	ui->mListView->setModel(model);
@@ -136,6 +148,11 @@ void KanbanColumnView::setDelegate(QStyledItemDelegate* delegate) const
 QString KanbanColumnView::getTitle() const
 {
     return ui->mLabelTitle->text();
+}
+
+void KanbanColumnView::setColor(const QColor& color)
+{
+	mColor = color;
 }
 
 void KanbanColumnView::mouseDoubleClickEvent(QMouseEvent* event)

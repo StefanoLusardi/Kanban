@@ -92,7 +92,7 @@ void KanbanBoardView::onAddColumnViewKanban(const QString& columnName)
 
 	if (ok && !text.isEmpty())
 	{
-		createKanban(text, Qt::cyan, columnName);
+		createKanban(text, mColumnViews[columnName]->getColor(), columnName);
 	}
 }
 
@@ -188,11 +188,11 @@ void KanbanBoardView::loadData()
 {
 	// TODO: replace these dummy data with an actual configuration reader class
 
-	createColumn("A");
-	createColumn("B");
-	createColumn("C");
-	createColumn("D");
-	createColumn("E");
+	createColumn("A", Qt::darkGreen);
+	createColumn("B", Qt::darkMagenta);
+	createColumn("C", Qt::darkYellow);
+	createColumn("D", Qt::darkCyan);
+	createColumn("E", Qt::darkGray);
 
 	createKanban("a_123", Qt::yellow, "A");
 	createKanban("a_456", Qt::magenta, "A");

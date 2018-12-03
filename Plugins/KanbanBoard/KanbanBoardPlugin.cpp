@@ -4,8 +4,8 @@
 
 #include <QBoxLayout>
 
-// TODO: remove these
-#include "KanbanModel.h"
+// TODO: remove these?
+#include "../../Model/Model.h"
 #include <QItemSelectionModel>
 
 KanbanBoardPlugin::KanbanBoardPlugin(QBoxLayout* container, Model* model, KanbanBoardPluginInterface* parent) : QObject (parent)
@@ -22,19 +22,16 @@ KanbanBoardPlugin::KanbanBoardPlugin(QBoxLayout* container, Model* model, Kanban
 	mPluginDialog = std::make_unique<QDialog>();  // no parent, ok because is a unique_ptr
 	mPluginView = std::make_unique<KanbanBoardView>();
 	
+	auto kanbanModel = model->getKanbanModel();
+	mPluginView->setModel(kanbanModel.get());
+
+	auto selectionKanbanModel = new QItemSelectionModel(kanbanModel.get(), this);
+	mPluginView->setSelectionModel(selectionKanbanModel);
+		
+	mPluginDialog->setLayout(new QVBoxLayout());
+	mPluginDialog->layout()->addWidget(mPluginView.get());
 
 	{
-		// TODO: this section is here only for demo purpose. It must be remove from here.
-		// The model for KanbanBoardView should be provided by the KanbanBoardPlugin constructor
-
-		KanbanModel* kanbanModel = new KanbanModel(this);
-		mPluginView->setModel(kanbanModel);
-
-		QItemSelectionModel* selectionKanbanModel = new QItemSelectionModel(kanbanModel, this);
-		mPluginView->setSelectionModel(selectionKanbanModel);
-		
-		mPluginDialog->setLayout(new QVBoxLayout());
-		mPluginDialog->layout()->addWidget(mPluginView.get());
 
 		mPluginView->loadData();	
 	}
