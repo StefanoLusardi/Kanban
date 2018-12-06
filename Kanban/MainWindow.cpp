@@ -1,29 +1,12 @@
 
 #include "MainWindow.h"
 #include "../Model/Model.h"
-//#include "KanbanView.h"
 
 #include <QDebug>
 #include <QItemSelectionModel>
 #include <QPluginLoader>
 #include <QDir>
 #include <qapplication.h>
-
-//MainWindow::MainWindow(QWidget *parent)
-//	: QMainWindow(parent),
-//	mKanbanView{new KanbanView(this)}
-//{
-//	ui.setupUi(this);
-//
-//	KanbanModel* kanbanModel = new KanbanModel(this);
-//	mKanbanView->setModel(kanbanModel);
-//
-//	QItemSelectionModel* selectionKanbanModel = new QItemSelectionModel(kanbanModel, this);
-//	mKanbanView->setSelectionModel(selectionKanbanModel);
-//
-//	setCentralWidget(mKanbanView);
-//	mKanbanView->loadData();
-//}
 
 bool MainWindow::run(QApplication& mainApp)
 {
@@ -67,6 +50,8 @@ bool MainWindow::loadModel(bool status)
 	if (!status) return status;
 
 	mModel = std::make_shared<Model>();
+
+	mModel->loadData();
 
 	return status;
 }
@@ -115,7 +100,6 @@ bool MainWindow::loadUi(bool status)
 	for (auto plugin : mPlugins)
 	{
 		plugin->setup(mUi->mPluginsLayout, mModel.get());
-		//plugin->setup(mUi->mPluginsLayout, nullptr);
 	}
 
 	mMainWindow->show();

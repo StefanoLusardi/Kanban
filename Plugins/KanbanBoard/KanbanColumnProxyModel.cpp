@@ -1,9 +1,10 @@
-#include "Roles.h"
-#include "KanbanModel.h"
 #include "KanbanColumnProxyModel.h"
 
 #include <QMimeData>
 #include <QDataStream>
+
+#include "../../Model/KanbanModel.h"
+#include "../../Model/Roles.h"
 
 bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {

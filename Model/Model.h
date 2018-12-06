@@ -11,6 +11,8 @@ public:
 
 	std::shared_ptr<KanbanModel> getKanbanModel() const { return mKanbanModel; }
 
+	void loadData();
+
 private:
 	std::shared_ptr<KanbanModel> mKanbanModel;
 };

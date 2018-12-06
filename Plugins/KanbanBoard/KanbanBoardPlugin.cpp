@@ -10,7 +10,7 @@
 
 KanbanBoardPlugin::KanbanBoardPlugin(QBoxLayout* container, Model* model, KanbanBoardPluginInterface* parent) : QObject (parent)
 {
-	// Register Container Button
+	// Register Plugin Button into parent container
 	mPluginButton = new QPushButton(); // no smart_ptr because later container->addWidget() steals ownership
 	mPluginButton->setCheckable(true);
 	mPluginButton->setChecked(false);

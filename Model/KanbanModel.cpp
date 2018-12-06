@@ -101,13 +101,9 @@ QMimeData *KanbanModel::mimeData(const QModelIndexList &indexes) const
     return mimeData;
 }
 
-bool KanbanModel::canDropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) const
+bool KanbanModel::canDropMimeData(const QMimeData *data, Qt::DropAction, int, int column, const QModelIndex&) const
 {
-    Q_UNUSED(action);
-    Q_UNUSED(row);
-    Q_UNUSED(parent);
-
-    if (!data->hasFormat("application/vnd.text.list"))
+	if (!data->hasFormat("application/vnd.text.list"))
         return false;
 
     if (column > 0)

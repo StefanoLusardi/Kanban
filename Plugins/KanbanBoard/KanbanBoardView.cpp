@@ -1,10 +1,11 @@
 #include "ui_KanbanView.h"
 #include "KanbanBoardView.h"
 #include "KanbanDelegate.h"
-#include "KanbanModel.h"
 #include "KanbanColumnProxyModel.h"
 #include "KanbanColumnView.h"
-#include "Roles.h"
+
+#include "../../Model/KanbanModel.h"
+#include "../../Model/Roles.h"
 
 #include <QItemSelectionModel>
 #include <QInputDialog>
@@ -30,6 +31,7 @@ KanbanBoardView::KanbanBoardView(QWidget *parent)
     mColumnSplitter->setHandleWidth(5);
 	//mSplitter->setStyleSheet("QSplitter::handle {image: url(images/splitter.png);} ");
 	mColumnSplitter->setStyleSheet("QSplitter::handle {background: rgb(0, 0, 0);} ");
+	mColumnSplitter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	ui->mSpoilerLayout->insertWidget(ui->mSpoilerLayout->count()-1, mColumnSplitter);
 }
 
@@ -170,7 +172,7 @@ void KanbanBoardView::onDeleteColumnView(const QString& columnName)
 		columnIt->second->setParent(nullptr);
 		mColumnViews.erase(columnIt);
 		update();
-//    delete columnIt->second; // NO! columnView has already a parent that takes its ownership. Do not delete it explicitly.
+		// delete columnIt->second; // NO! columnView has already a parent that takes its ownership. Do not delete it explicitly.
 	}
 }
 
@@ -193,21 +195,6 @@ void KanbanBoardView::loadData()
 	createColumn("C", Qt::darkYellow);
 	createColumn("D", Qt::darkCyan);
 	createColumn("E", Qt::darkGray);
-
-	createKanban("a_123", Qt::yellow, "A");
-	createKanban("a_456", Qt::magenta, "A");
-	createKanban("b_123", Qt::magenta, "B");
-	createKanban("b_456", Qt::darkCyan, "B");
-	createKanban("c_000", Qt::cyan, "C");
-	createKanban("d_001", Qt::darkMagenta, "D");
-	createKanban("d_002", Qt::magenta, "D");
-	createKanban("d_003", Qt::darkYellow, "D");
-	createKanban("d_004", Qt::yellow, "D");
-	createKanban("d_005", Qt::cyan, "D");
-	createKanban("d_006", Qt::darkCyan, "D");
-	createKanban("d_007", Qt::darkMagenta, "D");
-	createKanban("d_008", Qt::magenta, "D");
-	createKanban("d_009", Qt::darkYellow, "D");
 }
 
 void KanbanBoardView::dragEnterEvent(QDragEnterEvent* event)

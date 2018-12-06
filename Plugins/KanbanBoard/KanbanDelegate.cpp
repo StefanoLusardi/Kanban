@@ -1,8 +1,9 @@
-#include "Roles.h"
 #include "KanbanDelegateEditor.h"
 #include "KanbanDelegate.h"
 
 #include <QPainter>
+
+#include "../../Model/Roles.h"
 
 void KanbanDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 {

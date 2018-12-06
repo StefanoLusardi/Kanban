@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>377</width>
-    <height>565</height>
+    <width>208</width>
+    <height>308</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -52,7 +52,7 @@
      <property name="midLineWidth">
       <number>0</number>
      </property>
-     <layout class="QHBoxLayout" name="mLayoutTop" stretch="0,1,0">
+     <layout class="QHBoxLayout" name="mLayoutTop" stretch="0,0,0">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -70,6 +70,12 @@
       </property>
       <item>
        <widget class="QPushButton" name="mButtonAdd">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -88,15 +94,24 @@
         <property name="text">
          <string>+</string>
         </property>
+        <property name="default">
+         <bool>false</bool>
+        </property>
         <property name="flat">
          <bool>false</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="mLabelTitle">
+       <widget class="HorizontalLabel" name="mLabelTitle">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
+         <enum>QFrame::Box</enum>
         </property>
         <property name="text">
          <string>Title</string>
@@ -104,10 +119,23 @@
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
+        <property name="BackgroundColor" stdset="0">
+         <color>
+          <red>255</red>
+          <green>170</green>
+          <blue>0</blue>
+         </color>
+        </property>
        </widget>
       </item>
       <item>
        <widget class="QToolButton" name="mButtonOptions">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
           <width>40</width>
@@ -168,6 +196,13 @@
        <property name="text">
         <string>Title</string>
        </property>
+       <property name="BackgroundColor" stdset="0">
+        <color>
+         <red>255</red>
+         <green>170</green>
+         <blue>0</blue>
+        </color>
+       </property>
        <property name="TextOrientation">
         <enum>VerticalLabel::Right</enum>
        </property>
@@ -175,6 +210,9 @@
      </item>
      <item>
       <widget class="QListView" name="mListView">
+       <property name="acceptDrops">
+        <bool>true</bool>
+       </property>
        <property name="frameShape">
         <enum>QFrame::Box</enum>
        </property>
@@ -183,6 +221,33 @@
        </property>
        <property name="lineWidth">
         <number>1</number>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
+       </property>
+       <property name="dragEnabled">
+        <bool>true</bool>
+       </property>
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::DragDrop</enum>
+       </property>
+       <property name="defaultDropAction">
+        <enum>Qt::MoveAction</enum>
+       </property>
+       <property name="selectionMode">
+        <enum>QAbstractItemView::ExtendedSelection</enum>
+       </property>
+       <property name="movement">
+        <enum>QListView::Snap</enum>
+       </property>
+       <property name="resizeMode">
+        <enum>QListView::Adjust</enum>
+       </property>
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <property name="uniformItemSizes">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -235,6 +300,11 @@
    <extends>QLabel</extends>
    <header>../../Widgets/VerticalLabel/VerticalLabel.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>HorizontalLabel</class>
+   <extends>QLabel</extends>
+   <header>HorizontalLabel.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

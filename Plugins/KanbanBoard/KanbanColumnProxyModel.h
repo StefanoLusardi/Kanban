@@ -1,7 +1,5 @@
 #pragma once
 
-#include "KanbanItem.h"
-
 #include <QSortFilterProxyModel>
 
 class KanbanColumnProxyModel : public QSortFilterProxyModel

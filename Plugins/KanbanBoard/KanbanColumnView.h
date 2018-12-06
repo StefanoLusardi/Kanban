@@ -36,11 +36,11 @@ protected:
 private:
     Ui::KanbanColumnView *ui;
     QParallelAnimationGroup mAnimation;
-	QColor mColor;
 	QString mTitle;
-	int mAnimationTime {2000};
-    int mMaxSize {300};
-    int mMinSize {40};
+	QColor mColor;
+    int mExpandedWidth;
+    const int mCollapsedWidth {40};
+	int mAnimationTime {250}; // milliseconds
     bool mIsCollapsed;
 
 };
