@@ -1,17 +1,17 @@
 #pragma once
 
-#include "VerticalLabel.h"
+#include "HorizontalLabel.h"
 #include <QtCore/QtPlugin>
 #include <QtUiPlugin/QDesignerCustomWidgetInterface>
 
-class VerticalLabelPlugin : public QObject, public QDesignerCustomWidgetInterface
+class HorizontalLabelPlugin : public QObject, public QDesignerCustomWidgetInterface
 {
 	Q_OBJECT
-	Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetInterface" FILE "verticallabelplugin.json")
+	Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QDesignerCustomWidgetInterface" FILE "horizontallabelplugin.json")
 	Q_INTERFACES(QDesignerCustomWidgetInterface)
 
 public:
-	VerticalLabelPlugin(QObject *parent = Q_NULLPTR) : QObject(parent) { initialized = false; }
+	HorizontalLabelPlugin(QObject *parent = Q_NULLPTR) : QObject(parent) { initialized = false; }
 
 	bool isContainer() const override { return false; }
 
@@ -21,15 +21,16 @@ public:
 
 	QString group() const override { return "KB::Plugins"; }
 
-	QString includeFile() const override { return "VerticalLabel.h"; }
+	//QString includeFile() const override { return "../../Widgets/HorizontalLabel/HorizontalLabel.h"; }
+	QString includeFile() const override { return "HorizontalLabel.h"; }
 
-	QString name() const override { return "VerticalLabel"; }
+	QString name() const override { return "HorizontalLabel"; }
 
-	QString toolTip() const override { return QString("Vertical Label widget"); }
+	QString toolTip() const override { return QString("Horizontal Label widget"); }
 
 	QString whatsThis() const override { return QString("Vertical label that provides several options for text alignment"); }
 
-	QWidget* createWidget(QWidget* parent) override { return new VerticalLabel(parent); }
+	QWidget* createWidget(QWidget* parent) override { return new HorizontalLabel(parent); }
 
 	void initialize(QDesignerFormEditorInterface* core) override
 	{
@@ -41,7 +42,7 @@ public:
 
 	QString domXml() const override 
 	{
-		return "<widget class=\"VerticalLabel\" name=\"verticalLabel\">\n"
+		return "<widget class=\"HorizontalLabel\" name=\"horizontalLabel\">\n"
 			" <property name=\"geometry\">\n"
 			"  <rect>\n"
 			"   <x>0</x>\n"

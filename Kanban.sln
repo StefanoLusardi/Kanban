@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{B6B4
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Settings", "Plugins\Settings\Settings.vcxproj", "{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HorizontalLabel", "Widgets\HorizontalLabel\HorizontalLabel.vcxproj", "{3A411CA5-A73C-4593-AC27-460030F445C1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -49,6 +51,10 @@ Global
 		{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018}.Debug|x64.Build.0 = Debug|x64
 		{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018}.Release|x64.ActiveCfg = Release|x64
 		{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018}.Release|x64.Build.0 = Release|x64
+		{3A411CA5-A73C-4593-AC27-460030F445C1}.Debug|x64.ActiveCfg = Debug|x64
+		{3A411CA5-A73C-4593-AC27-460030F445C1}.Debug|x64.Build.0 = Debug|x64
+		{3A411CA5-A73C-4593-AC27-460030F445C1}.Release|x64.ActiveCfg = Release|x64
+		{3A411CA5-A73C-4593-AC27-460030F445C1}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,9 +64,10 @@ Global
 		{D9F891AD-20C3-44E7-8BA8-AC300DAEFBF5} = {499A5FA3-2399-44D7-80B7-A8506AE4600F}
 		{5EFA98F5-E48F-4686-913E-F64347681307} = {499A5FA3-2399-44D7-80B7-A8506AE4600F}
 		{0C460B8B-F18E-43FB-8A9B-B9FDED1F1018} = {B6B41C76-EF2A-439E-97DE-DCDDE73655C2}
+		{3A411CA5-A73C-4593-AC27-460030F445C1} = {499A5FA3-2399-44D7-80B7-A8506AE4600F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = Qt5.11.2_msvc2017_64
 		SolutionGuid = {36FC0E69-7128-4A58-8C29-C17B8209B39E}
+		Qt5Version = Qt5.11.2_msvc2017_64
 	EndGlobalSection
 EndGlobal

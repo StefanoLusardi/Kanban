@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../VerticalLabel/VerticalLabelPlugin.h"
+#include "../HorizontalLabel/HorizontalLabelPlugin.h"
 
 #include <QtDesigner/QtDesigner>
 #include <QtCore/qplugin.h>
@@ -16,6 +17,7 @@ public:
 	: QObject(parent)
 	{
 		mWidgets.append(new VerticalLabelPlugin(this));
+		mWidgets.append(new HorizontalLabelPlugin(this));
 	}
 
 	QList<QDesignerCustomWidgetInterface*> customWidgets() const override

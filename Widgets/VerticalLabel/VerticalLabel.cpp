@@ -1,7 +1,11 @@
 #include "VerticalLabel.h"
 #include <QPainter>
 
-VerticalLabel::VerticalLabel(QWidget* parent) : QLabel(parent), mTextColor{Qt::black}, mTextOrientation{TextOrientation::Left}
+VerticalLabel::VerticalLabel(QWidget* parent) 
+: QLabel(parent), 
+	mTextColor{Qt::black}, 
+	mBackgroundColor{Qt::white},
+	mTextOrientation{TextOrientation::Left}
 {
 }
 
