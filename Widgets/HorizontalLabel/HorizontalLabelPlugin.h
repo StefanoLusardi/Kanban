@@ -21,7 +21,6 @@ public:
 
 	QString group() const override { return "KB::Plugins"; }
 
-	//QString includeFile() const override { return "../../Widgets/HorizontalLabel/HorizontalLabel.h"; }
 	QString includeFile() const override { return "HorizontalLabel.h"; }
 
 	QString name() const override { return "HorizontalLabel"; }
