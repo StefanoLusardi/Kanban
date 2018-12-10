@@ -1,7 +1,2 @@
-KanbanBoard/x64/
-KanbanBoard/GeneratedFiles/
 x64/
-Widgets/Widgets/GeneratedFiles/
-Widgets/VerticalLabel/GeneratedFiles/
-Kanban/GeneratedFiles/
-Plugins/KanbanBoard/GeneratedFiles/
+GeneratedFiles/
