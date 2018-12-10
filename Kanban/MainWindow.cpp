@@ -7,6 +7,7 @@
 #include <QPluginLoader>
 #include <QDir>
 #include <qapplication.h>
+#include <QStyleFactory>
 
 bool MainWindow::run(QApplication& mainApp)
 {
@@ -102,6 +103,9 @@ bool MainWindow::loadUi(bool status)
 		plugin->setup(mUi->mPluginsLayout, mModel.get());
 	}
 
+	auto s = QStyleFactory::create("DarkStyle");
+	QApplication::setStyle(s);
+	
 	mMainWindow->show();
 
 	return status;

@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Settings", "Plugins\Setting
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HorizontalLabel", "Widgets\HorizontalLabel\HorizontalLabel.vcxproj", "{3A411CA5-A73C-4593-AC27-460030F445C1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Style", "Style\Style.vcxproj", "{7D25C119-1BA1-4C95-9806-8664B64B7CE5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -55,6 +57,10 @@ Global
 		{3A411CA5-A73C-4593-AC27-460030F445C1}.Debug|x64.Build.0 = Debug|x64
 		{3A411CA5-A73C-4593-AC27-460030F445C1}.Release|x64.ActiveCfg = Release|x64
 		{3A411CA5-A73C-4593-AC27-460030F445C1}.Release|x64.Build.0 = Release|x64
+		{7D25C119-1BA1-4C95-9806-8664B64B7CE5}.Debug|x64.ActiveCfg = Debug|x64
+		{7D25C119-1BA1-4C95-9806-8664B64B7CE5}.Debug|x64.Build.0 = Debug|x64
+		{7D25C119-1BA1-4C95-9806-8664B64B7CE5}.Release|x64.ActiveCfg = Release|x64
+		{7D25C119-1BA1-4C95-9806-8664B64B7CE5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
