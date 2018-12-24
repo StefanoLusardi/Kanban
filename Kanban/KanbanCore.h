@@ -5,16 +5,17 @@
 #include <QtWidgets/QMainWindow>
 
 
-class MainWindow final
+class KanbanCore final
 {	
 public:
-	MainWindow(QWidget *parent = Q_NULLPTR) {}
-	bool run(QApplication& mainApp);
+	KanbanCore(QWidget *parent = Q_NULLPTR) {}
+	int run(QApplication& app);
 
 protected:
-	bool loadModel(bool status);
+	bool createModel(bool status);
+	bool createUi(bool status);
 	bool loadPlugins(bool status);
-	bool loadUi(bool status);
+	bool setupPlugins(bool status);
 	void unoadPlugins();
 
 private:
@@ -22,7 +23,4 @@ private:
 	std::unique_ptr<QMainWindow> mMainWindow;
 	std::shared_ptr<Model> mModel;
 	QList<PluginInterface*> mPlugins;
-
-	
-	//KanbanView* mKanbanView;
 };

@@ -1,10 +1,9 @@
 #include "KanbanColumnProxyModel.h"
+#include "Model.h"
 
 #include <QMimeData>
 #include <QDataStream>
 
-#include "../../Model/KanbanModel.h"
-#include "../../Model/Roles.h"
 
 bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {
@@ -14,7 +13,7 @@ bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction 
 	while (!stream.atEnd())
 	{
 		QString text;
-		QColor color;
+		QString color;
 		QString state;
 
 		stream >> text >> color >> state;
@@ -23,7 +22,7 @@ bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction 
 		const QModelIndex idx = model->addKanban({text, color, mName});
 		sourceModel()->setData(idx, text, Qt::DisplayRole);
 		sourceModel()->setData(idx, color, Qt::DecorationRole);
-		sourceModel()->setData(idx, mName, Roles::State);
+		sourceModel()->setData(idx, mName, KanbanModel::Roles::State);
 	}
 
 	return true;
@@ -32,6 +31,6 @@ bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction 
 bool KanbanColumnProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
 {
 	const QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
-	const QString state = sourceModel()->data(index, (int)Roles::State).toString();
+	const QString state = sourceModel()->data(index, KanbanModel::Roles::State).toString();
 	return state.contains(filterRegExp());
 }

@@ -1,5 +1,4 @@
-
-#include "MainWindow.h"
+#include "KanbanCore.h"
 #include "../Model/Model.h"
 
 #include <QDebug>
@@ -9,55 +8,60 @@
 #include <qapplication.h>
 #include <QStyleFactory>
 
-bool MainWindow::run(QApplication& mainApp)
+int KanbanCore::run(QApplication& app)
 {
 	// TODO: provide better failure handling and status reporting
-
 	bool status { true };
 
-	status |= loadModel(status);
+	status |= createModel(status);
+	status |= createUi(status);
 	status |= loadPlugins(status);
-	status |= loadUi(status);
+	status |= setupPlugins(status);
+	
+	// TODO: get the current theme from the model or the settings plugin
+	//QApplication::setStyle(QStyleFactory::create("light"));	
+	//QApplication::setStyle(QStyleFactory::create("dark"));	
 
-	if (status)
-	{
-		// TODO: probably the return values of exec() and quit() should not be ignored
-
-		mainApp.exec();
-		mainApp.quit();
-	}
-	else
+	if (!status)
 	{
 		qDebug() << "ERROR, unable to start";
+		return -1;
 	}
+	
+	mMainWindow->setWindowState(Qt::WindowMaximized);
+	mMainWindow->show();
+
+	// TODO: probably the return value of exec() should not be ignored
+	const auto execReturn = app.exec();
+	app.quit();	
 
 	unoadPlugins();
 	//unloadModel();
-	return status;
+	return execReturn;
 }
 
-void MainWindow::unoadPlugins()
-{
-	// TODO: consider to reverse the order of mPlugins before release in case there are dependancies between plugins
-
-	for (auto plugin : mPlugins)
-	{
-		plugin->release();
-	}
-}
-
-bool MainWindow::loadModel(bool status)
+bool KanbanCore::createModel(bool status)
 {
 	if (!status) return status;
 
 	mModel = std::make_shared<Model>();
-
 	mModel->loadData();
 
 	return status;
 }
 
-bool MainWindow::loadPlugins(bool status)
+bool KanbanCore::createUi(bool status)
+{
+	if (!status) return status;
+
+	mMainWindow = std::make_unique<QMainWindow>();
+	mUi = std::make_unique<Ui::MainWindowClass>();
+	mUi->setupUi(mMainWindow.get());
+
+	return status;
+}
+
+bool KanbanCore::loadPlugins(bool status)
 {
 	if (!status) return status;
 
@@ -91,22 +95,24 @@ bool MainWindow::loadPlugins(bool status)
 	return status;
 }
 
-bool MainWindow::loadUi(bool status)
+bool KanbanCore::setupPlugins(bool status)
 {
 	if (!status) return status;
-	mMainWindow = std::make_unique<QMainWindow>();
-	mUi = std::make_unique<Ui::MainWindowClass>();
-	mUi->setupUi(mMainWindow.get());
 	
-	for (auto plugin : mPlugins)
+	for (const auto& plugin : mPlugins)
 	{
-		plugin->setup(mUi->mPluginsLayout, mModel.get());
+		plugin->setup(mUi->mMainViewLayout, mUi->mPluginButtonsLayout, mModel.get());
+		plugin->initData();
 	}
 
-	auto s = QStyleFactory::create("DarkStyle");
-	QApplication::setStyle(s);
-	
-	mMainWindow->show();
-
 	return status;
+}
+
+void KanbanCore::unoadPlugins()
+{
+	// TODO: consider to reverse the order of mPlugins before release in case there are dependancies between plugins
+	for (auto plugin : mPlugins)
+	{
+		plugin->release();
+	}
 }

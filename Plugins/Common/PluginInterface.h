@@ -1,10 +1,9 @@
 #pragma once
 
-#include <Qt>
-#include <qglobal.h>
-#include <QBoxLayout>
+#include <QObject>
 
 class Model;
+class QBoxLayout;
 
 class PluginInterface
 {
@@ -17,7 +16,7 @@ public:
 	virtual QList<QString> dependencies() const = 0;
 	virtual int priority() const = 0;
 
-    virtual void setup(QBoxLayout* container, Model* model) = 0;
+    virtual void setup(QBoxLayout* mainViewLayout, QBoxLayout* pluginButtonsLayout, Model* model) = 0;
     virtual void initData() = 0;
 	virtual void release() = 0;
 };

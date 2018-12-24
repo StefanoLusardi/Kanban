@@ -1,5 +1,5 @@
 #include "KanbanModel.h"
-#include "Roles.h"
+#include "DbManager.h"
 
 #include <QMimeData>
 #include <QDataStream>
@@ -33,7 +33,8 @@ bool KanbanModel::setData(const QModelIndex& index, const QVariant& value, int r
 	switch(role)
 	{
 	case Qt::DisplayRole: label.setText(value.toString()); break;
-	case Qt::DecorationRole: label.setColor(value.value<QColor>()); break;
+	//case Qt::DecorationRole: label.setColor(value.value<QColor>()); break;
+	case Qt::DecorationRole: label.setColor(value.toString()); break;
 	case Roles::State: label.setState(value.toString()); break;
 	default: break;
 	}
@@ -49,7 +50,6 @@ Qt::ItemFlags KanbanModel::flags(const QModelIndex& index) const
         return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | defaultFlags;
     else
         return Qt::ItemIsDropEnabled | Qt::ItemIsEditable | defaultFlags;
-
 }
 
 bool KanbanModel::removeRows(int row, int count, const QModelIndex& parent)
@@ -57,6 +57,14 @@ bool KanbanModel::removeRows(int row, int count, const QModelIndex& parent)
 	if (row < 0 || row > rowCount() || count < 0 || (row+count) > rowCount()) { return false; }
 
 	beginRemoveRows(parent, row, row+count-1);
+    
+    int countLeft = count;
+	while(countLeft--) 
+	{
+        const KanbanItem& kanbanItem = mKanbanItems.at(row + countLeft);
+        mDb.kanbanItemDbHandler.removeKanban(kanbanItem.getId());
+    }
+	
 	mKanbanItems.erase(mKanbanItems.begin()+row, mKanbanItems.begin()+row+count);
 	endRemoveRows();
 	return true;
@@ -64,19 +72,17 @@ bool KanbanModel::removeRows(int row, int count, const QModelIndex& parent)
 
 Qt::DropActions KanbanModel::supportedDropActions() const
 {
-    return Qt::CopyAction | Qt::MoveAction;
+    return /*Qt::CopyAction |*/ Qt::MoveAction;
 }
 
 Qt::DropActions KanbanModel::supportedDragActions() const
 {
-    return Qt::CopyAction | Qt::MoveAction;
+    return /*Qt::CopyAction |*/ Qt::MoveAction;
 }
 
 QStringList KanbanModel::mimeTypes() const
 {
-    QStringList types;
-    types << "application/vnd.text.list";
-    return types;
+	return {"application/vnd.text.list"};
 }
 
 QMimeData *KanbanModel::mimeData(const QModelIndexList &indexes) const
@@ -91,7 +97,8 @@ QMimeData *KanbanModel::mimeData(const QModelIndexList &indexes) const
         if (index.isValid()) 
 		{
             const QString text = data(index, Qt::DisplayRole).toString();
-            const QColor color = data(index, Qt::DecorationRole).value<QColor>();
+            const QString color = data(index, Qt::DecorationRole).toString();
+            //const QColor color = data(index, Qt::DecorationRole).value<QColor>();
             const QString state = data(index, Roles::State).toString();
             stream << text << color << state;
         }
@@ -101,58 +108,50 @@ QMimeData *KanbanModel::mimeData(const QModelIndexList &indexes) const
     return mimeData;
 }
 
-bool KanbanModel::canDropMimeData(const QMimeData *data, Qt::DropAction, int, int column, const QModelIndex&) const
-{
-	if (!data->hasFormat("application/vnd.text.list"))
-        return false;
-
-    if (column > 0)
-        return false;
-
-    return true;
-}
-
-bool KanbanModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
-{
-	if (!canDropMimeData(data, action, row, column, parent))
-        return false;
-
-	if (action == Qt::IgnoreAction)
-		return true;
-
-	if (!data->hasFormat("application/vnd.text.list"))
-		return false;
-
-	if (column > 0)
-		return false;
-
-	//QByteArray encodedData = data->data("application/vnd.text.list");
-	//QDataStream stream(&encodedData, QIODevice::ReadOnly);
-
-	//while (!stream.atEnd())
-	//{
-	//	QString text;
-	//	QColor color;
-	//	QString state;
-
-	//	stream >> text >> color >> state;
-
-	//	const QModelIndex idx = addKanban({text, color, state});
-	//	setData(idx, text, Qt::DisplayRole);
-	//	setData(idx, color, Qt::DecorationRole);
-	//	setData(idx, state, Roles::State);
-	//}
-
-	return true;
-}
-
-QModelIndex KanbanModel::addKanban(const KanbanItem& label)
+QModelIndex KanbanModel::addKanban(const KanbanItem& kanbanItem)
 {
 	const int row = rowCount();
 	beginInsertRows(QModelIndex(), row, row);
-	mKanbanItems.emplace_back(label);
+
+	//std::unique_ptr<KanbanItem> kanbanItemDb(new KanbanItem(kanbanItem));
+	KanbanItem kanbanItemDb(kanbanItem);
+    mDb.kanbanItemDbHandler.addKanbanToPage(mPageId, kanbanItemDb);
+
+	mKanbanItems.emplace_back(kanbanItemDb);
 	endInsertRows();
 	return index(row, 0, QModelIndex());
+}
+
+QModelIndex KanbanModel::getKanbanIndex(const QString& text)
+{
+	const auto item = std::find_if(mKanbanItems.begin(), mKanbanItems.end(), [&text](const KanbanItem& k){return text == k.getText();});
+	
+	if (item != mKanbanItems.end())
+	{
+		const int row = std::distance(mKanbanItems.begin(), item);
+		return index(row);
+	}
+	
+	return {};
+}
+
+void KanbanModel::removeKanbanForPage()
+{
+    mDb.kanbanItemDbHandler.removeKanbanForPage(mPageId);
+    // mPageId = -1;
+}
+
+void KanbanModel::loadKanbanItems(int pageId)
+{
+    if (pageId < 0) 
+	{
+        mKanbanItems.clear();
+        return;
+    }
+
+	beginResetModel();
+    mKanbanItems = mDb.kanbanItemDbHandler.getKanbanItemsForPage(pageId);
+	endResetModel();
 }
 
 bool KanbanModel::insertRows(int position, int rows, const QModelIndex &parent)

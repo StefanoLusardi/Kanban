@@ -14,12 +14,13 @@ class KanbanBoardPlugin : public QObject
 	Q_OBJECT
 
 public:
-	KanbanBoardPlugin(QBoxLayout* container, Model* model, KanbanBoardPluginInterface *parent);
+	KanbanBoardPlugin(QBoxLayout* mainViewLayout, QBoxLayout* pluginButtonsLayout, Model* model, KanbanBoardPluginInterface* parent);
 	~KanbanBoardPlugin() = default;
 
+	void initData() const;
+	void release() const;
+
 private:
-	QPushButton* mPluginButton;
-	std::unique_ptr<QDialog> mPluginDialog;
-	std::unique_ptr<KanbanBoardView> mPluginView;
+	KanbanBoardView* mPluginView;
 };
 

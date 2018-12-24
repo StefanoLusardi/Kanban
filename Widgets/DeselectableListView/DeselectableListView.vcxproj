@@ -11,19 +11,19 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HorizontalLabel.cpp" />
+    <ClCompile Include="DeselectableListView.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="HorizontalLabel.h" />
+    <QtMoc Include="DeselectableListView.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="HorizontalLabelPlugin.h" />
+    <QtMoc Include="DeselectableListViewPlugin.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="horizontallabelplugin.json" />
+    <None Include="deselectablelistviewplugin.json" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3A411CA5-A73C-4593-AC27-460030F445C1}</ProjectGuid>
+    <ProjectGuid>{81B714F4-6960-4400-BB19-75944581F811}</ProjectGuid>
     <Keyword>Qt4VSv1.0</Keyword>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -64,7 +64,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>API_HORIZONTALLABEL;_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>API_DESELECTABLELISTVIEW;_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtDesigner;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -83,7 +83,7 @@
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtDesigner;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;%(AdditionalIncludeDirectories)</IncludePath>
-      <Define>API_HORIZONTALLABEL;_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</Define>
+      <Define>API_DESELECTABLELISTVIEW;_WINDOWS;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</Define>
     </QtMoc>
     <PostBuildEvent>
       <Command>start xcopy /Y "$(OutDir)$(TargetName).lib" "$(SolutionDir)Widgets\lib\$(Configuration)\"</Command>
@@ -92,7 +92,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>API_HORIZONTALLABEL;_WINDOWS;_WINDOWS;QT_NO_DEBUG;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>API_DESELECTABLELISTVIEW;_WINDOWS;QT_NO_DEBUG;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtDesigner;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -110,7 +110,7 @@
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtDesigner;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;%(AdditionalIncludeDirectories)</IncludePath>
-      <Define>API_HORIZONTALLABEL;_WINDOWS;_WINDOWS;QT_NO_DEBUG;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</Define>
+      <Define>API_DESELECTABLELISTVIEW;_WINDOWS;QT_NO_DEBUG;UNICODE;_UNICODE;WIN32;WIN64;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;QT_STATICPLUGIN;QT_UIPLUGIN_LIB;%(PreprocessorDefinitions)</Define>
     </QtMoc>
     <PostBuildEvent>
       <Command>start xcopy /Y "$(OutDir)$(TargetName).lib" "$(SolutionDir)Widgets\lib\$(Configuration)\"</Command>

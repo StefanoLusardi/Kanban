@@ -4,21 +4,25 @@
 #include "KanbanColumnProxyModel.h"
 #include "KanbanColumnView.h"
 
-#include "../../Model/KanbanModel.h"
-#include "../../Model/Roles.h"
+#include "../Common/PluginConfig.h"
+#include "../Common/Utils.h"
+#include "Model.h"
 
 #include <QItemSelectionModel>
 #include <QInputDialog>
 #include <QDragMoveEvent>
 #include <QMimeData>
 #include <QSplitter>
-#include <QDebug>
+#include <QListView>
+
+
 
 KanbanBoardView::KanbanBoardView(QWidget *parent)
 	: QWidget(parent),
 	ui{new Ui::KanbanBoardView()}
 {	
 	ui->setupUi(this);
+	setAcceptDrops(true);
 
 	connect(ui->mButtonCreate, &QPushButton::clicked, this, &KanbanBoardView::onCreateKanban);
 	connect(ui->mButtonRename, &QPushButton::clicked, this, &KanbanBoardView::onRenameKanban);
@@ -28,11 +32,9 @@ KanbanBoardView::KanbanBoardView(QWidget *parent)
 
 	mColumnSplitter = new QSplitter(Qt::Horizontal, this);
 	mColumnSplitter->setFrameShape(QFrame::Box);
-    mColumnSplitter->setHandleWidth(5);
-	//mSplitter->setStyleSheet("QSplitter::handle {image: url(images/splitter.png);} ");
-	mColumnSplitter->setStyleSheet("QSplitter::handle {background: rgb(0, 0, 0);} ");
+    mColumnSplitter->setHandleWidth(10);
 	mColumnSplitter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	ui->mSpoilerLayout->insertWidget(ui->mSpoilerLayout->count()-1, mColumnSplitter);
+	ui->mColumnViewLayout->insertWidget(ui->mColumnViewLayout->count()-1, mColumnSplitter);
 }
 
 KanbanBoardView::~KanbanBoardView()
@@ -45,50 +47,78 @@ void KanbanBoardView::onCreateColumn()
 	bool ok;
 	QString columnName = QInputDialog::getText(this, "Kanban Column", "Create new Kanban column", QLineEdit::Normal, QString(), &ok);
 	
-	// TODO: get color from user dialog
-	QColor columnColor {Qt::darkGreen};
+	const QColor columnColor {Utils::getRandomColor()};
 
 	if (ok && !columnName.isEmpty())
 	{ 
 		createColumn(columnName, columnColor);
-	}	
+	}
 }
 
-void KanbanBoardView::createColumn(const QString& columnName, const QColor& columnColor)
+void KanbanBoardView::createColumn(const QString& columnName, const QColor& columnColor, bool isCollapsed)
 {
-	auto columnView = new KanbanColumnView(getUniqueName(columnName), columnColor, mColumnSplitter);
+	auto columnView = new KanbanColumnView(Utils::getUniqueName(columnName, getColumnViewNames()), columnColor, isCollapsed, mColumnSplitter);
 	auto columnModel = new KanbanColumnProxyModel(columnName, columnView);
-
-	columnView->setModel(columnModel);
-	columnView->setDelegate(new KanbanDelegate(this));
 
 	columnModel->setSourceModel(mKanbanModel);
 	columnModel->setFilterRegExp(QRegExp(columnName, Qt::CaseInsensitive, QRegExp::FixedString));
-    
+
+	columnView->setDelegate(new KanbanDelegate(this));
+	columnView->setModel(columnModel);
+
 	connect(columnView, &KanbanColumnView::columnDeleted, this, &KanbanBoardView::onDeleteColumnView);
 	connect(columnView, &KanbanColumnView::kanbanCreated, this, &KanbanBoardView::onAddColumnViewKanban);
+	connect(columnView, &KanbanColumnView::kanbanSelected, this, &KanbanBoardView::onKanbanSelected);
 
 	mColumnSplitter->addWidget(columnView);
 	mColumnViews.emplace(columnName, columnView);
 }
 
+void KanbanBoardView::onKanbanSelected(const QString& columnSenderName, const QStringList& kanbanTextList)
+{
+	// Deselect all kanban items (except for those on the sender column)
+	for (const auto& [columnName, columnView] : mColumnViews)
+	{
+		if (columnName != columnSenderName)
+		{
+			columnView->deselectAllKanbanItems();
+		}
+	}
+	
+	// Select current items in selectionModel
+	mSelectionKanbanModel->clearSelection();
+	for (auto&& text : kanbanTextList)
+	{
+		const auto idx = mKanbanModel->getKanbanIndex(text);
+		mSelectionKanbanModel->setCurrentIndex(idx, QItemSelectionModel::Select);
+	}
+
+	// Update last selected column
+	setSelectedColumnView(columnSenderName);
+
+	update();
+}
+
+void KanbanBoardView::setSelectedColumnView(const QString& selectedColumnName)
+{
+	mSelectedColumnName = selectedColumnName;
+}
+
 void KanbanBoardView::onCreateKanban()
 {
-	// TODO: create custom dialog to set Kanban text, state and color
-
 	bool ok;
 	QString text = QInputDialog::getText(this, "Kanban Text", "Set text for the new Kanban item", QLineEdit::Normal, QString(), &ok);
 
 	if (ok && !text.isEmpty())
 	{
-		createKanban(text, Qt::cyan, QString("A"));
+		createKanban(text, Utils::getRandomColor(), mSelectedColumnName);
 	}
+
+	update();
 }
 
 void KanbanBoardView::onAddColumnViewKanban(const QString& columnName)
 {
-	// TODO: try to merge somehow with with KanbanView::onCreateKanban()
-
 	bool ok;
 	QString text = QInputDialog::getText(this, "Kanban Text", "Set text for the new Kanban item", QLineEdit::Normal, QString(), &ok);
 
@@ -96,79 +126,101 @@ void KanbanBoardView::onAddColumnViewKanban(const QString& columnName)
 	{
 		createKanban(text, mColumnViews[columnName]->getColor(), columnName);
 	}
+
+	update();
 }
 
 void KanbanBoardView::createKanban(const QString& text, const QColor& color, const QString& state) const
 {
-	const KanbanItem kanban(text, color, state);
+	const KanbanItem kanban(text, Utils::colorToString(color), state);
 	const QModelIndex idx = mKanbanModel->addKanban(kanban);
-	mKanbanModel->setData(idx, state, Roles::State);
-	mSelectionKanbanModel->setCurrentIndex(idx, QItemSelectionModel::Select);
+	mKanbanModel->setData(idx, state, KanbanModel::Roles::State);
 }
 
 void KanbanBoardView::onChangeState()
 {
 	if (mSelectionKanbanModel->selectedIndexes().isEmpty()) { return; }
 
-	const QModelIndex idx = mSelectionKanbanModel->selectedIndexes().first();
-	const QString oldState = mKanbanModel->data(idx, Roles::State).toString();
+	const QModelIndex firstSelectedIdx = mSelectionKanbanModel->selectedIndexes().first();
+	const QString oldState = mKanbanModel->data(firstSelectedIdx, KanbanModel::Roles::State).toString();
 
 	bool ok;
-	QString newState = QInputDialog::getText(this, "Kanban State", "Edit Kanban state", QLineEdit::Normal, oldState, &ok);
+	QString newState = QInputDialog::getText(this, "Kanban State", "Set new state for the selected Kanban(s)", QLineEdit::Normal, oldState, &ok);
 
 	if (ok && !newState.isEmpty())
 	{ 
-		mKanbanModel->setData(idx, newState, Roles::State);
+		for (auto&& idx : mSelectionKanbanModel->selectedIndexes())
+		{
+			mKanbanModel->setData(idx, newState, KanbanModel::Roles::State);
+		}
 	}
+
+	update();
 }
 
 void KanbanBoardView::onRenameKanban()
 {
 	if (mSelectionKanbanModel->selectedIndexes().isEmpty()) { return; }
 
-	const QModelIndex idx = mSelectionKanbanModel->selectedIndexes().first();
-	const QString oldText = mKanbanModel->data(idx).toString();
-	
+	const QModelIndex firstSelectedIdx = mSelectionKanbanModel->selectedIndexes().first();
+	const QString oldText = mKanbanModel->data(firstSelectedIdx).toString();
+
 	bool ok;
-	QString newText = QInputDialog::getText(this, "Kanban Text", "Set new text for the selected Kanban", QLineEdit::Normal, oldText, &ok);
+	QString newText = QInputDialog::getText(this, "Kanban Text", "Set new text for the selected Kanban(s)", QLineEdit::Normal, oldText, &ok);
 
 	if (ok && !newText.isEmpty())
 	{
-		mKanbanModel->setData(idx, newText, Qt::DisplayRole);
+		for (auto&& idx : mSelectionKanbanModel->selectedIndexes())
+		{
+			mKanbanModel->setData(idx, newText, Qt::DisplayRole);
+		}
 	}
+
+	update();
 }
 
 void KanbanBoardView::onDeleteKanban()
 {
 	if (mSelectionKanbanModel->selectedIndexes().isEmpty()) { return; }
 
-	QModelIndex firstSelectedIdx = mSelectionKanbanModel->selectedIndexes().first();
-	QModelIndexList indexes = mSelectionKanbanModel->selectedIndexes();
-	for (const QModelIndex& idx : indexes)
+	// Sort selected indexes in reverse order before deleting them, otherwise the model is screwed up.
+	auto sortedIndexes = mSelectionKanbanModel->selectedIndexes();
+
+	// Reverse order
+	std::sort(sortedIndexes.begin(), sortedIndexes.end(), [](auto idx1, auto idx2) { return idx2 < idx1; });
+	
+	for (const QModelIndex& idx : sortedIndexes)
 	{
 		mKanbanModel->removeRow(idx.row());		
 	}
-	
-	QModelIndex prevIdx = mKanbanModel->index(firstSelectedIdx.row()-1);
-	if (prevIdx.isValid()) 
-	{
-		mSelectionKanbanModel->setCurrentIndex(prevIdx, QItemSelectionModel::SelectCurrent);
-		return;
-	}
-	
-	QModelIndex nextIdx = mKanbanModel->index(firstSelectedIdx.row()+1);
-	if (nextIdx.isValid()) 
-	{
-		mSelectionKanbanModel->setCurrentIndex(nextIdx, QItemSelectionModel::SelectCurrent);
-		return;
-	}
+
+	update();
 }
 
-void KanbanBoardView::onDeleteColumnView(const QString& columnName)
+void KanbanBoardView::onDeleteColumnView(const QString& deletedColumnName)
 {
-	if(auto columnIt = mColumnViews.find(columnName); columnIt!=mColumnViews.end())
+	if(auto columnIt = mColumnViews.find(deletedColumnName); columnIt!=mColumnViews.end())
 	{
-		ui->mSpoilerLayout->removeWidget(columnIt->second);
+		std::vector<int> rowsToDelete;
+		for (auto row = 0; row < mKanbanModel->rowCount(); ++row)
+		{
+			const QString columnName = mKanbanModel->index(row).data(KanbanModel::Roles::State).toString();
+			if (columnName == deletedColumnName)
+			{
+				rowsToDelete.push_back(row);
+			}
+		}
+
+		// Reverse order
+		std::sort(rowsToDelete.begin(), rowsToDelete.end(), [](auto idx1, auto idx2) { return idx2 < idx1; });
+		
+		// Delete from the model all Kanban Items that belong to deletedColumnName in reversed order
+		for (auto&& row : rowsToDelete)
+		{
+			mKanbanModel->removeRow(row);		
+		}
+
+		ui->mColumnViewLayout->removeWidget(columnIt->second);
 		columnIt->second->setParent(nullptr);
 		mColumnViews.erase(columnIt);
 		update();
@@ -179,87 +231,116 @@ void KanbanBoardView::onDeleteColumnView(const QString& columnName)
 void KanbanBoardView::setModel(KanbanModel* kanbanModel)
 {
 	mKanbanModel = kanbanModel;
+	mSelectionKanbanModel = new QItemSelectionModel(mKanbanModel, this);
+	mSelectionKanbanModel->clearSelection();
 }
 
-void KanbanBoardView::setSelectionModel(QItemSelectionModel* selectionKanbanModel)
+void KanbanBoardView::loadConfig()
 {
-	mSelectionKanbanModel = selectionKanbanModel;	
+	const QJsonObject config = PluginConfigManager::parse("KanbanBoard.json");
+	const QJsonValue rootNode = config.value("columns");
+
+	for (auto&& node : rootNode.toArray())
+	{
+		const auto name = node.toObject().value(QString("name")).toString();
+		const auto color = node.toObject().value(QString("color")).toString();
+		const auto isCollapsed = node.toObject().value(QString("collapsed")).toBool();
+		
+		createColumn(name, Utils::stringToColor(color), isCollapsed);
+	}
 }
 
-void KanbanBoardView::loadData()
+void KanbanBoardView::saveConfig() const
 {
-	// TODO: replace these dummy data with an actual configuration reader class
+	QJsonArray columns;
+	for (auto&& [columnName, columnView] : mColumnViews)
+	{
+		QJsonObject node{};
 
-	createColumn("A", Qt::darkGreen);
-	createColumn("B", Qt::darkMagenta);
-	createColumn("C", Qt::darkYellow);
-	createColumn("D", Qt::darkCyan);
-	createColumn("E", Qt::darkGray);
+		node.insert("collapsed", columnView->isCollapsed());
+		node.insert("color", Utils::colorToString(columnView->getColor()));
+		node.insert("name", columnName);
+
+		columns.append(node);
+	}
+
+	QJsonObject config;
+	config.insert("columns", columns);
+	PluginConfigManager::write("KanbanBoard.json", config);
 }
 
 void KanbanBoardView::dragEnterEvent(QDragEnterEvent* event)
 {
-	qDebug() << "dragEnterEvent";
-	event->acceptProposedAction();
+	if (event->mimeData()->hasText() || event->mimeData()->hasUrls())
+	{
+		event->acceptProposedAction();
+	}
 }
 
 void KanbanBoardView::dragMoveEvent(QDragMoveEvent* event)
 {
-	qDebug() << "dragMoveEvent";
 	event->acceptProposedAction();
 }
 
 void KanbanBoardView::dragLeaveEvent(QDragLeaveEvent* event)
 {
-	qDebug() << "dragLeaveEvent";
 	event->accept();
 }
 
 void KanbanBoardView::dropEvent(QDropEvent* event)
 {
-	qDebug() << "dropEvent";
-
-	const QMimeData *mimeData = event->mimeData();
-	if (mimeData->hasText())
+	const auto getColumnViewUnderDrop = [&] (const QPoint& droppedPoint)
 	{
-		QByteArray encodedData = mimeData->data("application/vnd.text.list");
-		QDataStream stream(&encodedData, QIODevice::ReadOnly);
+		// Returns the KanbanColumnView on which the drop happened.
+		// The loop over the widget hierarchy is needed to find a KanbanColumnView (a child of mColumnSplitter),
+		// since the widget returned by childAt() is the deepest one, not necessarily a KanbanColumnView;
 
-		QString text;
-		QColor color;
-		QString state;
-		stream >> text >> color >> state;
+		QWidget* parent = mColumnSplitter;
+		QWidget* child = childAt(droppedPoint);
 
-		createKanban(text, color, state);
+		// Avoid potentially infinite loop. Set maxDepth to have a fixed number of recursive calls.
+		/*while (parent != child->parentWidget())
+			child = child->parentWidget();*/
+		const int maxDepth {5};
+		for (auto i=0; i<maxDepth; ++i)
+		{
+			if (parent == child->parentWidget()) { break; } 
+			child = child->parentWidget(); 
+		}
+		return dynamic_cast<KanbanColumnView*>(child);
+	};
+	
+	if (const auto column = getColumnViewUnderDrop(event->pos()); column)
+	{
+		const auto mimeData = event->mimeData();
+		if (mimeData->hasText() && !mimeData->hasUrls())
+		{
+			const auto droppedText = mimeData->text();
+			const auto columnName = column->getTitle();
+			createKanban(droppedText, mColumnViews[columnName]->getColor(), columnName);
+		}
+
+		if (mimeData->hasUrls())
+		{
+			const auto columnName = column->getTitle();
+			for (auto&& url : mimeData->urls())
+			{
+				createKanban(url.toDisplayString(), mColumnViews[columnName]->getColor(), columnName);
+			}
+		}
 	}
+
+	event->acceptProposedAction();
+	
+	update();
 }
 
-QString KanbanBoardView::getUniqueName(const QString& name) const
+QStringList KanbanBoardView::getColumnViewNames() const
 {
-    QStringList spoilerNames;
-    for (auto idx = 0; idx < ui->mSpoilerLayout->count(); ++idx)
-    {        
-        if(const auto w = ui->mSpoilerLayout->itemAt(idx)->widget(); w)
-        {            
-            if (const auto s = dynamic_cast<KanbanColumnView*>(w); s)
-            {
-                spoilerNames.append(s->getTitle());
-            }
-        }
-    }
-
-    int i = 0;
-    QString try_this = name;
-
-    auto strings_match = [&try_this](const QString& exists) -> bool
-    {
-        return try_this == exists;
-    };
-
-    while (std::count_if(spoilerNames.begin(), spoilerNames.end(), strings_match) > 0)
-    {
-        try_this = name + " (" + QString::number(++i) + ")";
-    }
-
-    return try_this;
+	QStringList columnViewNames;
+	for (auto&& [name, view] : mColumnViews)
+	{
+		columnViewNames << name;
+	}
+	return columnViewNames;
 }

@@ -119,10 +119,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="KanbanCore.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="KanbanCore.h" />
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui" />
@@ -133,6 +133,9 @@
     </ProjectReference>
     <ProjectReference Include="..\Plugins\KanbanBoard\KanbanBoard.vcxproj">
       <Project>{dd57c785-d09e-488d-afec-a78f09b9bb27}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Plugins\Settings\Settings.vcxproj">
+      <Project>{0c460b8b-f18e-43fb-8a9b-b9fded1f1018}</Project>
     </ProjectReference>
     <ProjectReference Include="..\Style\Style.vcxproj">
       <Project>{7d25c119-1ba1-4c95-9806-8664b64b7ce5}</Project>

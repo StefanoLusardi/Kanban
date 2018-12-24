@@ -14,6 +14,9 @@
     <QtMoc Include="Widgets.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DeselectableListView\DeselectableListView.vcxproj">
+      <Project>{81b714f4-6960-4400-bb19-75944581f811}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\HorizontalLabel\HorizontalLabel.vcxproj">
       <Project>{3a411ca5-a73c-4593-ac27-460030f445c1}</Project>
     </ProjectReference>
@@ -73,15 +76,15 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(SolutionDir)$(TargetName)\VerticalLabel\$(Platform)\$(Configuration);$(SolutionDir)$(TargetName)\HorizontalLabel\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(SolutionDir)$(TargetName)\VerticalLabel\$(Platform)\$(Configuration);$(SolutionDir)$(TargetName)\HorizontalLabel\$(Platform)\$(Configuration);$(SolutionDir)$(TargetName)\DeselectableListView\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>VerticalLabel.lib;HorizontalLabel.lib;qtmaind.lib;Qt5Designerd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5Xmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>VerticalLabel.lib;HorizontalLabel.lib;DeselectableListView.lib;qtmaind.lib;Qt5Designerd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Widgetsd.lib;Qt5Xmld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtDesigner;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;%(AdditionalIncludeDirectories)</IncludePath>
-      <Define>API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;QT_UIPLUGIN_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;%(PreprocessorDefinitions)</Define>
+      <Define>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;QT_UIPLUGIN_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;%(PreprocessorDefinitions)</Define>
     </QtMoc>
     <PostBuildEvent>
       <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\"</Command>
@@ -99,15 +102,15 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).dll</OutputFile>
-      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(SolutionDir)$(TargetName)\VerticalLabel\$(Platform)\$(Configuration);$(SolutionDir)$(TargetName)\HorizontalLabel\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(QTDIR)\lib;$(SolutionDir)$(TargetName)\VerticalLabel\$(Platform)\$(Configuration);$(SolutionDir)$(TargetName)\HorizontalLabel\$(Platform)\$(Configuration);$(SolutionDir)$(TargetName)\DeselectableListView\$(Platform)\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalDependencies>VerticalLabel.lib;HorizontalLabel.lib;qtmain.lib;Qt5Designer.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;Qt5Xml.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>VerticalLabel.lib;HorizontalLabel.lib;DeselectableListView.lib;qtmain.lib;Qt5Designer.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;Qt5Xml.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
       <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtDesigner;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtXml;%(AdditionalIncludeDirectories)</IncludePath>
-      <Define>API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_PLUGIN;QT_NO_DEBUG;NDEBUG;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;QT_UIPLUGIN_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;%(PreprocessorDefinitions)</Define>
+      <Define>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_PLUGIN;QT_NO_DEBUG;NDEBUG;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;QT_UIPLUGIN_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;%(PreprocessorDefinitions)</Define>
     </QtMoc>
     <PostBuildEvent>
       <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\"

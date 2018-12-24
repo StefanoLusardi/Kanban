@@ -14,11 +14,14 @@ class SettingsPlugin : public QObject
 	Q_OBJECT
 
 public:
-	SettingsPlugin(QBoxLayout* container, Model* model, SettingsPluginInterface *parent);
+	SettingsPlugin(QBoxLayout* mainViewLayout, QBoxLayout* pluginButtonsLayout, Model* model, SettingsPluginInterface* parent);
 	~SettingsPlugin() = default;
+
+	void initData() const;
+	void release() const;
 
 private:
 	QPushButton* mPluginButton;
+	SettingsView* mPluginView;
 	std::unique_ptr<QDialog> mPluginDialog;
-	std::unique_ptr<SettingsView> mPluginView;
 };

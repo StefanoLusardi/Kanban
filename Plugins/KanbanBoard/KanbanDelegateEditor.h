@@ -22,6 +22,9 @@ public:
 	QString getState() const;
 	QColor getColor() const;
 
+signals:
+	void editingFinished();
+
 private:
 	Ui::KanbanDelegateEditor *ui;
 };

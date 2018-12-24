@@ -29,7 +29,10 @@ KanbanDelegateEditor::KanbanDelegateEditor(QWidget *parent)
 		++idx;
 	}
 
-	// TODO: emit on any dataChanged in the delegateEditor to refresh instantly the UI and quit the delegate
+	connect(ui->mColorEditor, qOverload<int>(&QComboBox::currentIndexChanged), [this](int)
+	{
+		emit editingFinished();
+	});
 }
 
 KanbanDelegateEditor::~KanbanDelegateEditor()

@@ -1,28 +1,30 @@
 #include "ui_KanbanColumnView.h"
 #include "KanbanColumnView.h"
 
-#include <QDebug>
+#include <QItemSelectionModel>
 #include <QPropertyAnimation>
 #include <QStyledItemDelegate>
 #include <QSortFilterProxyModel>
 #include <QGraphicsOpacityEffect>
 #include <QColor>
+#include <QPaintEvent>
 
-KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnColor, QWidget *parent) :
+KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnColor, bool isCollapsed, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::KanbanColumnView),
 	mTitle{title},
-	mColor{columnColor}
+	mColor{columnColor},
+	mIsCollapsed{isCollapsed}
 {
     ui->setupUi(this);
     ui->mButtonSpoiler->setCheckable(true);
     ui->mLabelTitleVertical->setVisible(false);
+	ui->mListView->setFrameShape(QFrame::Shape::NoFrame);
 
-	setupListView();
 	setTitle(title);
 	setColor(columnColor);
 	
-	setMinimumWidth(mCollapsedWidth);
+	//setMinimumWidth(mCollapsedWidth);
 
 	// TODO: cleanup the animation setup. Too verbose.
     mAnimation.addAnimation(new QPropertyAnimation(this, "minimumWidth"));
@@ -83,7 +85,7 @@ KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnCol
     	mAnimation.start();
     });
 
-    connect(&mAnimation, &QParallelAnimationGroup::finished, [this, &parent]()
+    connect(&mAnimation, &QParallelAnimationGroup::finished, [this]()
     {
 		ui->mListView->setVisible(!mIsCollapsed);
         ui->mLabelTitle->setVisible(!mIsCollapsed);        
@@ -98,20 +100,33 @@ KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnCol
 		}
     });
 
-    connect(ui->mButtonOptions, &QToolButton::clicked, [this](bool)
-    {
-        emit columnDeleted(mTitle);
-    });	
-
-	connect(ui->mButtonAdd, &QPushButton::clicked, [this](bool)
+    connect(ui->mButtonOptions, &QToolButton::clicked, [this](bool) { emit columnDeleted(mTitle); });	
+	
+	connect(ui->mButtonAdd, &QPushButton::clicked, [this](bool) { emit kanbanCreated(mTitle); });
+	
+	connect(ui->mListView, &DeselectableListView::deselectAll, [this]()
 	{
-		emit kanbanCreated(mTitle);
+		emit kanbanSelected(mTitle, QStringList{});
+
+		ui->mListView->setFrameShape(QFrame::Shape::Box);
+	});
+	
+	connect(ui->mListView, &DeselectableListView::clicked, [this](const QModelIndex&)
+	{
+		QStringList selectedTextList {};
+		for (auto&& itemIdx : ui->mListView->selectionModel()->selectedIndexes())
+		{
+			const QString selectedText = ui->mListView->model()->data(itemIdx).toString();
+			selectedTextList << selectedText;
+		}
+		emit kanbanSelected(mTitle, selectedTextList);
+
+		ui->mListView->setFrameShape(QFrame::Shape::Box);
 	});
 }
 
 KanbanColumnView::~KanbanColumnView()
 {
-    qDebug() << "Deleted " << getTitle();
     delete ui;
 }
 
@@ -127,25 +142,6 @@ QString KanbanColumnView::getTitle() const
     return mTitle;
 }
 
-void KanbanColumnView::setupListView() const
-{
-	// TODO: check if all this settings are needed or if it's possible to set them from the designer
-
-	ui->mListView->setSpacing(5);
-	//ui->mListView->setResizeMode(QListView::Adjust);
-	//ui->mListView->setFlow(QListView::TopToBottom);
-	//ui->mListView->setUniformItemSizes(false);
-	//ui->mListView->setMovement(QListView::Free);
-	//ui->mListView->setMouseTracking(true);
-	ui->mListView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-	ui->mListView->setDragEnabled(true);
-	ui->mListView->setAcceptDrops(true);
-	//ui->mListView->setDropIndicatorShown(true);
-	ui->mListView->setDefaultDropAction(Qt::MoveAction);
-	//ui->mListView->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
- //   ui->mListView->setSelectionBehavior(QAbstractItemView::SelectRows);
-}
-
 void KanbanColumnView::setModel(QSortFilterProxyModel* model) const
 {
 	ui->mListView->setModel(model);
@@ -154,6 +150,17 @@ void KanbanColumnView::setModel(QSortFilterProxyModel* model) const
 void KanbanColumnView::setDelegate(QStyledItemDelegate* delegate) const
 {
 	ui->mListView->setItemDelegate(delegate);
+}
+
+void KanbanColumnView::deselectAllKanbanItems() const
+{
+	ui->mListView->selectionModel()->setCurrentIndex({}, QItemSelectionModel::Clear);
+	ui->mListView->setFrameShape(QFrame::Shape::NoFrame);
+}
+
+bool KanbanColumnView::isCollapsed() const
+{
+	return mIsCollapsed;
 }
 
 void KanbanColumnView::setColor(const QColor& color)
@@ -176,3 +183,4 @@ void KanbanColumnView::mouseDoubleClickEvent(QMouseEvent*)
 {
 	ui->mButtonSpoiler->click();
 }
+

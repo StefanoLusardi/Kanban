@@ -3,6 +3,7 @@
 #include <QWidget>
 #include <QParallelAnimationGroup>
 
+class QItemSelectionModel;
 class QSortFilterProxyModel;
 class QStyledItemDelegate;
 
@@ -13,8 +14,8 @@ class KanbanColumnView : public QWidget
     Q_OBJECT
 
 public:
-    explicit KanbanColumnView(const QString& title, const QColor& columnColor, QWidget *parent = nullptr);
-    ~KanbanColumnView();
+	explicit KanbanColumnView(const QString& title, const QColor& columnColor, bool isCollapsed = false, QWidget *parent = nullptr);
+	~KanbanColumnView();
     
 	void setTitle(const QString& title);
 	QString getTitle() const;
@@ -25,22 +26,24 @@ public:
 	void setModel(QSortFilterProxyModel* model) const;
 	void setDelegate(QStyledItemDelegate* delegate) const;
 
+	void deselectAllKanbanItems() const;
+	bool isCollapsed() const;
+
 signals:
 	void kanbanCreated(const QString& columnName);
-    void columnDeleted(const QString& columnName);
+	void columnDeleted(const QString& columnName);
+	void kanbanSelected(const QString& columnName, const QStringList& selectedText);
 
 protected:
-	void setupListView() const;
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
 
 private:
-    Ui::KanbanColumnView *ui;
-    QParallelAnimationGroup mAnimation;
+	Ui::KanbanColumnView *ui;
+	QParallelAnimationGroup mAnimation;
 	QString mTitle;
 	QColor mColor;
-    int mExpandedWidth;
-    const int mCollapsedWidth {40};
+	int mExpandedWidth;
+	const int mCollapsedWidth {40};
 	int mAnimationTime {250}; // milliseconds
-    bool mIsCollapsed;
-
+	bool mIsCollapsed;
 };

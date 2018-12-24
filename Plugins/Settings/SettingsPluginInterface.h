@@ -19,19 +19,19 @@ public:
 	QList<QString> dependencies() const  override { return {}; }
 	int priority() const override { return 0; }
 		
-	void setup(QBoxLayout* container, Model* model) override
+	void setup(QBoxLayout* mainViewLayout, QBoxLayout* pluginButtonsLayout, Model* model) override
 	{
-        mPlugin = std::make_unique<SettingsPlugin>(container, model, this);
+        mPlugin = std::make_unique<SettingsPlugin>(mainViewLayout, pluginButtonsLayout, model, this);
 	}
 
 	void initData() override
 	{
-		
+		mPlugin->initData();
 	}
 
 	void release() override
 	{
-		//delete mPlugin;
+		mPlugin->release();
 	}
 
 protected:

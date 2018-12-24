@@ -1,9 +1,9 @@
 #pragma once
 
+#include <map>
 #include <QWidget>
 
 class QSplitter;
-
 class KanbanModel;
 class KanbanColumnView;
 class QItemSelectionModel;
@@ -17,9 +17,10 @@ class KanbanBoardView : public QWidget
 public:
 	KanbanBoardView(QWidget *parent = Q_NULLPTR);
 	~KanbanBoardView();
-	void loadData();
 	void setModel(KanbanModel* kanbanModel);
-	void setSelectionModel(QItemSelectionModel* selectionKanbanModel);	
+
+	void loadConfig();
+	void saveConfig() const;
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -33,22 +34,24 @@ private slots:
 	void onRenameKanban();
 	void onDeleteKanban();
 	void onChangeState();
-	void onDeleteColumnView(const QString& columnName);
+	void onDeleteColumnView(const QString& deletedColumnName);
 	void onAddColumnViewKanban(const QString& columnName);
+	void onKanbanSelected(const QString& columnSenderName, const QStringList& kanbanTextList);
 
 private:
 	Ui::KanbanBoardView *ui;
 	KanbanModel* mKanbanModel;
 	QItemSelectionModel* mSelectionKanbanModel;
 	std::map<QString, KanbanColumnView*> mColumnViews;
-
-	// TODO: Keep track of the last selected item across all the columns
-	//QPersistentModelIndex* lastSelectedIdx;
-
-	QString getUniqueName(const QString& name) const;
-	void createColumn(const QString& columnName, const QColor& columnColor);
-	void createKanban(const QString& text, const QColor& color, const QString& state) const;
-
-
 	QSplitter *mColumnSplitter;
+	QString mSelectedColumnName;
+
+	//static QColor stringToColor(const QString& str);
+	//static QString colorToString(const QColor& color);
+	//static QString getUniqueName(const QString& name, const QStringList& allNames);
+
+	QStringList getColumnViewNames() const;
+	void setSelectedColumnView(const QString& selectedColumnName);
+	void createColumn(const QString& columnName, const QColor& columnColor, bool isCollapsed = false);
+	void createKanban(const QString& text, const QColor& color, const QString& state) const;
 };

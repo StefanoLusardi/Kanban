@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>208</width>
-    <height>308</height>
+    <width>328</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -209,7 +209,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QListView" name="mListView">
+      <widget class="DeselectableListView" name="mListView">
        <property name="acceptDrops">
         <bool>true</bool>
        </property>
@@ -220,7 +220,13 @@
         <enum>QFrame::Plain</enum>
        </property>
        <property name="lineWidth">
-        <number>1</number>
+        <number>3</number>
+       </property>
+       <property name="horizontalScrollBarPolicy">
+        <enum>Qt::ScrollBarAlwaysOff</enum>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QAbstractScrollArea::AdjustToContents</enum>
        </property>
        <property name="editTriggers">
         <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
@@ -237,8 +243,11 @@
        <property name="selectionMode">
         <enum>QAbstractItemView::ExtendedSelection</enum>
        </property>
+       <property name="verticalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
        <property name="movement">
-        <enum>QListView::Snap</enum>
+        <enum>QListView::Free</enum>
        </property>
        <property name="resizeMode">
         <enum>QListView::Adjust</enum>
@@ -298,13 +307,18 @@
   <customwidget>
    <class>VerticalLabel</class>
    <extends>QLabel</extends>
-   <header>../../Widgets/VerticalLabel/VerticalLabel.h</header>
+   <header>VerticalLabel.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>HorizontalLabel</class>
    <extends>QLabel</extends>
    <header>HorizontalLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>DeselectableListView</class>
+   <extends>QListView</extends>
+   <header>DeselectableListView.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
