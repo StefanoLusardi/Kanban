@@ -15,11 +15,11 @@ public:
 	~KanbanDelegateEditor();
 
 	void setText(const QString& text) const;
-	void setState(const QString& state) const;
+	void setColumn(const QString& column) const;
 	void setColor(const QColor& color) const;
 
 	QString getText() const;
-	QString getState() const;
+	QString getColumn() const;
 	QColor getColor() const;
 
 signals:

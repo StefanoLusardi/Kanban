@@ -1,6 +1,7 @@
 #pragma once
 #include <QString>
 #include "KanbanItemDbHandler.h"
+#include "PageItemDbHandler.h"
 
 class QSqlQuery;
 class QSqlDatabase;
@@ -24,5 +25,5 @@ private:
 
 public:
     const KanbanItemDbHandler kanbanItemDbHandler;
-    //const PageItemDbHandler pageItemDbHandler;
+    const PageItemDbHandler pageItemDbHandler;
 };

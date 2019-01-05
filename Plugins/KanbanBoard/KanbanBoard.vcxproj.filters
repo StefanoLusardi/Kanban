@@ -34,9 +34,6 @@
     <ClCompile Include="KanbanBoardPlugin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KanbanBoardView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="KanbanColumnProxyModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -49,15 +46,18 @@
     <ClCompile Include="KanbanDelegateEditor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="KanbanPageView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KanbanBoardView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="KanbanBoardPlugin.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="KanbanBoardPluginInterface.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="KanbanBoardView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
     <QtMoc Include="KanbanColumnProxyModel.h">
@@ -72,15 +72,24 @@
     <QtMoc Include="KanbanDelegateEditor.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="KanbanPageView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="KanbanBoardView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="KanbanDelegateEditor.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="KanbanView.ui">
+    <QtUic Include="KanbanColumnView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtUic Include="KanbanColumnView.ui">
+    <QtUic Include="KanbanBoardView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="KanbanPageView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

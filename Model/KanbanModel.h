@@ -12,7 +12,7 @@ class MODEL_EXPORT KanbanModel : public QAbstractListModel
 	Q_OBJECT
 
 public:
-	enum Roles {State = Qt::UserRole+1};
+	enum Roles {ColumnName = Qt::UserRole+1};
 
 	KanbanModel(DbManager& db, int pageId, QObject *parent = Q_NULLPTR) : QAbstractListModel(parent), mDb{db}, mPageId{pageId} {}
 	virtual ~KanbanModel() = default;
@@ -22,7 +22,6 @@ public:
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 	bool setData(const QModelIndex& index, const QVariant& value, int role) override;
 	void removeKanbanForPage();
-	void loadKanbanItems(int pageId);
 	bool insertRows(int position, int rows, const QModelIndex& parent) override;
 	bool removeRows(int row, int count, const QModelIndex& parent) override;
 
@@ -31,8 +30,11 @@ public:
 	QStringList mimeTypes() const override;
 	QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
-	QModelIndex addKanban(const KanbanItem& kanbanItem);
-	QModelIndex getKanbanIndex(const QString& kanbanTitle);
+	QModelIndex addKanban(const QString& text, const QString& color, const QString& columnName);
+	QModelIndex getKanbanIndex(const QString& kanbanText);
+
+	void loadKanbanItems();
+	void saveKanbanItems();
 
 private:
 	DbManager& mDb;

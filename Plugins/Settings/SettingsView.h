@@ -12,10 +12,8 @@ class SettingsView : public QWidget
 	Q_OBJECT
 
 public:
-	SettingsView(QWidget *parent = Q_NULLPTR);
+	SettingsView(Model* model, QWidget *parent = Q_NULLPTR);
 	~SettingsView();
-	void setModel(KanbanModel* kanbanModel);
-	void setModel(Model* model);
 
 	void loadConfig();
 	void saveConfig() const;
@@ -26,5 +24,5 @@ protected slots:
 private:
 	Ui::SettingsView* ui;
 	KanbanModel* mKanbanModel;
-	Model* mModel;
+	//Model* mModel;
 };

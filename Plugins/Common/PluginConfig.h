@@ -34,10 +34,12 @@ namespace PluginConfigManager
 		return jsonDocument.object();
 	}
 
-	inline void write(const QString& filePath, QJsonObject& obj)
+	template <typename Json>
+	inline void write(const QString& filePath, const Json& json)
 	{
-		QJsonDocument jsonDocument(obj);
-
+		// Json can be QJsonDocument, QJsonObject or QJsonArray
+		QJsonDocument jsonDocument(json);
+		
 		QFile file;
 		file.setFileName(PluginConfigManager::configDir + filePath);
 		file.open(QIODevice::WriteOnly | QIODevice::Text);

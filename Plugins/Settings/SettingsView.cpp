@@ -7,11 +7,19 @@
 #include "Model.h"
 #include "../Common/PluginConfig.h"
 
-SettingsView::SettingsView(QWidget *parent)
+SettingsView::SettingsView(Model* model, QWidget *parent)
 	: QWidget(parent),
-	ui(new Ui::SettingsView)
+	ui{new Ui::SettingsView},
+	mKanbanModel{model->getKanbanModel(0).get()}
 {
 	ui->setupUi(this);
+	ui->mListView->setModel(mKanbanModel);
+	
+	connect(mKanbanModel, &QAbstractItemModel::dataChanged, [this]()
+	{
+		const int itemCount = mKanbanModel->rowCount();
+		ui->mItemCountLabel->setText(QString::number(itemCount));
+	});
 
 	connect(ui->mStyleCombobox, &QComboBox::currentTextChanged, this, &SettingsView::setAppStyle);
 	connect(ui->mAboutButton, &QPushButton::clicked, [this]()
@@ -25,23 +33,6 @@ SettingsView::SettingsView(QWidget *parent)
 SettingsView::~SettingsView()
 {
 	delete ui;
-}
-
-void SettingsView::setModel(KanbanModel* kanbanModel)
-{
-	mKanbanModel = kanbanModel;
-	ui->mListView->setModel(mKanbanModel);
-	
-	connect(mKanbanModel, &QAbstractItemModel::dataChanged, [this]()
-	{
-		const int itemCount = mKanbanModel->rowCount();
-		ui->mItemCountLabel->setText(QString::number(itemCount));
-	});
-}
-
-void SettingsView::setModel(Model* model)
-{
-	mModel = model;
 }
 
 void SettingsView::loadConfig()

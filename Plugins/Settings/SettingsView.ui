@@ -181,7 +181,7 @@
         <enum>QListView::TopToBottom</enum>
        </property>
        <property name="viewMode">
-        <enum>QListView::IconMode</enum>
+        <enum>QListView::ListMode</enum>
        </property>
        <property name="uniformItemSizes">
         <bool>true</bool>

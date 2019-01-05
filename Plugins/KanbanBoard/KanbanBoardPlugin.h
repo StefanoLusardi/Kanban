@@ -1,13 +1,13 @@
 #pragma once
 
 #include <QObject>
-#include <QDialog>
-#include <QPushButton>
+
+class QBoxLayout;
+class QPushButton;
 
 class Model;
-class QBoxLayout;
-class KanbanBoardPluginInterface;
 class KanbanBoardView;
+class KanbanBoardPluginInterface;
 
 class KanbanBoardPlugin : public QObject
 {
@@ -22,5 +22,6 @@ public:
 
 private:
 	KanbanBoardView* mPluginView;
+	QPushButton* mAddPageButton;
 };
 

@@ -42,7 +42,7 @@ KanbanDelegateEditor::~KanbanDelegateEditor()
 
 void KanbanDelegateEditor::setText(const QString& text) const { ui->mTextEditor->setText(text); }
 
-void KanbanDelegateEditor::setState(const QString& state) const { ui->mStateEditor->setText(state); }
+void KanbanDelegateEditor::setColumn(const QString& column) const { ui->mStateEditor->setText(column); }
 
 void KanbanDelegateEditor::setColor(const QColor& color) const
 {
@@ -52,7 +52,7 @@ void KanbanDelegateEditor::setColor(const QColor& color) const
 
 QString KanbanDelegateEditor::getText() const { return ui->mTextEditor->text(); }
 
-QString KanbanDelegateEditor::getState() const { return ui->mStateEditor->text(); }
+QString KanbanDelegateEditor::getColumn() const { return ui->mStateEditor->text(); }
 
 QColor KanbanDelegateEditor::getColor() const
 {

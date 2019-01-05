@@ -3,7 +3,9 @@
 #include "SettingsView.h"
 #include "Model.h"
 
+#include <QDialog>
 #include <QBoxLayout>
+#include <QPushButton>
 
 SettingsPlugin::SettingsPlugin(QBoxLayout* /*mainViewLayout*/, QBoxLayout* pluginButtonsLayout, Model* model, SettingsPluginInterface* parent) : QObject (parent)
 {
@@ -12,16 +14,11 @@ SettingsPlugin::SettingsPlugin(QBoxLayout* /*mainViewLayout*/, QBoxLayout* plugi
 	mPluginButton->setCheckable(true);
 	mPluginButton->setChecked(false);
 	mPluginButton->setText(parent->name());
-    mPluginButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     pluginButtonsLayout->addWidget(mPluginButton);
 
 	// Create Plugin Ui class
 	mPluginDialog = std::make_unique<QDialog>();  // no parent, ok because is a unique_ptr
-	mPluginView = new SettingsView();
-	
-	auto kanbanModel = model->getKanbanModel();
-	mPluginView->setModel(kanbanModel. get());
-	mPluginView->setModel(model);
+	mPluginView = new SettingsView(model);
 
 	mPluginDialog->setLayout(new QVBoxLayout());
 	mPluginDialog->layout()->addWidget(mPluginView); // Steals ownership

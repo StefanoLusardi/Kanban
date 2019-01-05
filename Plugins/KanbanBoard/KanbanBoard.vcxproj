@@ -117,6 +117,7 @@ start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Conf
   <ItemGroup>
     <ClCompile Include="KanbanBoardPlugin.cpp" />
     <ClCompile Include="KanbanBoardView.cpp" />
+    <ClCompile Include="KanbanPageView.cpp" />
     <ClCompile Include="KanbanColumnProxyModel.cpp" />
     <ClCompile Include="KanbanColumnView.cpp" />
     <ClCompile Include="KanbanDelegate.cpp" />
@@ -149,12 +150,13 @@ start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Conf
     </QtMoc>
     <QtMoc Include="KanbanBoardPlugin.h" />
     <QtMoc Include="KanbanBoardPluginInterface.h" />
-    <QtMoc Include="KanbanBoardView.h" />
+    <QtMoc Include="KanbanPageView.h" />
   </ItemGroup>
   <ItemGroup>
+    <QtUic Include="KanbanBoardView.ui" />
     <QtUic Include="KanbanColumnView.ui" />
     <QtUic Include="KanbanDelegateEditor.ui" />
-    <QtUic Include="KanbanView.ui" />
+    <QtUic Include="KanbanPageView.ui" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Model\Model.vcxproj">
@@ -163,6 +165,14 @@ start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Conf
     <ProjectReference Include="..\..\Widgets\Widgets\Widgets.vcxproj">
       <Project>{5efa98f5-e48f-4686-913e-f64347681307}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="KanbanBoardView.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)Widgets\VerticalLabel;$(SolutionDir)Widgets\HorizontalLabel;$(SolutionDir)Widgets\DeselectableListView;$(SolutionDir)Model;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;_WINDLL</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)Widgets\VerticalLabel;$(SolutionDir)Widgets\HorizontalLabel;$(SolutionDir)Widgets\DeselectableListView;$(SolutionDir)Model;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;_WINDLL</Define>
+    </QtMoc>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

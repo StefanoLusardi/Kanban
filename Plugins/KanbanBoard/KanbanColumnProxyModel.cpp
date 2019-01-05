@@ -19,10 +19,11 @@ bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction 
 		stream >> text >> color >> state;
 
 		auto model = static_cast<KanbanModel*>(sourceModel());
-		const QModelIndex idx = model->addKanban({text, color, mName});
-		sourceModel()->setData(idx, text, Qt::DisplayRole);
-		sourceModel()->setData(idx, color, Qt::DecorationRole);
-		sourceModel()->setData(idx, mName, KanbanModel::Roles::State);
+		const QModelIndex idx = model->addKanban(text, color, mName);
+
+		//sourceModel()->setData(idx, text, Qt::DisplayRole);
+		//sourceModel()->setData(idx, color, Qt::DecorationRole);
+		//sourceModel()->setData(idx, mName, KanbanModel::Roles::State);
 	}
 
 	return true;
@@ -31,6 +32,6 @@ bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction 
 bool KanbanColumnProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const
 {
 	const QModelIndex index = sourceModel()->index(sourceRow, 0, sourceParent);
-	const QString state = sourceModel()->data(index, KanbanModel::Roles::State).toString();
+	const QString state = sourceModel()->data(index, KanbanModel::Roles::ColumnName).toString();
 	return state.contains(filterRegExp());
 }

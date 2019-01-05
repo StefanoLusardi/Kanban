@@ -1,11 +1,12 @@
 #pragma once
 
 #include <QObject>
-#include <QDialog>
-#include <QPushButton>
+
+class QDialog;
+class QBoxLayout;
+class QPushButton;
 
 class Model;
-class QBoxLayout;
 class SettingsPluginInterface;
 class SettingsView;
 

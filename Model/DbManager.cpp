@@ -26,8 +26,8 @@ DbManager& DbManager::instance()
 
 DbManager::DbManager(const QString& path) :
     mDb(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"))),
-    kanbanItemDbHandler(*mDb)//,
-    //pageItemDbHandler(*mDb)
+    kanbanItemDbHandler(*mDb), 
+	pageItemDbHandler(*mDb)
 {
     mDb->setDatabaseName(path);
 
@@ -35,7 +35,7 @@ DbManager::DbManager(const QString& path) :
     qDebug() << "Database connection: " << (openStatus ? "OK" : "Error");
 
     kanbanItemDbHandler.init();
-    //pageItemDbHandler.init();
+    pageItemDbHandler.init();
 }
 
 DbManager::~DbManager()

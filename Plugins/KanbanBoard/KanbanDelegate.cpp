@@ -12,7 +12,7 @@ void KanbanDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 
 	// Draw Kanban Item rectangle (external contour)
 	QPainterPath itemPath;
-	const qreal radius = option.rect.height()/4.0;
+	const qreal radius = option.rect.height() * 0.25;
 	const qreal penWidth = 2;
 	itemPath.addRoundedRect(option.rect, radius, radius);
 	painter->setPen({Qt::black, penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin});
@@ -39,9 +39,13 @@ void KanbanDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 
         QColor contourColor;		
 		if (option.state.testFlag(QStyle::State_Selected))
+		{
 			contourColor = QColor::fromRgb(255, 32, 32, 255);
+		}
 		else
+		{
 			contourColor  = QColor::fromRgb(255, 128, 64, 255);
+		}
 
 		painter->setPen({QBrush(contourColor), penWidthSelected, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin});
 		painter->drawPath(selectedPath);
@@ -77,11 +81,11 @@ void KanbanDelegate::setEditorData(QWidget* editor, const QModelIndex& index) co
 
 	const QString text  = index.model()->data(index, Qt::DisplayRole).toString();
 	const QColor color = index.model()->data(index, Qt::DecorationRole).value<QColor>();
-	const QString state = index.model()->data(index, KanbanModel::Roles::State).toString();
+	const QString column = index.model()->data(index, KanbanModel::Roles::ColumnName).toString();
 
     delegateEditor->setText(text);
     delegateEditor->setColor(color);
-    delegateEditor->setState(state);
+    delegateEditor->setColumn(column);
 }
 
 void KanbanDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, const QModelIndex& index) const
@@ -90,11 +94,11 @@ void KanbanDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, co
 
     const QString text = delegateEditor->getText();
     const QColor color = delegateEditor->getColor();
-    const QString state = delegateEditor->getState();
+    const QString column = delegateEditor->getColumn();
 
     model->setData(index, text, Qt::DisplayRole);
     model->setData(index, color, Qt::DecorationRole);
-    model->setData(index, state, KanbanModel::Roles::State);
+    model->setData(index, column, KanbanModel::Roles::ColumnName);
 }
 
 void KanbanDelegate::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const
