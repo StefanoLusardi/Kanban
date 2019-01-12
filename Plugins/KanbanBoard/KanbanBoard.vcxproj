@@ -74,8 +74,7 @@
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
     </QtMoc>
     <PostBuildEvent>
-      <Command>if not exist "$(SolutionDir)$(Platform)\$(Configuration)\Plugins\" mkdir "$(SolutionDir)$(Platform)\$(Configuration)\Plugins\"
-start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\Plugins\"</Command>
+      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\$(Configuration)\Plugins\"</Command>
     </PostBuildEvent>
     <QtUic>
       <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>
@@ -106,8 +105,7 @@ start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Conf
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
     </QtMoc>
     <PostBuildEvent>
-      <Command>if not exist "$(SolutionDir)$(Platform)\$(Configuration)\Plugins\" mkdir "$(SolutionDir)$(Platform)\$(Configuration)\Plugins\"
-start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\Plugins\"</Command>
+      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\$(Configuration)\Plugins\"</Command>
     </PostBuildEvent>
     <QtUic>
       <ExecutionDescription>Uic'ing %(Identity)...</ExecutionDescription>

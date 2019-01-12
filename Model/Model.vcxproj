@@ -68,13 +68,13 @@
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Sqld.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
-      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;MODEL_LIB;QT_SQL_LIB;%(PreprocessorDefinitions)</Define>
-      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql;%(AdditionalIncludeDirectories)</IncludePath>
+      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;MODEL_LIB;QT_SQL_LIB;_WINDLL</Define>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql</IncludePath>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
     </QtMoc>
     <PostBuildEvent>
-      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\$(Configuration)\"
 start xcopy /Y "$(TargetDir)$(TargetName).lib" "$(TargetDir)lib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -96,31 +96,33 @@ start xcopy /Y "$(TargetDir)$(TargetName).lib" "$(TargetDir)lib\"</Command>
       <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Sql.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
-      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;MODEL_LIB;QT_SQL_LIB;%(PreprocessorDefinitions)</Define>
-      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql;%(AdditionalIncludeDirectories)</IncludePath>
+      <Define>UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;MODEL_LIB;QT_SQL_LIB;_WINDLL</Define>
+      <IncludePath>.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName)\.;$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql</IncludePath>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
     </QtMoc>
     <PostBuildEvent>
-      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\$(Configuration)\"
 start xcopy /Y "$(TargetDir)$(TargetName).lib" "$(TargetDir)lib\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DbManager.cpp" />
-    <ClCompile Include="KanbanItemDbHandler.cpp" />
-    <ClCompile Include="KanbanModel.cpp" />
+    <ClCompile Include="KanbanItemManager.cpp" />
+    <ClCompile Include="KanbanItemModel.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="PageItemDbHandler.cpp" />
-    <ClCompile Include="PageModel.cpp" />
+    <ClCompile Include="PageItemManager.cpp" />
+    <ClCompile Include="PageItemModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DbManager.h" />
+    <ClInclude Include="ItemManager.h" />
     <ClInclude Include="KanbanItem.h" />
-    <ClInclude Include="KanbanItemDbHandler.h" />
-    <ClInclude Include="PageItemDbHandler.h" />
-    <ClInclude Include="PageModel.h" />
-    <QtMoc Include="KanbanModel.h" />
+    <ClInclude Include="KanbanItemManager.h" />
+    <ClInclude Include="PageItem.h" />
+    <ClInclude Include="PageItemManager.h" />
+    <ClInclude Include="PageItemModel.h" />
+    <QtMoc Include="KanbanItemModel.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="model_global.h" />
   </ItemGroup>

@@ -29,19 +29,19 @@
     <ClCompile Include="Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KanbanModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DbManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KanbanItemDbHandler.cpp">
+    <ClCompile Include="KanbanItemManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PageModel.cpp">
+    <ClCompile Include="PageItemManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PageItemDbHandler.cpp">
+    <ClCompile Include="PageItemModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="KanbanItemModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -49,19 +49,25 @@
     <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KanbanItem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DbManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KanbanItemDbHandler.h">
+    <ClInclude Include="KanbanItemManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PageModel.h">
+    <ClInclude Include="PageItemManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PageItemDbHandler.h">
+    <ClInclude Include="ItemManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PageItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PageItemModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="KanbanItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,7 +77,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="KanbanModel.h">
+    <QtMoc Include="KanbanItemModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

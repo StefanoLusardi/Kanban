@@ -29,10 +29,10 @@
     <QtMsBuild>$(MSBuildProjectDirectory)\QtMsBuild</QtMsBuild>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>$(TargetDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(TargetDir)$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(ProjectDir)$(Platform)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <Target Name="QtMsBuildNotFound" BeforeTargets="CustomBuild;ClCompile" Condition="!Exists('$(QtMsBuild)\qt.targets') or !Exists('$(QtMsBuild)\qt.props')">
     <Message Importance="High" Text="QtMsBuild: could not locate qt.targets, qt.props; project may not build correctly." />
@@ -77,7 +77,7 @@
       <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
     </QtRcc>
     <PostBuildEvent>
-      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\Styles\"</Command>
+      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\$(Configuration)\Styles\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -107,7 +107,7 @@
       <OutputFile>.\GeneratedFiles\qrc_%(Filename).cpp</OutputFile>
     </QtRcc>
     <PostBuildEvent>
-      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\Styles\"</Command>
+      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\$(Configuration)\Styles\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

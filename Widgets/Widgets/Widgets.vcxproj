@@ -87,7 +87,7 @@
       <Define>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_PLUGIN;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;QT_UIPLUGIN_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;%(PreprocessorDefinitions)</Define>
     </QtMoc>
     <PostBuildEvent>
-      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\"</Command>
+      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\$(Configuration)\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -113,7 +113,7 @@
       <Define>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_PLUGIN;QT_NO_DEBUG;NDEBUG;QDESIGNER_EXPORT_WIDGETS;QT_DESIGNER_LIB;QT_CORE_LIB;QT_GUI_LIB;QT_WIDGETS_LIB;QT_XML_LIB;QT_UIPLUGIN_LIB;_ENABLE_EXTENDED_ALIGNED_STORAGE;%(PreprocessorDefinitions)</Define>
     </QtMoc>
     <PostBuildEvent>
-      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)$(Platform)\$(Configuration)\"
+      <Command>start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(SolutionDir)Bin\$(Configuration)\"
 start xcopy /Y "$(TargetDir)$(TargetName).dll" "$(QTDIR)\plugins\designer\"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
