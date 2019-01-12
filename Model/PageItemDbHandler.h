@@ -5,10 +5,10 @@
 
 class QSqlDatabase;
 
-class PageItemDbHandler
+class PageItemManager
 {
 public:
-    explicit PageItemDbHandler(QSqlDatabase& db);
+    explicit PageItemManager(QSqlDatabase& db);
     void init() const;
 
     //void addKanban(KanbanItem& kanbanItem) const;

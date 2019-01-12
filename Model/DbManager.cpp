@@ -7,15 +7,15 @@
 
 void DbManager::debugQuery(const QSqlQuery& query)
 {
-    if (query.lastError().type() == QSqlError::ErrorType::NoError) 
+	if (query.lastError().type() == QSqlError::ErrorType::NoError) 
 	{
-        qDebug() << "Query OK:"  << query.lastQuery();
-    } 
-	else 
+		qDebug() << "Query OK:"  << query.lastQuery();
+	} 
+	else
 	{
-       qWarning() << "Query KO:" << query.lastError().text();
-       qWarning() << "Query text:" << query.lastQuery();
-    }
+		qWarning() << "Query KO:" << query.lastError().text();
+		qWarning() << "Query text:" << query.lastQuery();
+	}
 }
 
 DbManager& DbManager::instance()
@@ -26,16 +26,16 @@ DbManager& DbManager::instance()
 
 DbManager::DbManager(const QString& path) :
     mDb(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"))),
-    kanbanItemDbHandler(*mDb), 
-	pageItemDbHandler(*mDb)
+    mManagerKanbanItem(*mDb), 
+	mManagerPageItem(*mDb)
 {
     mDb->setDatabaseName(path);
 
 	const bool openStatus = mDb->open();
     qDebug() << "Database connection: " << (openStatus ? "OK" : "Error");
 
-    kanbanItemDbHandler.init();
-    pageItemDbHandler.init();
+    mManagerKanbanItem.init();
+    mManagerPageItem.init();
 }
 
 DbManager::~DbManager()

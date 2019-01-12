@@ -1,6 +1,6 @@
-#include "PageItemDbHandler.h"
+#include "PageItemManager.h"
 
-#include "KanbanItemDbHandler.h"
+#include "KanbanItemManager.h"
 #include "KanbanItem.h"
 #include "DbManager.h"
 
@@ -8,11 +8,11 @@
 #include <QSqlQuery>
 #include <QVariant>
 
-PageItemDbHandler::PageItemDbHandler(QSqlDatabase & db) : mDb(db)
+PageItemManager::PageItemManager(QSqlDatabase & db) : mDb(db)
 {
 }
 
-void PageItemDbHandler::init() const
+void PageItemManager::init() const
 {
     if (!mDb.tables().contains("page_items")) 
 	{

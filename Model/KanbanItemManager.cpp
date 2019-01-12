@@ -6,7 +6,7 @@
 #include <QSqlQuery>
 #include <QVariant>
 
-KanbanItemManager::KanbanItemManager(QSqlDatabase& db) : mDb(db)
+KanbanItemManager::KanbanItemManager(QSqlDatabase& db): mDb{db}
 {
 }
 
@@ -27,7 +27,7 @@ void KanbanItemManager::init() const
     }
 }
 
-void KanbanItemManager::addKanban(KanbanItem& kanbanItem) const
+void KanbanItemManager::insertItem(KanbanItem& kanbanItem) const
 {
     QSqlQuery query(mDb);
     query.prepare(QString("INSERT INTO kanban_items")
@@ -38,7 +38,7 @@ void KanbanItemManager::addKanban(KanbanItem& kanbanItem) const
         + ":color, "
         + ":text"
         + ")");
-    query.bindValue(":page_id", kanbanItem.getPageId());
+    query.bindValue(":page_id", kanbanItem.getPageIdx());
     query.bindValue(":column", kanbanItem.getColumn());
     query.bindValue(":color", kanbanItem.getColor());
     query.bindValue(":text", kanbanItem.getText());
@@ -48,7 +48,7 @@ void KanbanItemManager::addKanban(KanbanItem& kanbanItem) const
     kanbanItem.setId(query.lastInsertId().toInt());
 }
 
-void KanbanItemManager::removeKanbanItem(int id) const
+void KanbanItemManager::removeItem(int id) const
 {
     QSqlQuery query(mDb);
     query.prepare("DELETE FROM kanban_items WHERE id = (:id)");
@@ -58,7 +58,7 @@ void KanbanItemManager::removeKanbanItem(int id) const
     DbManager::debugQuery(query);
 }
 
-void KanbanItemManager::removeKanbanItemsForPage(int pageId) const
+void KanbanItemManager::removeAllItems(int pageId) const
 {
     QSqlQuery query(mDb);
     query.prepare("DELETE FROM kanban_items WHERE page_id = (:page_id)");
@@ -68,7 +68,7 @@ void KanbanItemManager::removeKanbanItemsForPage(int pageId) const
     DbManager::debugQuery(query);
 }
 
-std::vector<KanbanItem> KanbanItemManager::getKanbanItemsForPage(int pageId) const
+std::vector<KanbanItem> KanbanItemManager::getItems(int pageId) const
 {
     QSqlQuery query(mDb);
     query.prepare("SELECT * FROM kanban_items WHERE page_id = (:page_id)");
@@ -80,14 +80,13 @@ std::vector<KanbanItem> KanbanItemManager::getKanbanItemsForPage(int pageId) con
 	std::vector<KanbanItem> kanbanItems;
     while(query.next()) 
 	{
-		KanbanItem item(pageId);
-        item.setId(query.value("id").toInt());
-        item.setPageId(query.value("page_id").toInt());
-        item.setColumn(query.value("column").toString());
-        item.setColor(query.value("color").toString());
-        item.setText(query.value("text").toString());
+		const auto id { query.value("id").toInt() };
+		const auto text { query.value("text").toString()};
+		const auto color { query.value("color").toString()};
+		const auto column { query.value("column").toString()};
 
-        kanbanItems.push_back(item);
+        kanbanItems.emplace_back(pageId, text, color, column, id);
     }
+
     return kanbanItems;
 }

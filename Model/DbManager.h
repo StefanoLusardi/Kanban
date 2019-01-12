@@ -1,7 +1,7 @@
 #pragma once
-#include <QString>
-#include "KanbanItemDbHandler.h"
-#include "PageItemDbHandler.h"
+
+#include "KanbanItemManager.h"
+#include "PageItemManager.h"
 
 class QSqlQuery;
 class QSqlDatabase;
@@ -24,6 +24,6 @@ private:
     std::unique_ptr<QSqlDatabase> mDb;
 
 public:
-    const KanbanItemDbHandler kanbanItemDbHandler;
-    const PageItemDbHandler pageItemDbHandler;
+    const KanbanItemManager mManagerKanbanItem;
+    const PageItemManager mManagerPageItem;
 };

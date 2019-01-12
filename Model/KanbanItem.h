@@ -7,29 +7,29 @@
 class MODEL_EXPORT KanbanItem
 {
 public:
-	KanbanItem(int pageId, const QString& text = QString(), const QString& color = QString("#FFFFFFFF"), const QString& column = QString()) 
-	: mId{-1}, 
-	mPageId{pageId},
+	explicit KanbanItem(int pageIdx, const QString& text, const QString& color, const QString& column, int id=-1) 
+	: mId{id}, 
+	mPageIdx{pageIdx},
 	mText{text}, 
 	mColor{color},
 	mColumn{column}
 	{ }
 
 	int getId() const { return mId; }
-	int getPageId() const { return mPageId; }
+	int getPageIdx() const { return mPageIdx; }
 	QString getText() const { return mText; }
 	QString getColor() const { return mColor; }
 	QString getColumn() const { return mColumn; }
 
 	void setId(const int id) { mId = id; }
-	void setPageId(int pageId) { mPageId = pageId; }
+	void setPageIdx(int pageIdx) { mPageIdx = pageIdx; }
 	void setText(const QString& text) { mText = text; }
 	void setColor(const QString& color) { mColor = color; }
 	void setColumn(const QString& column) { mColumn = column; }
 
 private:
 	int mId;
-	int mPageId;
+	int mPageIdx;
 	QString mText;
 	QString mColor;
 	QString mColumn;

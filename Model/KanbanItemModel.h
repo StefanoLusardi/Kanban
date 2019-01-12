@@ -21,7 +21,6 @@ public:
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 	bool setData(const QModelIndex& index, const QVariant& value, int role) override;
-	void removeKanbanForPage();
 	bool insertRows(int position, int rows, const QModelIndex& parent) override;
 	bool removeRows(int row, int count, const QModelIndex& parent) override;
 
@@ -35,6 +34,7 @@ public:
 
 	void loadKanbanItems();
 	void saveKanbanItems();
+	void removeAllItems() const;
 
 private:
 	DbManager& mDb;

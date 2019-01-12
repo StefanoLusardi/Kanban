@@ -6,11 +6,11 @@
 
 class DbManager;
 
-class MODEL_EXPORT PageModel
+class MODEL_EXPORT PageItemModel
 {
 public:
-	PageModel(DbManager& db);
-	virtual ~PageModel() = default;
+	PageItemModel(DbManager& db);
+	virtual ~PageItemModel() = default;
 
 	std::map<int, QString> pages() const
 	{

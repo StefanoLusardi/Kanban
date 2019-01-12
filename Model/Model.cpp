@@ -3,38 +3,44 @@
 
 Model::Model() 
 {
-	mPageModel = std::make_shared<PageModel>(DbManager::instance());
+	mPageModel = std::make_shared<PageItemModel>(DbManager::instance());
 
-	for (auto&& [pageIdx, pageName] : mPageModel->pages())
+	mPageModel->loadPageItems();
+	for (auto&& page : mPageModel->pages())
 	{
-		mKanbanModel.emplace_back(std::make_shared<KanbanModel>(DbManager::instance(), pageIdx));
+		mKanbanModel.emplace_back(std::make_shared<KanbanItemModel>(DbManager::instance(), page.getPageIdx()));
 	}
 }
 
 void Model::loadData() const
 {
-	for (auto&& [pageIdx, pageName] : mPageModel->pages())
+	mPageModel->loadPageItems();
+	for (auto&& page : mPageModel->pages())
 	{
-		mKanbanModel.at(pageIdx)->loadKanbanItems();
+		mKanbanModel.at(page.getPageIdx())->loadKanbanItems();
 	}
 }
 
 void Model::saveData() const
 {
-	//mPageModel->savePages();
+	mPageModel->savePageItems();
 	
-	for (auto&& [pageIdx, pageName] : mPageModel->pages())
+	for (auto&& page : mPageModel->pages())
 	{
-		mKanbanModel.at(pageIdx)->saveKanbanItems();
+		mKanbanModel.at(page.getPageIdx())->saveKanbanItems();
 	}
 }
 
-int Model::addPage(const QString& pageName)
+int Model::insertPage(const QString& pageName)
 {
-	auto idx = mPageModel->pages().size();
-	mPageModel->pages()[idx] = pageName;
+	const auto pageIdx = mPageModel->insertPage(pageName);
+	mKanbanModel.emplace_back(std::make_shared<KanbanItemModel>(DbManager::instance(), pageIdx));
+	return pageIdx;
+}
 
-	mKanbanModel.emplace_back(std::make_shared<KanbanModel>(DbManager::instance(), idx));
-
-	return static_cast<int>(idx);
+void Model::removePage(const QString& pageName)
+{
+	const auto pageIdx = mPageModel->getPageIndex(pageName);
+	mKanbanModel.at(pageIdx)->removeAllItems();
+	mPageModel->removePage(pageName);
 }

@@ -2,23 +2,24 @@
 
 #include "model_global.h"
 
-#include "KanbanModel.h"
-#include "PageModel.h"
+#include "KanbanItemModel.h"
+#include "PageItemModel.h"
 
 class MODEL_EXPORT Model
 {
 public:
 	explicit Model();
 
-	std::shared_ptr<KanbanModel> getKanbanModel(int page) const { return mKanbanModel.at(page); }
-	std::shared_ptr<PageModel> getPageModel() const { return mPageModel; }
+	std::shared_ptr<KanbanItemModel> getKanbanModel(int page) const { return mKanbanModel.at(page); }
+	std::shared_ptr<PageItemModel> getPageModel() const { return mPageModel; }
 
 	void loadData() const;
 	void saveData() const;
 
-	int addPage(const QString& pageName);
+	int insertPage(const QString& pageName);
+	void removePage(const QString& pageName);
 
 private:
-	std::vector<std::shared_ptr<KanbanModel>> mKanbanModel;
-	std::shared_ptr<PageModel> mPageModel;
+	std::vector<std::shared_ptr<KanbanItemModel>> mKanbanModel;
+	std::shared_ptr<PageItemModel> mPageModel;
 };

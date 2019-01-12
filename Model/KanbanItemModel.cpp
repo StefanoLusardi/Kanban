@@ -105,16 +105,15 @@ QMimeData* KanbanItemModel::mimeData(const QModelIndexList& indexes) const
 	return mimeData;
 }
 
-//QModelIndex KanbanModel::addKanban(const KanbanItem& kanbanItem)
 QModelIndex KanbanItemModel::addKanban(const QString& text, const QString& color, const QString& columnName)
 {
 	const int row = rowCount();
 	beginInsertRows(QModelIndex(), row, row);
 
-	KanbanItem kanbanItem(mPageId, text, color, columnName);
-	mDb.mManagerKanbanItem.insertItem(kanbanItem);
+	KanbanItem item(mPageId, text, color, columnName);
+	mDb.mManagerKanbanItem.insertItem(item);
 
-	mKanbanItems.emplace_back(kanbanItem);
+	mKanbanItems.emplace_back(item);
 	endInsertRows();
 	return index(row, 0, QModelIndex());
 }
@@ -133,9 +132,9 @@ QModelIndex KanbanItemModel::getKanbanIndex(const QString& kanbanText)
 	return {};
 }
 
-void KanbanItemModel::removeKanbanForPage()
+void KanbanItemModel::removeAllItems() const
 {
-	mDb.mManagerKanbanItem.removeKanbanItemsForPage(mPageId);
+	mDb.mManagerKanbanItem.removeAllItems(mPageId);
 }
 
 void KanbanItemModel::loadKanbanItems()
@@ -147,7 +146,7 @@ void KanbanItemModel::loadKanbanItems()
 	}
 
 	beginResetModel();
-	mKanbanItems = mDb.mManagerKanbanItem.getKanbanItemsForPage(mPageId);
+	mKanbanItems = mDb.mManagerKanbanItem.getItems(mPageId);
 	endResetModel();
 }
 
@@ -157,8 +156,4 @@ void KanbanItemModel::saveKanbanItems()
 	{
 		return;
 	}
-
-	//beginResetModel();
-	//mKanbanItems = mDb.kanbanItemDbHandler.getKanbanItemsForPage(pageId);
-	//endResetModel();
 }
