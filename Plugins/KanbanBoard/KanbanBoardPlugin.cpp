@@ -3,12 +3,12 @@
 #include "KanbanBoardView.h"
 #include "KanbanPageView.h"
 #include "Model.h"
+#include "../Common/Utils.h"
 
 #include <QBoxLayout>
 #include <QItemSelectionModel>
 #include <QTabWidget>
 #include <QPushButton>
-#include "../Common/Utils.h"
 #include <QInputDialog>
 
 KanbanBoardPlugin::KanbanBoardPlugin(QBoxLayout* mainViewLayout, QBoxLayout* pluginButtonsLayout, Model* model, KanbanBoardPluginInterface* parent) : QObject (parent)
@@ -18,18 +18,18 @@ KanbanBoardPlugin::KanbanBoardPlugin(QBoxLayout* mainViewLayout, QBoxLayout* plu
 	mainViewLayout->addWidget(mPluginView); // Steals ownership
 
 	// Register Plugin Button into pluginButtonsLayout
-	mAddPageButton = new QPushButton(); // no smart_ptr because later container->addWidget() steals ownership
+	mAddPageButton = new QPushButton();
 	mAddPageButton->setText("New Kanban Board");
-    pluginButtonsLayout->addWidget(mAddPageButton);
+    pluginButtonsLayout->addWidget(mAddPageButton);  // Steals ownership
 
 	connect(mAddPageButton, &QPushButton::clicked, [this]()
 	{
 		bool ok;
-		QString text = QInputDialog::getText(nullptr, "Kanban Borad name", "Set name for the new Kanban Board", QLineEdit::Normal, QString(), &ok);
+		QString text = QInputDialog::getText(nullptr, "Kanban Board name", "Set name for the new Kanban Board", QLineEdit::Normal, QString(), &ok);
 
 		if (ok && !text.isEmpty())
 		{
-			mPluginView->newPage(text);
+			mPluginView->insertPage(text);
 		}
 	});
 }

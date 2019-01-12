@@ -16,9 +16,8 @@ public:
 	void loadConfig();
 	void saveConfig() const;
 
-	void newPage(const QString& pageName);
-	void addPage(int pageIdx, const QString& pageName);
-	void removePage(const QString& pageName);
+	void insertPage(const QString& pageName);
+	void removePage(const QString& pageName) const;
 
 private:
 	Ui::KanbanBoardView *ui;

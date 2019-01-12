@@ -3,7 +3,7 @@
 #include <QWidget>
 
 class Model;
-class KanbanModel;
+class KanbanItemModel;
 
 namespace Ui { class SettingsView; }
 
@@ -23,6 +23,6 @@ protected slots:
 
 private:
 	Ui::SettingsView* ui;
-	KanbanModel* mKanbanModel;
+	KanbanItemModel* mKanbanModel;
 	//Model* mModel;
 };

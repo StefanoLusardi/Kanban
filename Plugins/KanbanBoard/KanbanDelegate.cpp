@@ -81,7 +81,7 @@ void KanbanDelegate::setEditorData(QWidget* editor, const QModelIndex& index) co
 
 	const QString text  = index.model()->data(index, Qt::DisplayRole).toString();
 	const QColor color = index.model()->data(index, Qt::DecorationRole).value<QColor>();
-	const QString column = index.model()->data(index, KanbanModel::Roles::ColumnName).toString();
+	const QString column = index.model()->data(index, KanbanItemModel::Roles::ColumnName).toString();
 
     delegateEditor->setText(text);
     delegateEditor->setColor(color);
@@ -98,7 +98,7 @@ void KanbanDelegate::setModelData(QWidget* editor, QAbstractItemModel* model, co
 
     model->setData(index, text, Qt::DisplayRole);
     model->setData(index, color, Qt::DecorationRole);
-    model->setData(index, column, KanbanModel::Roles::ColumnName);
+    model->setData(index, column, KanbanItemModel::Roles::ColumnName);
 }
 
 void KanbanDelegate::updateEditorGeometry(QWidget* editor, const QStyleOptionViewItem& option, const QModelIndex& index) const

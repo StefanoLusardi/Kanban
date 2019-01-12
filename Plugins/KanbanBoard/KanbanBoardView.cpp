@@ -25,9 +25,11 @@ void KanbanBoardView::loadConfig()
 	const QJsonObject config = PluginConfigManager::parse("KanbanBoard.json");
 	const QJsonValue pagesNode = config.value("pages");
 
-	for (auto&&[pageIdx, pageName] : mModel->getPageModel()->pages())
+	for (auto&& pageItem : mModel->getPageModel()->pages())
 	{
 		// Create a Kanban Page, if it already exists in the Model
+		const auto pageName {pageItem.getPageName()};
+		const auto pageIdx  {pageItem.getPageIdx()};
 		const auto page = new KanbanPageView(pageName, mModel->getKanbanModel(pageIdx).get(), this);
 		ui->tabWidget->addTab(page, pageName);
 
@@ -60,25 +62,20 @@ void KanbanBoardView::saveConfig() const
 	PluginConfigManager::write("KanbanBoard.json", config);
 }
 
-void KanbanBoardView::newPage(const QString& pageName)
+void KanbanBoardView::insertPage(const QString& pageName)
 {
-	const auto pageIdx = mModel->addPage(pageName);
+	const auto pageIdx = mModel->insertPage(pageName);
 	const auto page = new KanbanPageView(pageName, mModel->getKanbanModel(pageIdx).get(), this);
 	ui->tabWidget->addTab(page, pageName);
 }
 
-void KanbanBoardView::addPage(int pageIdx, const QString& pageName)
-{
-
-}
-
-void KanbanBoardView::removePage(const QString& pageName)
+void KanbanBoardView::removePage(const QString& pageName) const
 {
 	for (auto i = 0; i < ui->tabWidget->count(); ++i)
 	{
 		if (ui->tabWidget->tabText(i) == pageName)
 		{
-			auto page = ui->tabWidget->widget(i);
+			const auto page = ui->tabWidget->widget(i);
 			ui->tabWidget->removeTab(i);
 
 			delete page;

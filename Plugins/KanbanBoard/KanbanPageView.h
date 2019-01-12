@@ -5,7 +5,7 @@
 
 class Model;
 class QSplitter;
-class KanbanModel;
+class KanbanItemModel;
 class KanbanColumnView;
 class QItemSelectionModel;
 
@@ -16,7 +16,7 @@ class KanbanPageView : public QWidget
 	Q_OBJECT
 
 public:
-	KanbanPageView(const QString& pageName, KanbanModel* model, QWidget *parent = Q_NULLPTR);
+	KanbanPageView(const QString& pageName, KanbanItemModel* model, QWidget *parent = Q_NULLPTR);
 	~KanbanPageView();
 
 	void loadConfig(const QJsonObject& pageConfig);
@@ -41,13 +41,13 @@ private slots:
 private:
 	Ui::KanbanPageView *ui;
 	QString mPageName;
-	KanbanModel* mKanbanModel;
+	KanbanItemModel* mKanbanModel;
 	QItemSelectionModel* mSelectionKanbanModel;
 	std::map<QString, KanbanColumnView*> mColumnViews;
 	QSplitter *mColumnSplitter;
 	QString mSelectedColumnName;
 
-	void setModel(KanbanModel* kanbanModel);
+	void setModel(KanbanItemModel* kanbanModel);
 	QStringList getColumnViewNames() const;
 	void setSelectedColumnView(const QString& selectedColumnName);
 	void createColumn(const QString& columnName, const QColor& columnColor, bool isCollapsed = false);

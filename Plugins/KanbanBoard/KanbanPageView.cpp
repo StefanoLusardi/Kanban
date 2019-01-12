@@ -17,7 +17,7 @@
 
 
 
-KanbanPageView::KanbanPageView(const QString& pageName, KanbanModel* model, QWidget *parent)
+KanbanPageView::KanbanPageView(const QString& pageName, KanbanItemModel* model, QWidget *parent)
 	: QWidget(parent),
 	ui{new Ui::KanbanPageView()},
 	mPageName{pageName}
@@ -136,10 +136,6 @@ void KanbanPageView::onAddColumnViewKanban(const QString& columnName)
 void KanbanPageView::createKanban(const QString& text, const QColor& color, const QString& columnName) const
 {
 	const QModelIndex idx = mKanbanModel->addKanban(text, Utils::colorToString(color), columnName);
-
-	//const KanbanItem kanban(text, Utils::colorToString(color), state);
-	//const QModelIndex idx = mKanbanModel->addKanban(kanban);
-	//mKanbanModel->setData(idx, state, KanbanModel::Roles::State);
 }
 
 void KanbanPageView::onChangeColumn()
@@ -147,7 +143,7 @@ void KanbanPageView::onChangeColumn()
 	if (mSelectionKanbanModel->selectedIndexes().isEmpty()) { return; }
 
 	const QModelIndex firstSelectedIdx = mSelectionKanbanModel->selectedIndexes().first();
-	const QString oldColumn = mKanbanModel->data(firstSelectedIdx, KanbanModel::Roles::ColumnName).toString();
+	const QString oldColumn = mKanbanModel->data(firstSelectedIdx, KanbanItemModel::Roles::ColumnName).toString();
 
 	bool ok;
 	QString newColumn = QInputDialog::getText(this, "Kanban Column", "Set new column for the selected Kanban(s)", QLineEdit::Normal, oldColumn, &ok);
@@ -156,7 +152,7 @@ void KanbanPageView::onChangeColumn()
 	{ 
 		for (auto&& idx : mSelectionKanbanModel->selectedIndexes())
 		{
-			mKanbanModel->setData(idx, newColumn, KanbanModel::Roles::ColumnName);
+			mKanbanModel->setData(idx, newColumn, KanbanItemModel::Roles::ColumnName);
 		}
 	}
 
@@ -209,7 +205,7 @@ void KanbanPageView::onDeleteColumnView(const QString& deletedColumnName)
 		std::vector<int> rowsToDelete;
 		for (auto row = 0; row < mKanbanModel->rowCount(); ++row)
 		{
-			const QString columnName = mKanbanModel->index(row).data(KanbanModel::Roles::ColumnName).toString();
+			const QString columnName = mKanbanModel->index(row).data(KanbanItemModel::Roles::ColumnName).toString();
 			if (columnName == deletedColumnName)
 			{
 				rowsToDelete.push_back(row);
@@ -233,7 +229,7 @@ void KanbanPageView::onDeleteColumnView(const QString& deletedColumnName)
 	}
 }
 
-void KanbanPageView::setModel(KanbanModel* kanbanModel)
+void KanbanPageView::setModel(KanbanItemModel* kanbanModel)
 {
 	mKanbanModel = kanbanModel;
 	mSelectionKanbanModel = new QItemSelectionModel(mKanbanModel, this);
