@@ -29,10 +29,14 @@ protected:
     void dropEvent(QDropEvent *event) override;
 
 private slots:
-	void onCreateColumn();
 	void onCreateKanban();
 	void onRenameKanban();
 	void onDeleteKanban();
+
+	void onCreateColumn();
+	void onRenameColumn();
+	void onDeleteColumn();
+
 	void onChangeColumn();
 	void onDeleteColumnView(const QString& deletedColumnName);
 	void onAddColumnViewKanban(const QString& columnName);
@@ -47,8 +51,8 @@ private:
 	QSplitter *mColumnSplitter;
 	QString mSelectedColumnName;
 
-	void setModel(KanbanItemModel* kanbanModel);
 	QStringList getColumnViewNames() const;
+	void setModel(KanbanItemModel* kanbanModel);
 	void setSelectedColumnView(const QString& selectedColumnName);
 	void createColumn(const QString& columnName, const QColor& columnColor, bool isCollapsed = false);
 	void createKanban(const QString& text, const QColor& color, const QString& columnName) const;
