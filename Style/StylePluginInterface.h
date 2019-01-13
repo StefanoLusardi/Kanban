@@ -2,8 +2,9 @@
 
 #include <QtUiPlugin/QtUiPlugin>
 #include "DarkStyle.h"
+#include "LightStyle.h"
 
-class MyStylePlugin : public QStylePlugin
+class StylePlugin : public QStylePlugin
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "org.qt-project.Qt.QStyleFactoryInterface" FILE "styleplugin.json")
@@ -14,11 +15,11 @@ public:
 		const auto styleKey = key.toLower();
 		if (styleKey == "dark") 
 		{
-			return new DarkStyle;
+			return new DarkStyle();
 		}    	
     	if (styleKey == "light") 
 		{
-			return QStyleFactory::create("fusion");
+			return new LightStyle();
 		}
 
 		return nullptr;

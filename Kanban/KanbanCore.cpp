@@ -19,7 +19,7 @@ int KanbanCore::run(QApplication& app)
 	status |= setupPlugins(status);
 	
 	// TODO: get the current theme from the model or the settings plugin
-	//QApplication::setStyle(QStyleFactory::create("light"));	
+	QApplication::setStyle(QStyleFactory::create("light"));	
 	//QApplication::setStyle(QStyleFactory::create("dark"));	
 
 	if (!status)
