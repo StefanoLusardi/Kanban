@@ -1,5 +1,6 @@
 #include "VerticalLabel.h"
 #include <QPainter>
+#include <QMouseEvent>
 
 VerticalLabel::VerticalLabel(QWidget* parent) 
 	: QLabel(parent), 
@@ -73,6 +74,16 @@ QSize VerticalLabel::sizeHint() const
 
 void VerticalLabel::mousePressEvent(QMouseEvent* event)
 {
-	mIsSelected = !mIsSelected;
+	if (event->buttons().testFlag(Qt::LeftButton))
+	{
+		mIsSelected = !mIsSelected;
+		emit leftClicked(mIsSelected);
+	}
+
+	if (event->buttons().testFlag(Qt::RightButton))
+	{
+		emit rightClicked();	
+	}
+
 	QLabel::mousePressEvent(event);
 }

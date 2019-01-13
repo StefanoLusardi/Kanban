@@ -8,6 +8,7 @@
 #include <QGraphicsOpacityEffect>
 #include <QColor>
 #include <QPaintEvent>
+#include <qmenu.h>
 
 KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnColor, bool isCollapsed, QWidget *parent) :
     QWidget(parent),
@@ -104,12 +105,11 @@ KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnCol
 	
 	connect(ui->mButtonAdd, &QPushButton::clicked, [this](bool) { emit kanbanCreated(mTitle); });
 	
-	connect(ui->mListView, &DeselectableListView::deselectAll, [this]()
-	{
-		emit kanbanSelected(mTitle, QStringList{});
+	connect(ui->mListView, &DeselectableListView::deselectAll, [this]() { selectKanbanItems({}); });
 
-		ui->mListView->setFrameShape(QFrame::Shape::Box);
-	});
+	connect(ui->mLabelTitle, &HorizontalLabel::leftClicked, [this](bool) { selectKanbanItems({}); });
+
+	connect(ui->mLabelTitleVertical, &VerticalLabel::leftClicked, [this](bool) { selectKanbanItems({}); });
 	
 	connect(ui->mListView, &DeselectableListView::clicked, [this](const QModelIndex&)
 	{
@@ -119,9 +119,8 @@ KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnCol
 			const QString selectedText = ui->mListView->model()->data(itemIdx).toString();
 			selectedTextList << selectedText;
 		}
-		emit kanbanSelected(mTitle, selectedTextList);
 
-		ui->mListView->setFrameShape(QFrame::Shape::Box);
+		selectKanbanItems(selectedTextList);
 	});
 }
 
@@ -152,10 +151,16 @@ void KanbanColumnView::setDelegate(QStyledItemDelegate* delegate) const
 	ui->mListView->setItemDelegate(delegate);
 }
 
+void KanbanColumnView::selectKanbanItems(const QStringList& selectedKanbanItems)
+{
+	emit kanbanSelected(mTitle, selectedKanbanItems);
+	setColumnSelection(true);
+}
+
 void KanbanColumnView::deselectAllKanbanItems() const
 {
 	ui->mListView->selectionModel()->setCurrentIndex({}, QItemSelectionModel::Clear);
-	ui->mListView->setFrameShape(QFrame::Shape::NoFrame);
+	setColumnSelection(false);
 }
 
 bool KanbanColumnView::isCollapsed() const
@@ -184,3 +189,24 @@ void KanbanColumnView::mouseDoubleClickEvent(QMouseEvent*)
 	ui->mButtonSpoiler->click();
 }
 
+void KanbanColumnView::mousePressEvent(QMouseEvent* event)
+{
+	if (event->buttons().testFlag(Qt::RightButton))
+	{
+		QMenu menu;
+		menu.addSection("Kanban");
+		auto a = new QAction(tr("&New"), this);
+	    a->setShortcuts(QKeySequence::New);
+	    a->setStatusTip(tr("Create a new file"));
+	    //connect(a, &QAction::triggered, this, );
+
+		menu.exec(QCursor::pos());
+	}
+}
+
+void KanbanColumnView::setColumnSelection(bool isSelected) const
+{
+	ui->mLabelTitle->setIsSelected(isSelected);
+	ui->mLabelTitleVertical->setIsSelected(isSelected);
+	ui->mListView->setFrameShape(isSelected ? QFrame::Shape::Box : QFrame::Shape::NoFrame);
+}

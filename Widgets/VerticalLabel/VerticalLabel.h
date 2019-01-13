@@ -38,6 +38,10 @@ public:
 	TextOrientation textOrientation() const { return mTextOrientation; }
 	void setTextOrientation(const TextOrientation& orientation ) { mTextOrientation = orientation; }
 
+signals:
+	void leftClicked(bool isSelected);
+	void rightClicked();
+
 protected:
 	void paintEvent(QPaintEvent*) override;
 	QSize minimumSizeHint() const override;

@@ -25,6 +25,7 @@ public:
 
 	void setModel(QSortFilterProxyModel* model) const;
 	void setDelegate(QStyledItemDelegate* delegate) const;
+	void selectKanbanItems(const QStringList& selectedKanbanItems);
 
 	void deselectAllKanbanItems() const;
 	bool isCollapsed() const;
@@ -36,6 +37,7 @@ signals:
 
 protected:
 	void mouseDoubleClickEvent(QMouseEvent* event) override;
+	void mousePressEvent(QMouseEvent* event) override;
 
 private:
 	Ui::KanbanColumnView *ui;
@@ -46,4 +48,6 @@ private:
 	const int mCollapsedWidth {40};
 	int mAnimationTime {250}; // milliseconds
 	bool mIsCollapsed;
+
+	void setColumnSelection(bool isSelected) const;
 };

@@ -122,6 +122,9 @@
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
+        <property name="textInteractionFlags">
+         <set>Qt::TextEditable</set>
+        </property>
         <property name="BackgroundColor" stdset="0">
          <color>
           <red>255</red>

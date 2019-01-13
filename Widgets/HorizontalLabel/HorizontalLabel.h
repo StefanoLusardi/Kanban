@@ -31,8 +31,13 @@ public:
 	QColor backgroudColor() const { return mBackgroundColor; }
 	void setBackgroudColor(const QColor& color ) { mBackgroundColor = color; }
 
+	signals:
+	void leftClicked(bool isSelected);
+	void rightClicked();
+
 protected:
 	void paintEvent(QPaintEvent*) override;
+	void mousePressEvent(QMouseEvent* event) override;
 
 private:
 	bool mIsSelected;

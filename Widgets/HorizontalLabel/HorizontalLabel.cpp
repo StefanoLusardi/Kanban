@@ -1,5 +1,6 @@
 #include "HorizontalLabel.h"
 #include <QPainter>
+#include <QMouseEvent>
 
 HorizontalLabel::HorizontalLabel(QWidget *parent) 
 	: QLabel(parent), 
@@ -36,4 +37,20 @@ void HorizontalLabel::paintEvent(QPaintEvent*)
 	const auto w = width() / 2 - fw / 2 - 1;
 	const auto h = height() / 2 + fh / 2 - 2;
 	p.drawText(w, h, text());
+}
+
+void HorizontalLabel::mousePressEvent(QMouseEvent* event)
+{
+	if (event->buttons().testFlag(Qt::LeftButton))
+	{
+		mIsSelected = !mIsSelected;
+		emit leftClicked(mIsSelected);
+	}
+
+	if (event->buttons().testFlag(Qt::RightButton))
+	{
+		emit rightClicked();	
+	}
+
+	QLabel::mousePressEvent(event);
 }
