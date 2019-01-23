@@ -19,7 +19,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0">
    <property name="spacing">
     <number>0</number>
    </property>
@@ -43,6 +43,12 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>
      </property>
@@ -52,9 +58,12 @@
      <property name="midLineWidth">
       <number>0</number>
      </property>
-     <layout class="QHBoxLayout" name="mLayoutTop" stretch="0,0,0">
+     <layout class="QHBoxLayout" name="mLayoutTop" stretch="0,10,0">
       <property name="spacing">
        <number>0</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetDefaultConstraint</enum>
       </property>
       <property name="leftMargin">
        <number>0</number>
@@ -110,6 +119,12 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="minimumSize">
+         <size>
+          <width>80</width>
+          <height>0</height>
+         </size>
+        </property>
         <property name="frameShape">
          <enum>QFrame::Box</enum>
         </property>
@@ -121,6 +136,9 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
         <property name="textInteractionFlags">
          <set>Qt::TextEditable</set>
@@ -202,6 +220,9 @@
        <property name="text">
         <string>Title</string>
        </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
        <property name="BackgroundColor" stdset="0">
         <color>
          <red>255</red>
@@ -249,7 +270,13 @@
        <property name="selectionMode">
         <enum>QAbstractItemView::ExtendedSelection</enum>
        </property>
+       <property name="textElideMode">
+        <enum>Qt::ElideNone</enum>
+       </property>
        <property name="verticalScrollMode">
+        <enum>QAbstractItemView::ScrollPerPixel</enum>
+       </property>
+       <property name="horizontalScrollMode">
         <enum>QAbstractItemView::ScrollPerPixel</enum>
        </property>
        <property name="movement">
@@ -262,6 +289,9 @@
         <number>5</number>
        </property>
        <property name="uniformItemSizes">
+        <bool>false</bool>
+       </property>
+       <property name="wordWrap">
         <bool>true</bool>
        </property>
       </widget>

@@ -36,11 +36,12 @@ KanbanPageView::KanbanPageView(const QString& pageName, KanbanItemModel* model, 
 	connect(ui->mButtonColumnDelete, &QPushButton::clicked, this, &KanbanPageView::onDeleteColumn);
 	connect(ui->mNewSpoilerButton, &QPushButton::clicked, this, &KanbanPageView::onCreateColumn);
 
-	mColumnSplitter = new QSplitter(Qt::Horizontal, this);
-	mColumnSplitter->setFrameShape(QFrame::Box);
-    mColumnSplitter->setHandleWidth(10);
-	mColumnSplitter->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-	ui->mColumnViewLayout->insertWidget(ui->mColumnViewLayout->count()-1, mColumnSplitter);
+	// Splitter (parent of KanbanColumnView items)
+	mSplitterColumnViews = new QSplitter(Qt::Horizontal, this);
+	mSplitterColumnViews->setFrameShape(QFrame::Box);
+    mSplitterColumnViews->setHandleWidth(10);
+	mSplitterColumnViews->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	ui->mColumnViewLayout->insertWidget(ui->mColumnViewLayout->count()-1, mSplitterColumnViews);
 }
 
 KanbanPageView::~KanbanPageView()
@@ -82,6 +83,69 @@ void KanbanPageView::saveConfig(QJsonArray& config) const
 	config.append(pageNode);
 }
 
+void KanbanPageView::dragEnterEvent(QDragEnterEvent* event)
+{
+	if (event->mimeData()->hasText() || event->mimeData()->hasUrls())
+	{
+		event->acceptProposedAction();
+	}
+}
+
+void KanbanPageView::dragMoveEvent(QDragMoveEvent* event)
+{
+	event->acceptProposedAction();
+}
+
+void KanbanPageView::dragLeaveEvent(QDragLeaveEvent* event)
+{
+	event->accept();
+}
+
+void KanbanPageView::dropEvent(QDropEvent* event)
+{
+	// Returns the KanbanColumnView on which the drop happened.
+	// The loop over the widget hierarchy is needed to find a KanbanColumnView (a child of mColumnSplitter),
+	// since the widget returned by childAt() is the deepest one, not necessarily a KanbanColumnView;
+	const auto getColumnViewUnderDrop = [&] (const QPoint& droppedPoint)
+	{
+		QWidget* parent = mSplitterColumnViews;
+		QWidget* child = childAt(droppedPoint);
+
+		// Avoid potentially infinite loop. Set maxDepth to have a fixed number of recursive calls.
+		/*while (parent != child->parentWidget())
+			child = child->parentWidget();*/
+		const int maxDepth {5};
+		for (auto i=0; i<maxDepth; ++i)
+		{
+			if (parent == child->parentWidget()) { break; } 
+			child = child->parentWidget(); 
+		}
+		return dynamic_cast<KanbanColumnView*>(child);
+	};
+	
+	if (const auto column = getColumnViewUnderDrop(event->pos()); column)
+	{
+		const auto mimeData = event->mimeData();
+		if (mimeData->hasText() && !mimeData->hasUrls())
+		{
+			const auto droppedText = mimeData->text();
+			const auto columnName = column->getTitle();
+			createKanban(droppedText, mColumnViews[columnName]->getColor(), columnName);
+		}
+
+		if (mimeData->hasUrls())
+		{
+			const auto columnName = column->getTitle();
+			for (auto&& url : mimeData->urls())
+			{
+				createKanban(url.toDisplayString(), mColumnViews[columnName]->getColor(), columnName);
+			}
+		}
+	}
+
+	event->acceptProposedAction();
+}
+
 void KanbanPageView::onCreateKanban()
 {
 	bool ok;
@@ -91,8 +155,6 @@ void KanbanPageView::onCreateKanban()
 	{
 		createKanban(text, Utils::getRandomColor(), mSelectedColumnName);
 	}
-
-	update();
 }
 
 void KanbanPageView::onRenameKanban()
@@ -112,8 +174,6 @@ void KanbanPageView::onRenameKanban()
 			mKanbanModel->setData(idx, newText, Qt::DisplayRole);
 		}
 	}
-
-	update();
 }
 
 void KanbanPageView::onDeleteKanban()
@@ -130,8 +190,6 @@ void KanbanPageView::onDeleteKanban()
 	{
 		mKanbanModel->removeRow(idx.row());		
 	}
-
-	update();
 }
 
 void KanbanPageView::onCreateColumn()
@@ -187,8 +245,6 @@ void KanbanPageView::onKanbanSelected(const QString& columnSenderName, const QSt
 
 	// Update last selected column
 	setSelectedColumnView(columnSenderName);
-
-	update();
 }
 
 void KanbanPageView::onAddColumnViewKanban(const QString& columnName)
@@ -200,8 +256,6 @@ void KanbanPageView::onAddColumnViewKanban(const QString& columnName)
 	{
 		createKanban(text, mColumnViews[columnName]->getColor(), columnName);
 	}
-
-	update();
 }
 
 void KanbanPageView::onChangeColumn()
@@ -221,8 +275,6 @@ void KanbanPageView::onChangeColumn()
 			mKanbanModel->setData(idx, newColumn, KanbanItemModel::Roles::ColumnName);
 		}
 	}
-
-	update();
 }
 
 void KanbanPageView::onDeleteColumnView(const QString& deletedColumnName)
@@ -251,28 +303,15 @@ void KanbanPageView::onDeleteColumnView(const QString& deletedColumnName)
 		ui->mColumnViewLayout->removeWidget(columnIt->second);
 		columnIt->second->setParent(nullptr);
 		mColumnViews.erase(columnIt);
-		update();
 		// delete columnIt->second; // NO! columnView has already a parent that takes its ownership. Do not delete it explicitly.
 	}
 }
 
-void KanbanPageView::createColumn(const QString& columnName, const QColor& columnColor, bool isCollapsed)
+void KanbanPageView::setModel(KanbanItemModel* kanbanModel)
 {
-	auto columnView = new KanbanColumnView(Utils::getUniqueName(columnName, getColumnViewNames()), columnColor, isCollapsed, mColumnSplitter);
-	auto columnModel = new KanbanColumnProxyModel(columnName, columnView);
-
-	columnModel->setSourceModel(mKanbanModel);
-	columnModel->setFilterRegExp(QRegExp(columnName, Qt::CaseInsensitive, QRegExp::FixedString));
-
-	columnView->setDelegate(new KanbanDelegate(this));
-	columnView->setModel(columnModel);
-
-	connect(columnView, &KanbanColumnView::columnDeleted, this, &KanbanPageView::onDeleteColumnView);
-	connect(columnView, &KanbanColumnView::kanbanCreated, this, &KanbanPageView::onAddColumnViewKanban);
-	connect(columnView, &KanbanColumnView::kanbanSelected, this, &KanbanPageView::onKanbanSelected);
-
-	mColumnSplitter->addWidget(columnView);
-	mColumnViews.emplace(columnName, columnView);
+	mKanbanModel = kanbanModel;
+	mSelectionKanbanModel = new QItemSelectionModel(mKanbanModel, this);
+	mSelectionKanbanModel->clearSelection();
 }
 
 void KanbanPageView::setSelectedColumnView(const QString& selectedColumnName)
@@ -285,77 +324,23 @@ void KanbanPageView::createKanban(const QString& text, const QColor& color, cons
 	const QModelIndex idx = mKanbanModel->addKanban(text, Utils::colorToString(color), columnName);
 }
 
-void KanbanPageView::setModel(KanbanItemModel* kanbanModel)
+void KanbanPageView::createColumn(const QString& columnName, const QColor& columnColor, bool isCollapsed)
 {
-	mKanbanModel = kanbanModel;
-	mSelectionKanbanModel = new QItemSelectionModel(mKanbanModel, this);
-	mSelectionKanbanModel->clearSelection();
-}
+	auto columnView = new KanbanColumnView(Utils::getUniqueName(columnName, getColumnViewNames()), columnColor, isCollapsed, mSplitterColumnViews);
+	auto columnModel = new KanbanColumnProxyModel(columnName, columnView);
 
-void KanbanPageView::dragEnterEvent(QDragEnterEvent* event)
-{
-	if (event->mimeData()->hasText() || event->mimeData()->hasUrls())
-	{
-		event->acceptProposedAction();
-	}
-}
+	columnModel->setSourceModel(mKanbanModel);
+	columnModel->setFilterRegExp(QRegExp(columnName, Qt::CaseInsensitive, QRegExp::FixedString));
 
-void KanbanPageView::dragMoveEvent(QDragMoveEvent* event)
-{
-	event->acceptProposedAction();
-}
+	columnView->setDelegate(new KanbanDelegate(this));
+	columnView->setModel(columnModel);
 
-void KanbanPageView::dragLeaveEvent(QDragLeaveEvent* event)
-{
-	event->accept();
-}
+	connect(columnView, &KanbanColumnView::columnDeleted, this, &KanbanPageView::onDeleteColumnView);
+	connect(columnView, &KanbanColumnView::kanbanCreated, this, &KanbanPageView::onAddColumnViewKanban);
+	connect(columnView, &KanbanColumnView::kanbanSelected, this, &KanbanPageView::onKanbanSelected);
 
-void KanbanPageView::dropEvent(QDropEvent* event)
-{
-	const auto getColumnViewUnderDrop = [&] (const QPoint& droppedPoint)
-	{
-		// Returns the KanbanColumnView on which the drop happened.
-		// The loop over the widget hierarchy is needed to find a KanbanColumnView (a child of mColumnSplitter),
-		// since the widget returned by childAt() is the deepest one, not necessarily a KanbanColumnView;
-
-		QWidget* parent = mColumnSplitter;
-		QWidget* child = childAt(droppedPoint);
-
-		// Avoid potentially infinite loop. Set maxDepth to have a fixed number of recursive calls.
-		/*while (parent != child->parentWidget())
-			child = child->parentWidget();*/
-		const int maxDepth {5};
-		for (auto i=0; i<maxDepth; ++i)
-		{
-			if (parent == child->parentWidget()) { break; } 
-			child = child->parentWidget(); 
-		}
-		return dynamic_cast<KanbanColumnView*>(child);
-	};
-	
-	if (const auto column = getColumnViewUnderDrop(event->pos()); column)
-	{
-		const auto mimeData = event->mimeData();
-		if (mimeData->hasText() && !mimeData->hasUrls())
-		{
-			const auto droppedText = mimeData->text();
-			const auto columnName = column->getTitle();
-			createKanban(droppedText, mColumnViews[columnName]->getColor(), columnName);
-		}
-
-		if (mimeData->hasUrls())
-		{
-			const auto columnName = column->getTitle();
-			for (auto&& url : mimeData->urls())
-			{
-				createKanban(url.toDisplayString(), mColumnViews[columnName]->getColor(), columnName);
-			}
-		}
-	}
-
-	event->acceptProposedAction();
-	
-	update();
+	mSplitterColumnViews->addWidget(columnView);
+	mColumnViews.emplace(columnName, columnView);
 }
 
 QStringList KanbanPageView::getColumnViewNames() const

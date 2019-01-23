@@ -13,6 +13,15 @@ KanbanBoardView::KanbanBoardView(Model* model, QWidget *parent)
 {
 	ui->setupUi(this);
 	ui->tabWidget->tabBar()->setExpanding(true);
+
+	connect(ui->tabWidget, &QTabWidget::currentChanged, [this](int idx)
+	{
+		//const auto w = ui->tabWidget->widget(idx);
+		//if (auto page = dynamic_cast<KanbanPageView*>(w); page)
+		//{
+		//	
+		//}
+	});
 }
 
 KanbanBoardView::~KanbanBoardView()

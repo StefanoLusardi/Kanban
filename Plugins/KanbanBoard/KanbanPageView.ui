@@ -27,46 +27,60 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="topLayout">
+     <property name="spacing">
+      <number>20</number>
+     </property>
      <property name="leftMargin">
-      <number>5</number>
+      <number>0</number>
      </property>
      <property name="topMargin">
-      <number>5</number>
+      <number>0</number>
      </property>
      <property name="rightMargin">
-      <number>5</number>
+      <number>0</number>
      </property>
      <property name="bottomMargin">
-      <number>5</number>
+      <number>0</number>
      </property>
      <item>
-      <widget class="QGroupBox" name="mBoxColumn">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QFrame" name="ColumnLayout">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
        </property>
-       <property name="title">
-        <string>Column</string>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <layout class="QHBoxLayout" name="mBoxColumn">
         <property name="spacing">
          <number>5</number>
         </property>
         <property name="leftMargin">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="topMargin">
          <number>0</number>
         </property>
         <property name="rightMargin">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="bottomMargin">
          <number>0</number>
         </property>
+        <item>
+         <widget class="HorizontalLabel" name="mColumnLabel">
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string>Column</string>
+          </property>
+          <property name="BackgroundColor" stdset="0">
+           <color alpha="0">
+            <red>255</red>
+            <green>255</green>
+            <blue>255</blue>
+           </color>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QPushButton" name="mButtonColumnCreate">
           <property name="sizePolicy">
@@ -137,38 +151,40 @@
       </widget>
      </item>
      <item>
-      <widget class="QGroupBox" name="mBoxKanban">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="QFrame" name="KanbanLayout">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
        </property>
-       <property name="title">
-        <string>Kanban</string>
-       </property>
-       <property name="flat">
-        <bool>false</bool>
-       </property>
-       <property name="checkable">
-        <bool>false</bool>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <property name="spacing">
-         <number>5</number>
-        </property>
+       <layout class="QHBoxLayout" name="mBoxKanban">
         <property name="leftMargin">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="topMargin">
          <number>0</number>
         </property>
         <property name="rightMargin">
-         <number>5</number>
+         <number>0</number>
         </property>
         <property name="bottomMargin">
          <number>0</number>
         </property>
+        <item>
+         <widget class="HorizontalLabel" name="mKanbanLabel">
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string>Kanban</string>
+          </property>
+          <property name="BackgroundColor" stdset="0">
+           <color alpha="0">
+            <red>255</red>
+            <green>255</green>
+            <blue>255</blue>
+           </color>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QPushButton" name="mButtonKanbanCreate">
           <property name="sizePolicy">
@@ -296,7 +312,7 @@
           <x>0</x>
           <y>0</y>
           <width>552</width>
-          <height>175</height>
+          <height>194</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -358,6 +374,13 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>HorizontalLabel</class>
+   <extends>QLabel</extends>
+   <header>HorizontalLabel.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -48,7 +48,7 @@ private:
 	KanbanItemModel* mKanbanModel;
 	QItemSelectionModel* mSelectionKanbanModel;
 	std::map<QString, KanbanColumnView*> mColumnViews;
-	QSplitter *mColumnSplitter;
+	QSplitter *mSplitterColumnViews;
 	QString mSelectedColumnName;
 
 	QStringList getColumnViewNames() const;
