@@ -42,9 +42,9 @@ void DarkStyle::polish(QApplication* app)
 	// increase font size for better reading,
 	// setPointSize was reduced from +2 because when applied this way in Qt5, the
 	// font is larger than intended for some reason
-	QFont defaultFont = QApplication::font();
-	defaultFont.setPointSize(defaultFont.pointSize() + 1);
-	app->setFont(defaultFont);
+	//QFont defaultFont = QApplication::font();
+	//defaultFont.setPointSize(defaultFont.pointSize() + 1);
+	//app->setFont(defaultFont);
 
 	// loadstylesheet
 	QFile qfDarkstyle(QStringLiteral(":/darkstyle/darkstyle.qss"));
