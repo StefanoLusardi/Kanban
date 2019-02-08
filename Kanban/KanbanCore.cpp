@@ -1,11 +1,12 @@
 #include "KanbanCore.h"
 #include "../Model/Model.h"
+#include "FramelessWindow/framelesswindow.h"
 
 #include <QDebug>
 #include <QItemSelectionModel>
 #include <QPluginLoader>
 #include <QDir>
-#include <qapplication.h>
+#include <QApplication>
 #include <QStyleFactory>
 
 int KanbanCore::run(QApplication& app)
@@ -17,10 +18,6 @@ int KanbanCore::run(QApplication& app)
 	status |= createUi(status);
 	status |= loadPlugins(status);
 	status |= setupPlugins(status);
-	
-	// TODO: get the current theme from the model or the settings plugin
-	QApplication::setStyle(QStyleFactory::create("light"));	
-	//QApplication::setStyle(QStyleFactory::create("dark"));	
 
 	if (!status)
 	{
@@ -28,8 +25,18 @@ int KanbanCore::run(QApplication& app)
 		return -1;
 	}
 	
-	mMainWindow->setWindowState(Qt::WindowMaximized);
-	mMainWindow->show();
+	// TODO: get the current theme from the model or the settings plugin
+	QApplication::setStyle(QStyleFactory::create("light"));	
+	//QApplication::setStyle(QStyleFactory::create("dark"));	
+
+	FramelessWindow framelessWindow;
+	framelessWindow.setWindowTitle("Kanban");
+	framelessWindow.setWindowState(Qt::WindowFullScreen);
+	framelessWindow.setContent(mMainWindow);
+	framelessWindow.show();
+
+	//mMainWindow->setWindowState(Qt::WindowMaximized);
+	//mMainWindow->show();
 
 	// TODO: probably the return value of exec() should not be ignored
 	const auto execReturn = app.exec();
@@ -54,9 +61,9 @@ bool KanbanCore::createUi(bool status)
 {
 	if (!status) return status;
 
-	mMainWindow = std::make_unique<QMainWindow>();
+	mMainWindow = new QMainWindow();
 	mUi = std::make_unique<Ui::MainWindowClass>();
-	mUi->setupUi(mMainWindow.get());
+	mUi->setupUi(mMainWindow);
 
 	return status;
 }

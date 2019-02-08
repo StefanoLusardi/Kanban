@@ -36,9 +36,18 @@
     <ClCompile Include="KanbanCore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FramelessWindow\framelesswindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FramelessWindow\windowdragger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="FramelessWindow\framelesswindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>
@@ -46,5 +55,32 @@
     <ClInclude Include="KanbanCore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="FramelessWindow\framelesswindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="FramelessWindow\windowdragger.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="FramelessWindow\images\icon_window_minimize.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="FramelessWindow\images\icon_window_restore.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="FramelessWindow\images\icon_window_maximize.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="FramelessWindow\images\icon_window_close.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="FramelessWindow\framelesswindow.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
   </ItemGroup>
 </Project>

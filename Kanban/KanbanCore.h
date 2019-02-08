@@ -20,8 +20,8 @@ protected:
 	void unloadModel();
 
 private:
+	QMainWindow* mMainWindow;
 	std::unique_ptr<Ui::MainWindowClass> mUi;
-	std::unique_ptr<QMainWindow> mMainWindow;
 	std::shared_ptr<Model> mModel;
 	QList<PluginInterface*> mPlugins;
 };
