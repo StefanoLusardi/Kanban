@@ -16,11 +16,11 @@ KanbanBoardView::KanbanBoardView(Model* model, QWidget *parent)
 
 	connect(ui->tabWidget, &QTabWidget::currentChanged, [this](int idx)
 	{
-		//const auto w = ui->tabWidget->widget(idx);
-		//if (auto page = dynamic_cast<KanbanPageView*>(w); page)
-		//{
-		//	
-		//}
+		const auto w = ui->tabWidget->widget(idx);
+		if (auto page = dynamic_cast<KanbanPageView*>(w); page)
+		{
+			//page->update(); // does not repaint :-(
+		}
 	});
 }
 
@@ -31,24 +31,25 @@ KanbanBoardView::~KanbanBoardView()
 
 void KanbanBoardView::loadConfig()
 {
-	const QJsonObject config = PluginConfigManager::parse("KanbanBoard.json");
-	const QJsonValue pagesNode = config.value("pages");
-
-	for (auto&& pageItem : mModel->getPageModel()->pages())
+	if (const auto config = PluginConfigManager::parse(mConfingFile); config)
 	{
-		// Create a Kanban Page, if it already exists in the Model
-		const auto pageName {pageItem.getPageName()};
-		const auto pageIdx  {pageItem.getPageIdx()};
-		const auto page = new KanbanPageView(pageName, mModel->getKanbanModel(pageIdx).get(), this);
-		ui->tabWidget->addTab(page, pageName);
+		const QJsonValue pagesNode = config.value().value("pages");
 
-		// If there is a config for the current page, load it.
-		for (auto&& node : pagesNode.toArray())
+		for (auto&& pageItem : mModel->getPageModel()->pages())
 		{
-			const auto pageNode = node.toObject();
-			if (pageName == pageNode.value("page").toString())
+			// Create a Kanban Page, if it already exists in the Model
+			const auto pageName{pageItem.getPageName()};
+			const auto pageIdx{pageItem.getPageIdx()};
+			const auto page = new KanbanPageView(pageName, mModel->getKanbanModel(pageIdx).get(), this);
+			ui->tabWidget->addTab(page, pageName);
+
+			// If there is a config for the current page, load it.
+			for (auto&& node : pagesNode.toArray())
 			{
-				page->loadConfig(pageNode);
+				if (const auto pageNode = node.toObject(); pageName == pageNode.value("page").toString())
+				{
+					page->loadConfig(pageNode);
+				}
 			}
 		}
 	}
@@ -68,7 +69,7 @@ void KanbanBoardView::saveConfig() const
 
 	QJsonObject config;
 	config.insert("pages", pagesConfig);
-	PluginConfigManager::write("KanbanBoard.json", config);
+	PluginConfigManager::write(mConfingFile, config);
 }
 
 void KanbanBoardView::insertPage(const QString& pageName)

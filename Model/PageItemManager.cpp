@@ -76,3 +76,8 @@ void PageItemManager::removeAllItems(int /*pageId*/) const
 {
 	// TODO: implement
 }
+
+void PageItemManager::saveAllItems() const
+{
+
+}

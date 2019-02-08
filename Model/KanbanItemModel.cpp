@@ -1,8 +1,17 @@
 #include "KanbanItemModel.h"
 #include "DbManager.h"
 
+#include <QDebug>
 #include <QMimeData>
 #include <QDataStream>
+
+QHash<int, QByteArray> KanbanItemModel::roleNames() const {
+    QHash<int, QByteArray> roles;
+    roles[Qt::DisplayRole] = "text";
+    roles[Qt::DecorationRole] = "color";
+    roles[Roles::ColumnName] = "column";
+    return roles;
+}
 
 int KanbanItemModel::rowCount(const QModelIndex& parent) const { return mKanbanItems.size(); }
 
@@ -25,17 +34,27 @@ bool KanbanItemModel::setData(const QModelIndex& index, const QVariant& value, i
 {
 	if (!index.isValid()) { return false; }
 
-	KanbanItem& label = mKanbanItems[index.row()];
+	KanbanItem& item = mKanbanItems[index.row()];
 
 	switch (role)
 	{
-	case Qt::DisplayRole : label.setText(value.toString()); break;
-	case Qt::DecorationRole : label.setColor(value.toString()); break;
-	case Roles::ColumnName : label.setColumn(value.toString()); break;
-	default : break;
+	case Qt::DisplayRole : 
+		item.setText(value.toString()); 
+		break;
+
+	case Qt::DecorationRole : 
+		item.setColor(value.toString()); 
+		break;
+
+	case Roles::ColumnName : 
+		item.setColumn(value.toString()); 
+		break;
+
+	default : assert(0);
 	}
 
 	emit dataChanged(index, index);
+	mDb.mManagerKanbanItem.setData(item.getId(), roleNames()[role], value); 
 	return true;
 }
 
@@ -52,6 +71,8 @@ bool KanbanItemModel::insertRows(int position, int rows, const QModelIndex& pare
 {
 	// TODO: check if it used. Deprecated
 	beginInsertRows(QModelIndex(), position, position + rows - 1);
+	
+	qDebug() << "Rows Inserted: " << position;
 
 	//for (int row = 0; row < rows; ++row) { mKanbanItems.emplace_back(KanbanItem(0)); }
 	endInsertRows();
@@ -107,15 +128,23 @@ QMimeData* KanbanItemModel::mimeData(const QModelIndexList& indexes) const
 
 QModelIndex KanbanItemModel::addKanban(const QString& text, const QString& color, const QString& columnName)
 {
+	KanbanItem item(mPageId, text, color, columnName);
+	const auto alreadyExists = std::any_of(mKanbanItems.begin(), mKanbanItems.end(), [item](const KanbanItem& it)
+	{
+		return it == item;
+	});
+
+	if (alreadyExists) return {};
+	
 	const int row = rowCount();
 	beginInsertRows(QModelIndex(), row, row);
 
-	KanbanItem item(mPageId, text, color, columnName);
 	mDb.mManagerKanbanItem.insertItem(item);
 
 	mKanbanItems.emplace_back(item);
 	endInsertRows();
 	return index(row, 0, QModelIndex());
+	
 }
 
 QModelIndex KanbanItemModel::getKanbanIndex(const QString& kanbanText)

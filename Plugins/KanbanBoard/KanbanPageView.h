@@ -47,7 +47,8 @@ private:
 	QString mPageName;
 	KanbanItemModel* mKanbanModel;
 	QItemSelectionModel* mSelectionKanbanModel;
-	std::map<QString, KanbanColumnView*> mColumnViews;
+	//std::map<QString, KanbanColumnView*> mColumnViews;
+	std::vector<KanbanColumnView*> mColumnViews;
 	QSplitter *mSplitterColumnViews;
 	QString mSelectedColumnName;
 
@@ -56,4 +57,6 @@ private:
 	void setSelectedColumnView(const QString& selectedColumnName);
 	void createColumn(const QString& columnName, const QColor& columnColor, bool isCollapsed = false);
 	void createKanban(const QString& text, const QColor& color, const QString& columnName) const;
+
+	std::vector<KanbanColumnView*>::iterator findColumn(const QString& columnName);
 };

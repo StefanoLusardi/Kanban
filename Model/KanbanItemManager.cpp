@@ -68,6 +68,23 @@ void KanbanItemManager::removeAllItems(int pageId) const
     DbManager::debugQuery(query);
 }
 
+void KanbanItemManager::saveAllItems() const
+{
+}
+
+void KanbanItemManager::setData(int id, const char* property, const QVariant& value) const
+{
+    QSqlQuery query(mDb);
+    query.prepare("UPDATE kanban_items "
+		"SET " + QString(property) + " = (:value) " +
+		"WHERE id = (:id)");
+    query.bindValue(":value", value);
+    query.bindValue(":id", id);
+	query.exec();
+
+    DbManager::debugQuery(query);
+}
+
 std::vector<KanbanItem> KanbanItemManager::getItems(int pageId) const
 {
     QSqlQuery query(mDb);

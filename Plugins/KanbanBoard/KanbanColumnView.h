@@ -23,6 +23,7 @@ public:
 	void setColor(const QColor& color);
 	QColor getColor() const;
 
+	void setFilter(const QString& filter) const;
 	void setModel(QSortFilterProxyModel* model) const;
 	void setDelegate(QStyledItemDelegate* delegate) const;
 	void selectKanbanItems(const QStringList& selectedKanbanItems);

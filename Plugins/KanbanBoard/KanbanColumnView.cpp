@@ -184,6 +184,14 @@ QColor KanbanColumnView::getColor() const
 	return mColor;
 }
 
+void KanbanColumnView::setFilter(const QString& filter) const
+{
+	if (auto model = dynamic_cast<QSortFilterProxyModel*>(ui->mListView->model()); model)
+	{
+		model->setFilterRegExp(QRegExp(filter, Qt::CaseInsensitive, QRegExp::FixedString));
+	}
+}
+
 void KanbanColumnView::mouseDoubleClickEvent(QMouseEvent*)
 {
 	ui->mButtonSpoiler->click();
@@ -195,10 +203,11 @@ void KanbanColumnView::mousePressEvent(QMouseEvent* event)
 	{
 		QMenu menu;
 		menu.addSection("Kanban");
-		auto a = new QAction(tr("&New"), this);
-	    a->setShortcuts(QKeySequence::New);
-	    a->setStatusTip(tr("Create a new file"));
-	    //connect(a, &QAction::triggered, this, );
+
+		auto actionKanbanCreated = new QAction(tr("&Create Kanban"), this);
+	    actionKanbanCreated->setShortcuts(QKeySequence::New);
+	    connect(actionKanbanCreated, &QAction::triggered, [this]() { emit kanbanCreated(mTitle); });
+		menu.addAction(actionKanbanCreated);
 
 		menu.exec(QCursor::pos());
 	}

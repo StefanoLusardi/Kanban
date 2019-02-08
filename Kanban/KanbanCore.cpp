@@ -36,7 +36,7 @@ int KanbanCore::run(QApplication& app)
 	app.quit();	
 
 	unoadPlugins();
-	//unloadModel();
+	unloadModel();
 	return execReturn;
 }
 
@@ -115,4 +115,9 @@ void KanbanCore::unoadPlugins()
 	{
 		plugin->release();
 	}
+}
+
+void KanbanCore::unloadModel()
+{
+	mModel->saveData();
 }

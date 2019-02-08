@@ -3,6 +3,7 @@
 #include "ItemManager.h"
 
 #include <vector>
+#include <QtDesigner/abstractformwindowcursor.h>
 
 class QSqlDatabase;
 class KanbanItem;
@@ -17,6 +18,8 @@ public:
     void removeItem(int id) const override;
 	std::vector<KanbanItem> getItems(int pageId) const override;
 	void removeAllItems(int pageId) const override;
+	void saveAllItems() const override;
+	void setData(int id, const char* property, const QVariant& value) const;
 
 private:
     QSqlDatabase& mDb;

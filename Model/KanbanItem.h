@@ -15,6 +15,14 @@ public:
 	mColumn{column}
 	{ }
 
+	bool operator==(const KanbanItem& item) const
+	{
+		return mPageIdx == item.mPageIdx
+		&& mText == item.mText
+		&& mColor == item.mColor
+		&& mColumn == item.mColumn;
+	}
+
 	int getId() const { return mId; }
 	int getPageIdx() const { return mPageIdx; }
 	QString getText() const { return mText; }

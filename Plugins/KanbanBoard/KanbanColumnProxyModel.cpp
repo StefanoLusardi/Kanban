@@ -10,23 +10,23 @@ bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction 
 	QByteArray encodedData = data->data("application/vnd.text.list");
 	QDataStream stream(&encodedData, QIODevice::ReadOnly);
 
+	bool isInserted = true;
 	while (!stream.atEnd())
 	{
 		QString text;
 		QString color;
-		QString state;
+		QString columnName;
 
-		stream >> text >> color >> state;
+		stream >> text >> color >> columnName;
 
 		auto model = static_cast<KanbanItemModel*>(sourceModel());
 		const QModelIndex idx = model->addKanban(text, color, mName);
 
-		//sourceModel()->setData(idx, text, Qt::DisplayRole);
-		//sourceModel()->setData(idx, color, Qt::DecorationRole);
-		//sourceModel()->setData(idx, mName, KanbanModel::Roles::State);
+		if (!idx.isValid())
+			isInserted = false;
 	}
 
-	return true;
+	return isInserted;
 }
 
 bool KanbanColumnProxyModel::filterAcceptsRow(int sourceRow, const QModelIndex& sourceParent) const

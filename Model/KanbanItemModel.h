@@ -17,6 +17,7 @@ public:
 	KanbanItemModel(DbManager& db, int pageId, QObject *parent = Q_NULLPTR) : QAbstractListModel(parent), mDb{db}, mPageId{pageId} {}
 	virtual ~KanbanItemModel() = default;
 
+	QHash<int, QByteArray> roleNames() const override;
 	Qt::ItemFlags flags(const QModelIndex& index) const override;
 	int rowCount(const QModelIndex& parent = QModelIndex()) const override;
 	QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;

@@ -4,6 +4,7 @@
 
 #include "KanbanItemModel.h"
 #include "PageItemModel.h"
+#include "SettingsModel.h"
 
 class MODEL_EXPORT Model
 {
@@ -12,6 +13,7 @@ public:
 
 	std::shared_ptr<KanbanItemModel> getKanbanModel(int page) const { return mKanbanModel.at(page); }
 	std::shared_ptr<PageItemModel> getPageModel() const { return mPageModel; }
+	std::shared_ptr<SettingsModel> getSettingsModel() const { return mSettingsModel; }
 
 	void loadData() const;
 	void saveData() const;
@@ -22,4 +24,5 @@ public:
 private:
 	std::vector<std::shared_ptr<KanbanItemModel>> mKanbanModel;
 	std::shared_ptr<PageItemModel> mPageModel;
+	std::shared_ptr<SettingsModel> mSettingsModel;
 };

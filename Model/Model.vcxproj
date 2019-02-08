@@ -113,6 +113,7 @@ start xcopy /Y "$(TargetDir)$(TargetName).lib" "$(TargetDir)lib\"</Command>
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PageItemManager.cpp" />
     <ClCompile Include="PageItemModel.cpp" />
+    <ClCompile Include="SettingsModel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DbManager.h" />
@@ -122,6 +123,7 @@ start xcopy /Y "$(TargetDir)$(TargetName).lib" "$(TargetDir)lib\"</Command>
     <ClInclude Include="PageItem.h" />
     <ClInclude Include="PageItemManager.h" />
     <ClInclude Include="PageItemModel.h" />
+    <ClInclude Include="SettingsModel.h" />
     <QtMoc Include="KanbanItemModel.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="model_global.h" />

@@ -1,22 +1,28 @@
 #pragma once
 
 #include <QFile>
+#include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
 #include <QtWidgets/QMessageBox>
 #include <QCoreApplication>
-
+#include <optional>
+#include <QDir>
 
 namespace PluginConfigManager
 {
 	const QString configDir { qApp->applicationDirPath()+"/Config/" };
 
-	inline QJsonObject parse(const QString& filePath)
+	inline std::optional<QJsonObject> parse(const QString& filePath)
 	{
 		QFile file;
 		file.setFileName(PluginConfigManager::configDir + filePath);
-		file.open(QIODevice::ReadOnly | QIODevice::Text);
+		if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+		{
+			qDebug() << "Configuration file" + file.fileName() + " cannot be opened";
+			return {};
+		}
 
 		QJsonParseError jsonError{};
 		QJsonDocument jsonDocument = QJsonDocument::fromJson(file.readAll(), &jsonError);
@@ -25,9 +31,8 @@ namespace PluginConfigManager
 		{
 			QMessageBox::information(
 				nullptr, 
-				"Plugin Configuration file parse error", 
-				jsonError.errorString(), 
-				QMessageBox::StandardButton::Ok, 
+				"Error: Plugin Configuration " + file.fileName(), 
+				jsonError.errorString(),
 				QMessageBox::StandardButton::Ok);
 		}
 
@@ -39,10 +44,18 @@ namespace PluginConfigManager
 	{
 		// Json can be QJsonDocument, QJsonObject or QJsonArray
 		QJsonDocument jsonDocument(json);
-		
-		QFile file;
-		file.setFileName(PluginConfigManager::configDir + filePath);
-		file.open(QIODevice::WriteOnly | QIODevice::Text);
-		file.write(jsonDocument.toJson(QJsonDocument::JsonFormat::Indented));
+
+		QDir dir;
+		if (dir.mkpath(PluginConfigManager::configDir))
+		{
+			QFile file;
+			file.setFileName(PluginConfigManager::configDir + filePath);
+			if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+			{
+				qDebug() << "Configuration file" + file.fileName() + " cannot be written.";
+				return;
+			}
+			file.write(jsonDocument.toJson(QJsonDocument::JsonFormat::Indented));
+		}
 	}
 }

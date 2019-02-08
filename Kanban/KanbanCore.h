@@ -17,6 +17,7 @@ protected:
 	bool loadPlugins(bool status);
 	bool setupPlugins(bool status);
 	void unoadPlugins();
+	void unloadModel();
 
 private:
 	std::unique_ptr<Ui::MainWindowClass> mUi;

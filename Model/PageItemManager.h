@@ -16,6 +16,7 @@ public:
 	void removeItem(int id) const override;
 	std::vector<PageItem> getItems(int id) const override;
 	void removeAllItems(int pageId) const override;
+	void saveAllItems() const override;
 
 private:
     QSqlDatabase& mDb;

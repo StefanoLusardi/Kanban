@@ -5,10 +5,11 @@
 
 #include <vector>
 #include <optional>
+//#include <QAbstractItemModel>
 
 class DbManager;
 
-class MODEL_EXPORT PageItemModel
+class MODEL_EXPORT PageItemModel //: public QAbstractItemModel
 {
 public:
 	PageItemModel(DbManager& db);

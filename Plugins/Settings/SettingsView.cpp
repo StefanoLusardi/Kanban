@@ -10,16 +10,16 @@
 SettingsView::SettingsView(Model* model, QWidget *parent)
 	: QWidget(parent),
 	ui{new Ui::SettingsView},
-	mKanbanModel{model->getKanbanModel(0).get()}
+	mModel{model->getSettingsModel().get()}
 {
 	ui->setupUi(this);
-	ui->mListView->setModel(mKanbanModel);
 	
-	connect(mKanbanModel, &QAbstractItemModel::dataChanged, [this]()
-	{
-		const int itemCount = mKanbanModel->rowCount();
-		ui->mItemCountLabel->setText(QString::number(itemCount));
-	});
+	//ui->mListView->setModel(mModel);
+	//connect(mModel, &QAbstractItemModel::dataChanged, [this]()
+	//{
+	//	const int itemCount = mModel->rowCount();
+	//	ui->mItemCountLabel->setText(QString::number(itemCount));
+	//});
 
 	connect(ui->mStyleCombobox, &QComboBox::currentTextChanged, this, &SettingsView::setAppStyle);
 	connect(ui->mAboutButton, &QPushButton::clicked, [this]()
@@ -37,12 +37,15 @@ SettingsView::~SettingsView()
 
 void SettingsView::loadConfig()
 {
-	const QJsonObject config = PluginConfigManager::parse("Settings.json");
-	const auto style = config.value("style").toString();
-	
-	if (QStyleFactory::keys().contains(style))
+	if (const auto config = PluginConfigManager::parse(mConfingFile); config)
 	{
-		setAppStyle(style);
+		const auto style = config.value().value("style").toString();
+		//const auto size = config.value().value("size").toString();
+		
+		if (QStyleFactory::keys().contains(style))
+		{
+			setAppStyle(style);
+		}
 	}
 }
 
@@ -55,7 +58,7 @@ void SettingsView::saveConfig() const
 
 	QJsonObject config;
 	config.insert("settings", style);
-	PluginConfigManager::write("Settings.json", config);
+	PluginConfigManager::write(mConfingFile, config);
 }
 
 void SettingsView::setAppStyle(const QString& style) const

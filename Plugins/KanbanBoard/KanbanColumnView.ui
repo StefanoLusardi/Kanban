@@ -38,7 +38,7 @@
    <item>
     <widget class="QFrame" name="mFrameTop">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -47,6 +47,12 @@
       <size>
        <width>0</width>
        <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>40</height>
       </size>
      </property>
      <property name="frameShape">
@@ -129,7 +135,7 @@
          <enum>QFrame::Box</enum>
         </property>
         <property name="text">
-         <string>Title</string>
+         <string>This is a very very very long title</string>
         </property>
         <property name="scaledContents">
          <bool>false</bool>
@@ -141,7 +147,7 @@
          <bool>true</bool>
         </property>
         <property name="textInteractionFlags">
-         <set>Qt::TextEditable</set>
+         <set>Qt::NoTextInteraction</set>
         </property>
         <property name="BackgroundColor" stdset="0">
          <color>
@@ -222,6 +228,9 @@
        </property>
        <property name="wordWrap">
         <bool>true</bool>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::NoTextInteraction</set>
        </property>
        <property name="BackgroundColor" stdset="0">
         <color>

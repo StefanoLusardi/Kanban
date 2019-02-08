@@ -13,6 +13,7 @@ void PageItemModel::loadPageItems()
 
 void PageItemModel::savePageItems()
 {
+	mDb.mManagerPageItem.saveAllItems();
 }
 
 std::vector<PageItem> PageItemModel::pages() const
