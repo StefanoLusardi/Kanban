@@ -3,3 +3,5 @@ GeneratedFiles/
 *.db
 Bin/
 *.png
+*.pro
+*.pri
