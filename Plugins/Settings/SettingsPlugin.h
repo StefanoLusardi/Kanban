@@ -24,5 +24,5 @@ public:
 private:
 	QPushButton* mPluginButton;
 	SettingsView* mPluginView;
-	std::unique_ptr<QDialog> mPluginDialog;
+	QDialog* mPluginDialog;
 };

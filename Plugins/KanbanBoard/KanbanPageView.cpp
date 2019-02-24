@@ -8,7 +8,6 @@
 #include "../Common/Utils.h"
 #include "Model.h"
 
-#include <QItemSelectionModel>
 #include <QInputDialog>
 #include <QDragMoveEvent>
 #include <QMimeData>
@@ -85,12 +84,9 @@ void KanbanPageView::saveConfig(QJsonArray& config) const
 
 void KanbanPageView::dragEnterEvent(QDragEnterEvent* event)
 {
-	//auto n = event->source()->objectName();
 	if (event->mimeData()->hasText() || event->mimeData()->hasUrls())
 	{
 		event->acceptProposedAction();
-		//auto s = sender();
-		//auto columnView = dynamic_cast<KanbanColumnView*>(s);
 	}
 }
 

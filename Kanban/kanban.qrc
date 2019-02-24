@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/splash.png</file>
+        <file>images/Light/icon_window_close.png</file>
+        <file>images/Light/icon_window_maximize.png</file>
+        <file>images/Light/icon_window_minimize.png</file>
+        <file>images/Light/icon_window_restore.png</file>
+        <file>images/Dark/icon_window_close.png</file>
+        <file>images/Dark/icon_window_maximize.png</file>
+        <file>images/Dark/icon_window_minimize.png</file>
+        <file>images/Dark/icon_window_restore.png</file>
+        <file>images/Dark/icon_hi.png</file>
+        <file>images/Dark/icon_lo.png</file>
+        <file>images/Light/icon_hi.png</file>
+        <file>images/Light/icon_lo.png</file>
+    </qresource>
+</RCC>

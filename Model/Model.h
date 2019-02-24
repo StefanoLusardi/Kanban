@@ -21,6 +21,9 @@ public:
 	int insertPage(const QString& pageName);
 	void removePage(const QString& pageName);
 
+signals:
+	void ss(const QString& ss);
+
 private:
 	std::vector<std::shared_ptr<KanbanItemModel>> mKanbanModel;
 	std::shared_ptr<PageItemModel> mPageModel;

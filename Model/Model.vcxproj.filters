@@ -47,11 +47,11 @@
     <ClCompile Include="SettingsModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SettingsManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DbManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -73,7 +73,13 @@
     <ClInclude Include="KanbanItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SettingsModel.h">
+    <ClInclude Include="Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingsItem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -84,6 +90,9 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="KanbanItemModel.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="SettingsModel.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

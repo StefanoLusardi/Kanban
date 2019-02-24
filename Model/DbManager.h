@@ -2,6 +2,7 @@
 
 #include "KanbanItemManager.h"
 #include "PageItemManager.h"
+#include "SettingsManager.h"
 
 class QSqlQuery;
 class QSqlDatabase;
@@ -26,4 +27,5 @@ private:
 public:
     const KanbanItemManager mManagerKanbanItem;
     const PageItemManager mManagerPageItem;
+    const SettingsManager mManagerSettings;
 };

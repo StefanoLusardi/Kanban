@@ -4,14 +4,13 @@
 
 class Model;
 class SettingsModel;
-//class KanbanItemModel;
 
 namespace Ui { class SettingsView; }
 
 class SettingsView : public QWidget
 {
 	Q_OBJECT
-	const QString mConfingFile {"Settings.json"};
+	const QString mConfigFile {"Settings.json"};
 
 public:
 	SettingsView(Model* model, QWidget *parent = Q_NULLPTR);
@@ -19,9 +18,9 @@ public:
 
 	void loadConfig();
 	void saveConfig() const;
-
+	
 protected slots:
-	void setAppStyle(const QString& style) const;
+	void setAppStyle(const QString& style);
 
 private:
 	Ui::SettingsView* ui;

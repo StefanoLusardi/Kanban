@@ -1,13 +1,9 @@
 #include "KanbanBoardPluginInterface.h"
 #include "KanbanBoardPlugin.h"
 #include "KanbanBoardView.h"
-#include "KanbanPageView.h"
 #include "Model.h"
 #include "../Common/Utils.h"
 
-#include <QBoxLayout>
-#include <QItemSelectionModel>
-#include <QTabWidget>
 #include <QPushButton>
 #include <QInputDialog>
 

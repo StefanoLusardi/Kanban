@@ -17,13 +17,13 @@ SettingsPlugin::SettingsPlugin(QBoxLayout* /*mainViewLayout*/, QBoxLayout* plugi
     pluginButtonsLayout->addWidget(mPluginButton);
 
 	// Create Plugin Ui class
-	mPluginDialog = std::make_unique<QDialog>();  // no parent, ok because is a unique_ptr
+	mPluginDialog = new QDialog();
 	mPluginView = new SettingsView(model);
 
 	mPluginDialog->setLayout(new QVBoxLayout());
 	mPluginDialog->layout()->addWidget(mPluginView); // Steals ownership
 
-	connect(mPluginDialog.get(), &QDialog::finished, [this]()
+	connect(mPluginDialog, &QDialog::finished, [this]()
 	{
 		mPluginButton->setChecked(false);
 	});
@@ -44,4 +44,6 @@ void SettingsPlugin::release() const
 {
 	if (mPluginView)
 		mPluginView->saveConfig();
+
+	delete mPluginDialog;
 }

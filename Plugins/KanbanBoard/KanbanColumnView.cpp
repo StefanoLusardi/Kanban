@@ -171,10 +171,10 @@ bool KanbanColumnView::isCollapsed() const
 void KanbanColumnView::setColor(const QColor& color)
 {
 	mColor = color;
-	ui->mLabelTitle->setBackgroudColor(mColor);
+	ui->mLabelTitle->setBackgroundColor(mColor);
 	ui->mLabelTitleVertical->setBackgroudColor(mColor);
 
-	const auto textColor {color.darker()};
+	const auto textColor {Qt::black};
 	ui->mLabelTitle->setTextColor(textColor);
 	ui->mLabelTitleVertical->setTextColor(textColor);
 }

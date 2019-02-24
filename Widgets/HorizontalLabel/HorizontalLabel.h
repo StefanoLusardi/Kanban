@@ -14,7 +14,7 @@ class API HorizontalLabel : public QLabel
 	Q_OBJECT
 	Q_PROPERTY(QColor TextColor READ textColor WRITE setTextColor)
 	Q_PROPERTY(QColor ContourColor READ contourColor WRITE setContourColor)
-	Q_PROPERTY(QColor BackgroundColor READ backgroudColor WRITE setBackgroudColor)
+	Q_PROPERTY(QColor BackgroundColor READ backgroundColor WRITE setBackgroundColor)
 
 public:
 	HorizontalLabel(QWidget *parent = Q_NULLPTR);
@@ -28,8 +28,8 @@ public:
 	QColor contourColor() const { return mContourColor; }
 	void setContourColor(const QColor& color ) { mContourColor = color; }
 
-	QColor backgroudColor() const { return mBackgroundColor; }
-	void setBackgroudColor(const QColor& color ) { mBackgroundColor = color; }
+	QColor backgroundColor() const { return mBackgroundColor; }
+	void setBackgroundColor(const QColor& color ) { mBackgroundColor = color; }
 
 	signals:
 	void leftClicked(bool isSelected);

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>609</width>
     <height>600</height>
    </rect>
   </property>
@@ -91,7 +91,7 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources>
-  <include location="KanbanBoard.qrc"/>
+  <include location="kanban.qrc"/>
  </resources>
  <connections/>
 </ui>

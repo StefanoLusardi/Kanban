@@ -19,7 +19,7 @@ void HorizontalLabel::paintEvent(QPaintEvent*)
 	// Draw Background
 	QLinearGradient g(rect().topLeft(), rect().bottomRight());
 	g.setColorAt(0.2, mBackgroundColor);
-	g.setColorAt(1.0, Qt::white);
+	g.setColorAt(1.0, QColor(255, 255, 255, 128));
 	p.fillRect(rect(), g);
 	
 	// Draw Contour if selected

@@ -118,18 +118,20 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FramelessWindow\framelesswindow.cpp" />
-    <ClCompile Include="FramelessWindow\windowdragger.cpp" />
+    <ClCompile Include="FramelessWindow\FramelessWindow.cpp" />
+    <ClCompile Include="FramelessWindow\WindowDragger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="KanbanCore.cpp" />
+    <ClCompile Include="SplashScreen\SplashScreen.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="FramelessWindow\framelesswindow.h" />
-    <QtMoc Include="FramelessWindow\windowdragger.h" />
+    <QtMoc Include="SplashScreen\SplashScreen.h" />
+    <QtMoc Include="FramelessWindow\FramelessWindow.h" />
+    <QtMoc Include="FramelessWindow\WindowDragger.h" />
     <ClInclude Include="KanbanCore.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="FramelessWindow\framelesswindow.ui" />
+    <QtUic Include="FramelessWindow\FramelessWindow.ui" />
     <QtUic Include="MainWindow.ui" />
   </ItemGroup>
   <ItemGroup>
@@ -150,22 +152,26 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="FramelessWindow\framelesswindow.qrc" />
+    <QtRcc Include="kanban.qrc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="FramelessWindow\images\icon_window_close.png">
+    <Image Include="images\icon_window_close.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="FramelessWindow\images\icon_window_maximize.png">
+    <Image Include="images\icon_window_maximize.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="FramelessWindow\images\icon_window_minimize.png">
+    <Image Include="images\icon_window_minimize.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="FramelessWindow\images\icon_window_restore.png">
+    <Image Include="images\icon_window_restore.png">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="images\splash.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </Image>

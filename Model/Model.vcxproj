@@ -113,6 +113,7 @@ start xcopy /Y "$(TargetDir)$(TargetName).lib" "$(TargetDir)lib\"</Command>
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="PageItemManager.cpp" />
     <ClCompile Include="PageItemModel.cpp" />
+    <ClCompile Include="SettingsManager.cpp" />
     <ClCompile Include="SettingsModel.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -123,9 +124,21 @@ start xcopy /Y "$(TargetDir)$(TargetName).lib" "$(TargetDir)lib\"</Command>
     <ClInclude Include="PageItem.h" />
     <ClInclude Include="PageItemManager.h" />
     <ClInclude Include="PageItemModel.h" />
-    <ClInclude Include="SettingsModel.h" />
+    <ClInclude Include="SettingsItem.h" />
+    <ClInclude Include="SettingsManager.h" />
+    <QtMoc Include="SettingsModel.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;MODEL_LIB;QT_SQL_LIB;%(PreprocessorDefinitions)</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;MODEL_LIB;QT_SQL_LIB;%(PreprocessorDefinitions)</Define>
+    </QtMoc>
     <QtMoc Include="KanbanItemModel.h" />
-    <ClInclude Include="Model.h" />
+    <ClInclude Include="Model.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;MODEL_LIB;QT_SQL_LIB;%(PreprocessorDefinitions)</Define>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtSql</IncludePath>
+      <Define Condition="'$(Configuration)|$(Platform)'=='Release|x64'">UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;MODEL_LIB;QT_SQL_LIB;%(PreprocessorDefinitions)</Define>
+    </ClInclude>
     <ClInclude Include="model_global.h" />
   </ItemGroup>
   <ItemGroup>

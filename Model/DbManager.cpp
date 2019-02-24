@@ -27,7 +27,8 @@ DbManager& DbManager::instance()
 DbManager::DbManager(const QString& path) :
     mDb(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"))),
     mManagerKanbanItem(*mDb), 
-	mManagerPageItem(*mDb)
+	mManagerPageItem(*mDb),
+	mManagerSettings(*mDb)
 {
     mDb->setDatabaseName(path);
 
@@ -36,6 +37,7 @@ DbManager::DbManager(const QString& path) :
 
     mManagerKanbanItem.init();
     mManagerPageItem.init();
+    mManagerSettings.init();
 }
 
 DbManager::~DbManager()

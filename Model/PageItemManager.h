@@ -3,8 +3,6 @@
 #include "ItemManager.h"
 #include "PageItem.h"
 
-#include <utility>
-
 class QSqlDatabase;
 
 class PageItemManager : public ItemManager<PageItem>

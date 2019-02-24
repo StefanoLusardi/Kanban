@@ -8,7 +8,7 @@ namespace Ui { class KanbanBoardView; };
 class KanbanBoardView : public QWidget
 {
 	Q_OBJECT
-	const QString mConfingFile {"Kanban Board.json"};
+	const QString mConfigFile {"Kanban Board.json"};
 
 public:
 	KanbanBoardView(Model* model, QWidget *parent = Q_NULLPTR);

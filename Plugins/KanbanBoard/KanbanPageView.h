@@ -1,6 +1,5 @@
 #pragma once
 
-#include <map>
 #include <QWidget>
 
 class Model;
@@ -47,7 +46,6 @@ private:
 	QString mPageName;
 	KanbanItemModel* mKanbanModel;
 	QItemSelectionModel* mSelectionKanbanModel;
-	//std::map<QString, KanbanColumnView*> mColumnViews;
 	std::vector<KanbanColumnView*> mColumnViews;
 	QSplitter *mSplitterColumnViews;
 	QString mSelectedColumnName;

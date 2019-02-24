@@ -42,6 +42,9 @@
     <ClCompile Include="FramelessWindow\windowdragger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SplashScreen\SplashScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="MainWindow.ui">
@@ -63,23 +66,29 @@
     <QtMoc Include="FramelessWindow\windowdragger.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="SplashScreen\SplashScreen.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="FramelessWindow\images\icon_window_minimize.png">
+    <Image Include="images\icon_window_minimize.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="FramelessWindow\images\icon_window_restore.png">
+    <Image Include="images\icon_window_restore.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="FramelessWindow\images\icon_window_maximize.png">
+    <Image Include="images\icon_window_maximize.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="FramelessWindow\images\icon_window_close.png">
+    <Image Include="images\icon_window_close.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\splash.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="FramelessWindow\framelesswindow.qrc">
+    <QtRcc Include="kanban.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
   </ItemGroup>

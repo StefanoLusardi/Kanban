@@ -22,7 +22,7 @@ void LightStyle::polish(QPalette& palette)
 	palette.setColor(QPalette::AlternateBase, QColor(160, 160, 160));
 	palette.setColor(QPalette::ToolTipBase, Qt::black);
 	palette.setColor(QPalette::ToolTipText, QColor(110, 110, 110));
-	palette.setColor(QPalette::Text, Qt::black);
+	palette.setColor(QPalette::Text, QColor(30, 30, 30));
 	palette.setColor(QPalette::Disabled, QPalette::Text, QColor(127, 127, 127));
 	palette.setColor(QPalette::Dark, QColor(120, 120, 120));
 	palette.setColor(QPalette::Shadow, QColor(80, 80, 80));
@@ -41,20 +41,15 @@ void LightStyle::polish(QApplication* app)
 {
 	if (!app) return;
 
-	// increase font size for better reading,
-	// setPointSize was reduced from +2 because when applied this way in Qt5, the
-	// font is larger than intended for some reason
-	//QFont defaultFont = QApplication::font();
-	//defaultFont.setPointSize(defaultFont.pointSize() + 1);
-	//app->setFont(defaultFont);
+	QFont defaultFont = QApplication::font();
+	defaultFont.setPointSize(10);
+	app->setFont(defaultFont);
 
-	// loadstylesheet
-	QFile qfDarkstyle(QStringLiteral(":/darkstyle/darkstyle.qss"));
-	if (qfDarkstyle.open(QIODevice::ReadOnly | QIODevice::Text))
+	QFile styleFile(QStringLiteral(":/darkstyle/darkstyle.qss"));
+	if (styleFile.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
-		// set stylesheet
-		QString qsStylesheet = QString::fromLatin1(qfDarkstyle.readAll());
-		app->setStyleSheet(qsStylesheet);
-		qfDarkstyle.close();
+		const QString styleSheet = QString::fromLatin1(styleFile.readAll());
+		app->setStyleSheet(styleSheet);
+		styleFile.close();
 	}
 }

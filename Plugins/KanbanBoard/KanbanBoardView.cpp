@@ -31,7 +31,7 @@ KanbanBoardView::~KanbanBoardView()
 
 void KanbanBoardView::loadConfig()
 {
-	if (const auto config = PluginConfigManager::parse(mConfingFile); config)
+	if (const auto config = PluginConfigManager::parse(mConfigFile); config)
 	{
 		const QJsonValue pagesNode = config.value().value("pages");
 
@@ -69,7 +69,7 @@ void KanbanBoardView::saveConfig() const
 
 	QJsonObject config;
 	config.insert("pages", pagesConfig);
-	PluginConfigManager::write(mConfingFile, config);
+	PluginConfigManager::write(mConfigFile, config);
 }
 
 void KanbanBoardView::insertPage(const QString& pageName)

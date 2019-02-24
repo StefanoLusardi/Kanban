@@ -1,15 +1,16 @@
 #include "Model.h"
 #include "DbManager.h"
 
-Model::Model() 
+Model::Model()
 {
 	mPageModel = std::make_shared<PageItemModel>(DbManager::instance());
-
 	mPageModel->loadPageItems();
 	for (auto&& page : mPageModel->pages())
 	{
 		mKanbanModel.emplace_back(std::make_shared<KanbanItemModel>(DbManager::instance(), page.getPageIdx()));
 	}
+	
+	mSettingsModel = std::make_shared<SettingsModel>(DbManager::instance());
 }
 
 void Model::loadData() const
@@ -19,16 +20,19 @@ void Model::loadData() const
 	{
 		mKanbanModel.at(page.getPageIdx())->loadKanbanItems();
 	}
+
+	mSettingsModel->loadSettings();
 }
 
 void Model::saveData() const
 {
-	mPageModel->savePageItems();
-	
+	mPageModel->savePageItems();	
 	for (auto&& page : mPageModel->pages())
 	{
 		mKanbanModel.at(page.getPageIdx())->saveKanbanItems();
 	}
+
+	mSettingsModel->saveSettings();
 }
 
 int Model::insertPage(const QString& pageName)

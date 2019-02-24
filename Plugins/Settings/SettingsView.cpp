@@ -13,15 +13,7 @@ SettingsView::SettingsView(Model* model, QWidget *parent)
 	mModel{model->getSettingsModel().get()}
 {
 	ui->setupUi(this);
-	
-	//ui->mListView->setModel(mModel);
-	//connect(mModel, &QAbstractItemModel::dataChanged, [this]()
-	//{
-	//	const int itemCount = mModel->rowCount();
-	//	ui->mItemCountLabel->setText(QString::number(itemCount));
-	//});
-
-	connect(ui->mStyleCombobox, &QComboBox::currentTextChanged, this, &SettingsView::setAppStyle);
+	connect(ui->mStyleCombobox, &QComboBox::currentTextChanged, [this](const QString& style){mModel->setStyle(style);});
 	connect(ui->mAboutButton, &QPushButton::clicked, [this]()
 	{
 		QMessageBox::about(this, "About Kanban",
@@ -37,14 +29,15 @@ SettingsView::~SettingsView()
 
 void SettingsView::loadConfig()
 {
-	if (const auto config = PluginConfigManager::parse(mConfingFile); config)
+	if (const auto config = PluginConfigManager::parse(mConfigFile); config)
 	{
 		const auto style = config.value().value("style").toString();
 		//const auto size = config.value().value("size").toString();
 		
 		if (QStyleFactory::keys().contains(style))
 		{
-			setAppStyle(style);
+			//setAppStyle(style);
+			mModel->setStyle(style);
 		}
 	}
 }
@@ -58,10 +51,11 @@ void SettingsView::saveConfig() const
 
 	QJsonObject config;
 	config.insert("settings", style);
-	PluginConfigManager::write(mConfingFile, config);
+	PluginConfigManager::write(mConfigFile, config);
 }
 
-void SettingsView::setAppStyle(const QString& style) const
+void SettingsView::setAppStyle(const QString& style)
 {
-	QApplication::setStyle(QStyleFactory::create(style));	
+	//QApplication::setStyle(QStyleFactory::create(style));	
+	
 }

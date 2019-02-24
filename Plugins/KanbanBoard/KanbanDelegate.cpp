@@ -22,7 +22,7 @@ void KanbanDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 	QLinearGradient itemBackground(option.rect.topLeft(), option.rect.bottomRight());
 	const QColor itemColor = index.model()->data(index, Qt::DecorationRole).value<QColor>();
 	itemBackground.setColorAt(0.3, itemColor);
-	itemBackground.setColorAt(1.0, Qt::white);
+	itemBackground.setColorAt(1.0, QColor(255, 255, 255, 128));
 	painter->fillPath(itemPath, itemBackground);
 
 	// Draw the text

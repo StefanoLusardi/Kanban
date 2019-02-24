@@ -2,9 +2,7 @@
 
 #include "ItemManager.h"
 
-#include <vector>
-#include <QtDesigner/abstractformwindowcursor.h>
-
+class QVariant;
 class QSqlDatabase;
 class KanbanItem;
 
@@ -24,3 +22,17 @@ public:
 private:
     QSqlDatabase& mDb;
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
