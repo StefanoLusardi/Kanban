@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QPluginLoader>
 #include <QDir>
+#include <QStyleFactory>
 
 int KanbanCore::run()
 {	
@@ -25,7 +26,19 @@ int KanbanCore::run()
 		{
 			mFramelessWindow->connect(mModel->getSettingsModel().get(), &SettingsModel::styleChanged, mFramelessWindow.get(), &FramelessWindow::changeStyle);
 			mFramelessWindow->connect(mFramelessWindow.get(), &FramelessWindow::aboutToClose, [this]() { shutdown(); });
+
+			/*mSplashScreen->finish(mFramelessWindow.get());
+			mFramelessWindow->show();*/
+			mMainWindow->connect(mModel->getSettingsModel().get(), &SettingsModel::styleChanged, [this](const QString styleName)
+			{
+				QApplication::setStyle(QStyleFactory::create(styleName));	
+			});
 			mModel->getSettingsModel()->loadSettings();
+
+			mSplashScreen->finish(mMainWindow);
+			mMainWindow->show();
+
+			mMainWindow->repaint();
 			const auto execReturn = qApp->exec();
 			qApp->quit();
 			return execReturn;
@@ -48,7 +61,7 @@ bool KanbanCore::showSplashScreen(bool status)
 	if (!status) return status;
 
 	mSplashScreen = std::make_shared<SplashScreen>();
-    mSplashScreen->setupMessageArea();
+	mSplashScreen->centerOnScreen();
 	mSplashScreen->show();
 	mSplashScreen->writeMessage("Setup Kanban");
 
@@ -131,13 +144,11 @@ bool KanbanCore::setupWindow(bool status)
 	if (!status) return status;
 
 	mSplashScreen->writeMessage("Ready");
-	mSplashScreen->finish(mMainWindow);
 
-	mFramelessWindow = std::make_shared<FramelessWindow>();
+	/*mFramelessWindow = std::make_shared<FramelessWindow>();
 	mFramelessWindow->setWindowTitle("Kanban");
 	mFramelessWindow->setContent(mMainWindow);
-	mFramelessWindow->setWindowState(Qt::WindowMaximized);
-	mFramelessWindow->show();
+	mFramelessWindow->setWindowState(Qt::WindowMaximized);*/
 
 	return status;
 }

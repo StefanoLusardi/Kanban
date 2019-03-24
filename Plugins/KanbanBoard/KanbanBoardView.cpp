@@ -19,7 +19,7 @@ KanbanBoardView::KanbanBoardView(Model* model, QWidget *parent)
 		const auto w = ui->tabWidget->widget(idx);
 		if (auto page = dynamic_cast<KanbanPageView*>(w); page)
 		{
-			//page->update(); // does not repaint :-(
+			page->repaint();
 		}
 	});
 }

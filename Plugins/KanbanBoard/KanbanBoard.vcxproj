@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Widgets\VerticalLabel;$(SolutionDir)Widgets\HorizontalLabel;$(SolutionDir)Widgets\DeselectableListView;$(SolutionDir)Model;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -68,7 +68,7 @@
       <AdditionalDependencies>VerticalLabel.lib;HorizontalLabel.lib;DeselectableListView.lib;qtmaind.lib;Qt5Cored.lib;Qt5Widgetsd.lib;Qt5Guid.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
-      <Define>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</Define>
+      <Define>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</Define>
       <IncludePath>$(SolutionDir)Widgets\VerticalLabel;$(SolutionDir)Widgets\HorizontalLabel;$(SolutionDir)Widgets\DeselectableListView;$(SolutionDir)Model;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;%(AdditionalIncludeDirectories)</IncludePath>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
@@ -84,7 +84,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <PreprocessorDefinitions>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Widgets\VerticalLabel;$(SolutionDir)Widgets\HorizontalLabel;$(SolutionDir)Widgets\DeselectableListView;$(SolutionDir)Model;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat />
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
@@ -99,7 +99,7 @@
       <AdditionalDependencies>VerticalLabel.lib;HorizontalLabel.lib;DeselectableListView.lib;qtmain.lib;Qt5Core.lib;Qt5Widgets.lib;Qt5Gui.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <QtMoc>
-      <Define>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_DLL;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</Define>
+      <Define>API_DESELECTABLELISTVIEW;API_VERTICALLABEL;API_HORIZONTALLABEL;UNICODE;_UNICODE;WIN32;WIN64;QT_NO_DEBUG;NDEBUG;QT_CORE_LIB;KANBANBOARD_LIB;QT_WIDGETS_LIB;QT_GUI_LIB;%(PreprocessorDefinitions)</Define>
       <IncludePath>$(SolutionDir)Widgets\VerticalLabel;$(SolutionDir)Widgets\HorizontalLabel;$(SolutionDir)Widgets\DeselectableListView;$(SolutionDir)Model;.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtWidgets;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;%(AdditionalIncludeDirectories)</IncludePath>
       <OutputFile>.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</OutputFile>
       <ExecutionDescription>Moc'ing %(Identity)...</ExecutionDescription>
@@ -180,7 +180,7 @@
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties MocDir=".\GeneratedFiles\$(ConfigurationName)" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_x64="Qt5.11.2_msvc2017_64" MocOptions="" />
+      <UserProperties MocDir=".\GeneratedFiles\$(ConfigurationName)" UicDir=".\GeneratedFiles" RccDir=".\GeneratedFiles" lupdateOptions="" lupdateOnBuild="0" lreleaseOptions="" Qt5Version_x0020_x64="Qt5.12.0_msvc2017_64" MocOptions="" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

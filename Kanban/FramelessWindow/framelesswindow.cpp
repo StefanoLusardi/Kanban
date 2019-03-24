@@ -28,14 +28,15 @@ FramelessWindow::FramelessWindow(QWidget* parent)
 	m_bDragRight(false),
 	m_bDragBottom(false)
 {
-	setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
+	setWindowFlags(Qt::WindowSystemMenuHint);
+	//setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
 	// append minimize button flag in case of windows,
 	// for correct windows native handling of minimize function
 #if defined(Q_OS_WIN)
 	setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
 #endif
-	setAttribute(Qt::WA_NoSystemBackground, true);
-	setAttribute(Qt::WA_TranslucentBackground);
+	//setAttribute(Qt::WA_NoSystemBackground, true);
+	//setAttribute(Qt::WA_TranslucentBackground, true);
 
 	ui->setupUi(this);
 	ui->restoreButton->setVisible(false);
@@ -112,11 +113,10 @@ void FramelessWindow::setContent(QWidget* w) { ui->windowContent->layout()->addW
 
 void FramelessWindow::setWindowTitle(const QString& text) { ui->titleText->setText(text); }
 
-void FramelessWindow::setWindowIcon(const QIcon& ico) { ui->icon->setPixmap(ico.pixmap(30, 30)); }
+void FramelessWindow::setWindowIcon(const QIcon& ico) { ui->icon->setPixmap(ico.pixmap(30, 30)); QWidget::setWindowIcon(ico); }
 
 void FramelessWindow::changeStyle(const QString& styleName)
 {
-	QApplication::setStyle(QStyleFactory::create(styleName));	
 	ui->closeButton->setIcon(QIcon(":/images/"+styleName+"/icon_window_close.png"));
 	ui->restoreButton->setIcon(QIcon(":/images/"+styleName+"/icon_window_restore.png"));
 	ui->minimizeButton->setIcon(QIcon(":/images/"+styleName+"/icon_window_minimize.png"));

@@ -13,6 +13,7 @@ SettingsView::SettingsView(Model* model, QWidget *parent)
 	mModel{model->getSettingsModel().get()}
 {
 	ui->setupUi(this);
+	connect(mModel, &SettingsModel::styleChanged, [this](const QString styleName) { ui->mStyleCombobox->setCurrentText(styleName); });
 	connect(ui->mStyleCombobox, &QComboBox::currentTextChanged, [this](const QString& style){mModel->setStyle(style);});
 	connect(ui->mAboutButton, &QPushButton::clicked, [this]()
 	{

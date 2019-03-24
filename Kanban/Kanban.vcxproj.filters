@@ -53,9 +53,15 @@
     <QtUic Include="FramelessWindow\framelesswindow.ui">
       <Filter>Form Files</Filter>
     </QtUic>
+    <QtUic Include="SplashScreen\SplashScreen.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KanbanCore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -86,10 +92,18 @@
     <Image Include="images\splash.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\icon.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="kanban.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
