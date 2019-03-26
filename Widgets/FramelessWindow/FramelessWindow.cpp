@@ -28,15 +28,14 @@ FramelessWindow::FramelessWindow(QWidget* parent)
 	m_bDragRight(false),
 	m_bDragBottom(false)
 {
-	setWindowFlags(Qt::WindowSystemMenuHint);
-	//setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
+	setWindowFlags(Qt::FramelessWindowHint | Qt::WindowSystemMenuHint);
 	// append minimize button flag in case of windows,
 	// for correct windows native handling of minimize function
 #if defined(Q_OS_WIN)
 	setWindowFlags(windowFlags() | Qt::WindowMinimizeButtonHint);
 #endif
-	//setAttribute(Qt::WA_NoSystemBackground, true);
-	//setAttribute(Qt::WA_TranslucentBackground, true);
+	setAttribute(Qt::WA_NoSystemBackground, true);
+	setAttribute(Qt::WA_TranslucentBackground, true);
 
 	ui->setupUi(this);
 	ui->restoreButton->setVisible(false);
@@ -55,8 +54,7 @@ FramelessWindow::FramelessWindow(QWidget* parent)
 	windowShadow->setOffset(0.0);
 	//ui->windowFrame->setGraphicsEffect(windowShadow);
 
-	QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this,
-					&FramelessWindow::on_applicationStateChanged);
+	QObject::connect(qApp, &QGuiApplication::applicationStateChanged, this, &FramelessWindow::on_applicationStateChanged);
 
 	setMouseTracking(true);
 

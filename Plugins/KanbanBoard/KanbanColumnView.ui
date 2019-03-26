@@ -149,7 +149,7 @@
         <property name="textInteractionFlags">
          <set>Qt::NoTextInteraction</set>
         </property>
-        <property name="BackgroundColor" stdset="0">
+        <property name="BackgroundColor">
          <color>
           <red>255</red>
           <green>170</green>
@@ -292,7 +292,7 @@
         <enum>QListView::Free</enum>
        </property>
        <property name="resizeMode">
-        <enum>QListView::Adjust</enum>
+        <enum>QListView::Fixed</enum>
        </property>
        <property name="spacing">
         <number>5</number>

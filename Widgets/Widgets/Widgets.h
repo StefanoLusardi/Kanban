@@ -3,6 +3,7 @@
 #include "../VerticalLabel/VerticalLabelPlugin.h"
 #include "../HorizontalLabel/HorizontalLabelPlugin.h"
 #include "../DeselectableListView/DeselectableListViewPlugin.h"
+#include "../FramelessWindow/FramelessWindowPlugin.h"
 
 #include <QtDesigner/QtDesigner>
 #include <QtCore/qplugin.h>
@@ -20,6 +21,7 @@ public:
 		mWidgets.append(new VerticalLabelPlugin(this));
 		mWidgets.append(new HorizontalLabelPlugin(this));
 		mWidgets.append(new DeselectableListViewPlugin(this));
+		mWidgets.append(new FramelessWindowPlugin(this));
 	}
 
 	QList<QDesignerCustomWidgetInterface*> customWidgets() const override

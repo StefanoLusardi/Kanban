@@ -72,7 +72,7 @@
           <property name="text">
            <string>Column</string>
           </property>
-          <property name="BackgroundColor" stdset="0">
+          <property name="BackgroundColor">
            <color alpha="0">
             <red>255</red>
             <green>255</green>
@@ -176,7 +176,7 @@
           <property name="text">
            <string>Kanban</string>
           </property>
-          <property name="BackgroundColor" stdset="0">
+          <property name="BackgroundColor">
            <color alpha="0">
             <red>255</red>
             <green>255</green>

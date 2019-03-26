@@ -21,9 +21,9 @@ protected:
 	bool createUi(bool status);
 	bool loadPlugins(bool status);
 	bool setupPlugins(bool status);
-	bool setupWindow(bool status);
+	bool setupWindowConnections(bool status);
 	void unloadPlugins();
-	void unloadModel();
+	void unloadModel() const;
 	void shutdown();
 
 private:

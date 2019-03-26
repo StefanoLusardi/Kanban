@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>655</width>
-    <height>579</height>
+    <width>400</width>
+    <height>200</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -153,7 +153,7 @@ background-color:palette(Window);
 color:palette(Text);</string>
            </property>
            <property name="text">
-            <string>Frameless Window (Dark Style)</string>
+            <string>Frameless Window</string>
            </property>
            <property name="textFormat">
             <enum>Qt::AutoText</enum>

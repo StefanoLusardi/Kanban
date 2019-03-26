@@ -1,7 +1,7 @@
 #include "KanbanCore.h"
 #include "SplashScreen/SplashScreen.h"
-#include "FramelessWindow/FramelessWindow.h"
 
+#include "../Widgets/Widgets/Widgets.h"
 #include "../Model/Model.h"
 #include "../Plugins/Common/PluginInterface.h"
 
@@ -9,6 +9,8 @@
 #include <QPluginLoader>
 #include <QDir>
 #include <QStyleFactory>
+#include <QApplication>
+
 
 int KanbanCore::run()
 {	
@@ -18,27 +20,16 @@ int KanbanCore::run()
 	status |= createUi(status);
 	status |= loadPlugins(status);
 	status |= setupPlugins(status);
-	status |= setupWindow(status);
+	status |= setupWindowConnections(status);
 	
 	const auto execReturn = [this](bool status) -> int
 	{
 		if (status)
 		{
-			mFramelessWindow->connect(mModel->getSettingsModel().get(), &SettingsModel::styleChanged, mFramelessWindow.get(), &FramelessWindow::changeStyle);
-			mFramelessWindow->connect(mFramelessWindow.get(), &FramelessWindow::aboutToClose, [this]() { shutdown(); });
+			mSplashScreen->writeMessage("Ready");
+			mSplashScreen->finish(mFramelessWindow.get());
+			mFramelessWindow->show();
 
-			/*mSplashScreen->finish(mFramelessWindow.get());
-			mFramelessWindow->show();*/
-			mMainWindow->connect(mModel->getSettingsModel().get(), &SettingsModel::styleChanged, [this](const QString styleName)
-			{
-				QApplication::setStyle(QStyleFactory::create(styleName));	
-			});
-			mModel->getSettingsModel()->loadSettings();
-
-			mSplashScreen->finish(mMainWindow);
-			mMainWindow->show();
-
-			mMainWindow->repaint();
 			const auto execReturn = qApp->exec();
 			qApp->quit();
 			return execReturn;
@@ -85,11 +76,17 @@ bool KanbanCore::createUi(bool status)
 	if (!status) return status;
 
 	mSplashScreen->writeMessage("Loading User Interface");
+	
+	mFramelessWindow = std::make_shared<FramelessWindow>();
+	mMainWindow = new QMainWindow(mFramelessWindow.get());
+	
+	mFramelessWindow->setWindowTitle("Kanban");
+	mFramelessWindow->setContent(mMainWindow);
+	mFramelessWindow->setWindowState(Qt::WindowMaximized);
 
-	mMainWindow = new QMainWindow();
 	mUi = std::make_unique<Ui::MainWindowClass>();
 	mUi->setupUi(mMainWindow);
-	
+
 	return status;
 }
 
@@ -139,16 +136,20 @@ bool KanbanCore::setupPlugins(bool status)
 	return status;
 }
 
-bool KanbanCore::setupWindow(bool status)
+bool KanbanCore::setupWindowConnections(bool status)
 {
 	if (!status) return status;
 
-	mSplashScreen->writeMessage("Ready");
+	mSplashScreen->writeMessage("Loading User Settings");
 
-	/*mFramelessWindow = std::make_shared<FramelessWindow>();
-	mFramelessWindow->setWindowTitle("Kanban");
-	mFramelessWindow->setContent(mMainWindow);
-	mFramelessWindow->setWindowState(Qt::WindowMaximized);*/
+	mFramelessWindow->connect(mFramelessWindow.get(), &FramelessWindow::aboutToClose, [this]() { shutdown(); });
+	mFramelessWindow->connect(mModel->getSettingsModel().get(), &SettingsModel::styleChanged, [this](const QString styleName)
+	{
+		QApplication::setStyle(QStyleFactory::create(styleName));
+		mFramelessWindow->changeStyle(styleName);
+	});
+
+	mModel->getSettingsModel()->loadSettings();
 
 	return status;
 }
@@ -162,7 +163,7 @@ void KanbanCore::unloadPlugins()
 	mPlugins.clear();
 }
 
-void KanbanCore::unloadModel()
+void KanbanCore::unloadModel() const
 {
 	mModel->saveData();
 }

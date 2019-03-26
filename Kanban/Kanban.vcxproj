@@ -124,8 +124,6 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="FramelessWindow\FramelessWindow.cpp" />
-    <ClCompile Include="FramelessWindow\WindowDragger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="KanbanCore.cpp" />
     <ClCompile Include="SplashScreen\SplashScreen.cpp" />
@@ -136,12 +134,12 @@
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
       <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets</IncludePath>
     </QtMoc>
-    <QtMoc Include="FramelessWindow\FramelessWindow.h" />
-    <QtMoc Include="FramelessWindow\WindowDragger.h" />
-    <ClInclude Include="KanbanCore.h" />
+    <ClInclude Include="KanbanCore.h">
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\SplashScreen</IncludePath>
+      <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\GeneratedFiles;.;$(QTDIR)\include;.\GeneratedFiles\$(ConfigurationName);$(QTDIR)\include\QtCore;$(QTDIR)\include\QtGui;$(QTDIR)\include\QtANGLE;$(QTDIR)\include\QtWidgets;.\SplashScreen</IncludePath>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="FramelessWindow\FramelessWindow.ui" />
     <QtUic Include="MainWindow.ui" />
     <QtUic Include="SplashScreen\SplashScreen.ui" />
   </ItemGroup>

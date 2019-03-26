@@ -4,52 +4,37 @@
 
 #include <QPainter>
 
-
 void KanbanDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const
 { 
-	painter->setRenderHint(QPainter::Antialiasing); 
 	painter->save();
-
-	// Draw Kanban Item rectangle (external contour)
-	QPainterPath itemPath;
-	const qreal radius = option.rect.height() * 0.25;
-	const qreal penWidth = 2;
-	itemPath.addRoundedRect(option.rect, radius, radius);
-	painter->setPen({Qt::black, penWidth, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin});
-	painter->drawPath(itemPath);
+	painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing); 
+	
+	// Draw contour (item selected or mouse over)
+    QColor contourColor = Qt::transparent;	
+	if (option.state.testFlag(QStyle::State_Selected)) 
+	{
+		contourColor = option.palette.color(QPalette::BrightText);
+		contourColor.setAlpha(128);
+    }
+	else if (option.state.testFlag(QStyle::State_MouseOver))
+	{
+		contourColor = option.palette.color(QPalette::Highlight);
+		contourColor.setAlpha(128);
+	}
+	painter->fillRect(option.rect, contourColor);
 
 	// Draw Kanban Item rectangle (internal background)
+	const int margin = 3;
 	QLinearGradient itemBackground(option.rect.topLeft(), option.rect.bottomRight());
 	const QColor itemColor = index.model()->data(index, Qt::DecorationRole).value<QColor>();
-	itemBackground.setColorAt(0.3, itemColor);
+	itemBackground.setColorAt(0.5, itemColor);
 	itemBackground.setColorAt(1.0, QColor(255, 255, 255, 128));
-	painter->fillPath(itemPath, itemBackground);
+	painter->fillRect(option.rect.adjusted(margin, margin, -margin, -margin), itemBackground);
 
 	// Draw the text
 	const QString text = index.model()->data(index, Qt::DisplayRole).toString();
     painter->setPen(Qt::black);
-	painter->drawText(option.rect, Qt::AlignCenter, text);
-
-	// Draw contour (item selected or mouse over)
-	if (option.state.testFlag(QStyle::State_Selected) || option.state.testFlag(QStyle::State_MouseOver)) 
-	{
-		QPainterPath selectedPath;
-		selectedPath.addRoundedRect(option.rect, radius, radius);
-		const qreal penWidthSelected = 5;
-
-        QColor contourColor;		
-		if (option.state.testFlag(QStyle::State_Selected))
-		{
-			contourColor = QColor::fromRgb(255, 32, 32, 255);
-		}
-		else
-		{
-			contourColor  = QColor::fromRgb(255, 128, 64, 255);
-		}
-
-		painter->setPen({QBrush(contourColor), penWidthSelected, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin});
-		painter->drawPath(selectedPath);
-    }
+	painter->drawText(option.rect, Qt::AlignCenter, text);	
 
     painter->restore();
 }
@@ -57,7 +42,7 @@ void KanbanDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 QSize KanbanDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	const auto size = QStyledItemDelegate::sizeHint(option, index);
-	return QSize(size.width(), 2 * size.height());
+	return QSize(size.width(), size.height());
 }
 
 QWidget* KanbanDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const

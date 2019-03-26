@@ -1,3 +1,5 @@
+#pragma once
+
 /*
 ###############################################################################
 #                                                                             #
@@ -14,16 +16,20 @@
 #ifndef FRAMELESSWINDOW_H
 #define FRAMELESSWINDOW_H
 
-#include <QWidget>
+#include <QtCore/qglobal.h>
+#if defined API_FRAMELESSWINDOW
+	#define API Q_DECL_EXPORT
+#else
+	#define API Q_DECL_IMPORT
+#endif
 
-namespace Ui
-{
-	class FramelessWindow;
-}
+#include <QtWidgets/QWidget>
 
-class FramelessWindow : public QWidget
+namespace Ui { class FramelessWindow; }
+
+class API FramelessWindow : public QWidget
 {
-Q_OBJECT
+	Q_OBJECT
 
 public:
 	explicit FramelessWindow(QWidget* parent = Q_NULLPTR);

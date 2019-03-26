@@ -48,11 +48,11 @@ KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnCol
 	static_cast<QPropertyAnimation*>(mAnimation.animationAt(3))->setDuration(mAnimationTime);
 	static_cast<QPropertyAnimation*>(mAnimation.animationAt(3))->setEasingCurve(QEasingCurve::Linear);
 
-	QGraphicsOpacityEffect *opacity3 = new QGraphicsOpacityEffect(this);
+	/*QGraphicsOpacityEffect *opacity3 = new QGraphicsOpacityEffect(this);
 	ui->mListView->setGraphicsEffect(opacity3);
 	mAnimation.addAnimation(new QPropertyAnimation(opacity3,"opacity"));
 	static_cast<QPropertyAnimation*>(mAnimation.animationAt(4))->setDuration(mAnimationTime);
-	static_cast<QPropertyAnimation*>(mAnimation.animationAt(4))->setEasingCurve(QEasingCurve::Linear);
+	static_cast<QPropertyAnimation*>(mAnimation.animationAt(4))->setEasingCurve(QEasingCurve::Linear);*/
 
     connect(ui->mButtonSpoiler, &QToolButton::clicked, [this](bool isToggled)
     {
