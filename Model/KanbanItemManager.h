@@ -2,6 +2,7 @@
 
 #include "ItemManager.h"
 
+class QThreadPool;
 class QVariant;
 class QSqlDatabase;
 class KanbanItem;

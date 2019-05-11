@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QMimeData>
 #include <QDataStream>
+#include <QtConcurrent/QtConcurrent>
 
 QHash<int, QByteArray> KanbanItemModel::roleNames() const {
     QHash<int, QByteArray> roles;
@@ -54,7 +55,7 @@ bool KanbanItemModel::setData(const QModelIndex& index, const QVariant& value, i
 	}
 
 	emit dataChanged(index, index);
-	mDb.mManagerKanbanItem.setData(item.getId(), roleNames()[role], value); 
+	//mDb.mManagerKanbanItem.setData(item.getId(), roleNames()[role], value); 
 	return true;
 }
 
@@ -83,23 +84,35 @@ bool KanbanItemModel::removeRows(int row, int count, const QModelIndex& parent)
 {
 	if (row < 0 || row > rowCount() || count < 0 || (row + count) > rowCount()) { return false; }
 
-	beginRemoveRows(parent, row, row + count - 1);
-
-	int countLeft = count;
-	while (countLeft--)
+	std::vector<int> deleteItems;
 	{
-		const KanbanItem& kanbanItem = mKanbanItems.at(row + countLeft);
-		mDb.mManagerKanbanItem.removeItem(kanbanItem.getId());
+		beginRemoveRows(parent, row, row + count - 1);
+		for (auto it = mKanbanItems.begin() + row; it < mKanbanItems.begin() + row + count; ++it)
+		{
+			deleteItems.push_back(it->getId());
+		}
+		mKanbanItems.erase(mKanbanItems.begin() + row, mKanbanItems.begin() + row + count);
+		endRemoveRows();
 	}
 
-	mKanbanItems.erase(mKanbanItems.begin() + row, mKanbanItems.begin() + row + count);
-	endRemoveRows();
+	// Remove items from DB
+	/*QtConcurrent::run([this, deleteItems, row, count]() 
+	{
+		QMutexLocker lock(mMutex);
+		std::for_each(deleteItems.begin(), deleteItems.end(), [db = &mDb](const int id)
+		{
+			db->mManagerKanbanItem.removeItem(id);
+		});
+
+		mKanbanItems.erase(mKanbanItems.begin() + row, mKanbanItems.begin() + row + count);
+	});*/
+		
 	return true;
 }
 
-Qt::DropActions KanbanItemModel::supportedDropActions() const { return /*Qt::CopyAction |*/ Qt::MoveAction; }
+Qt::DropActions KanbanItemModel::supportedDropActions() const { return Qt::MoveAction; }
 
-Qt::DropActions KanbanItemModel::supportedDragActions() const { return /*Qt::CopyAction |*/ Qt::MoveAction; }
+Qt::DropActions KanbanItemModel::supportedDragActions() const { return Qt::MoveAction; }
 
 QStringList KanbanItemModel::mimeTypes() const { return {"application/vnd.text.list"}; }
 
@@ -128,23 +141,64 @@ QMimeData* KanbanItemModel::mimeData(const QModelIndexList& indexes) const
 
 QModelIndex KanbanItemModel::addKanban(const QString& text, const QString& color, const QString& columnName)
 {
+	QModelIndex idx;
 	KanbanItem item(mPageId, text, color, columnName);
-	const auto alreadyExists = std::any_of(mKanbanItems.begin(), mKanbanItems.end(), [item](const KanbanItem& it)
-	{
-		return it == item;
-	});
+	const auto alreadyExists = std::any_of(mKanbanItems.begin(), mKanbanItems.end(), [item](const KanbanItem& it) { return it == item; });
+	if (!alreadyExists)
+	{	
+		const int row = rowCount();
+		beginInsertRows(QModelIndex(), row, row);
+		mKanbanItems.emplace_back(item);
+		endInsertRows();
+		idx = index(row, 0, QModelIndex());
+		
+		if (idx.isValid())
+		{
+			/*QtConcurrent::run([this]() 
+			{
+				QMutexLocker lock(mMutex);
+				mDb.mManagerKanbanItem.insertItem(mKanbanItems.back());
+			});*/
+		}
+	}
 
-	if (alreadyExists) return {};
-	
+	return idx;
+}
+
+QModelIndexList KanbanItemModel::addKanbanList(std::vector<KanbanItem>& kanbanItemsToInsert, const QString& columnName)
+{
+	QModelIndexList idxList;
+
 	const int row = rowCount();
-	beginInsertRows(QModelIndex(), row, row);
+	const auto kanbanItemsSize = mKanbanItems.size();
 
-	mDb.mManagerKanbanItem.insertItem(item);
-
-	mKanbanItems.emplace_back(item);
+	beginInsertRows(QModelIndex(), row, row + kanbanItemsToInsert.size() - 1);
+	for (auto item : kanbanItemsToInsert)
+	{
+		const auto alreadyExists = std::any_of(mKanbanItems.begin(), mKanbanItems.end(), [item](const KanbanItem& it) { return it == item; });
+		if (!alreadyExists)
+		{
+			item.setPageIdx(mPageId);
+			mKanbanItems.emplace_back(item);
+			auto r = rowCount();
+			idxList.append(index(r, 0, QModelIndex()));
+		}
+	}
 	endInsertRows();
-	return index(row, 0, QModelIndex());
 	
+	idxList.append(index(0, 0, QModelIndex()));
+
+	// Add items to DB
+	/*QtConcurrent::run([this, kanbanItems, kanbanItemsSize]() 
+	{
+		QMutexLocker lock(mMutex);
+		std::for_each(mKanbanItems.begin() + kanbanItemsSize, mKanbanItems.end(), [db = &mDb](KanbanItem& item)
+		{
+			db->mManagerKanbanItem.insertItem(item);
+		});
+	});*/
+
+	return idxList;
 }
 
 QModelIndex KanbanItemModel::getKanbanIndex(const QString& kanbanText)
@@ -163,7 +217,7 @@ QModelIndex KanbanItemModel::getKanbanIndex(const QString& kanbanText)
 
 void KanbanItemModel::removeAllItems() const
 {
-	mDb.mManagerKanbanItem.removeAllItems(mPageId);
+	//mDb.mManagerKanbanItem.removeAllItems(mPageId);
 }
 
 void KanbanItemModel::loadKanbanItems()
@@ -175,14 +229,24 @@ void KanbanItemModel::loadKanbanItems()
 	}
 
 	beginResetModel();
+	//mKanbanItems = QtConcurrent::run([=]() { return mDb.mManagerKanbanItem.getItems(mPageId); }).result();
 	mKanbanItems = mDb.mManagerKanbanItem.getItems(mPageId);
 	endResetModel();
 }
 
 void KanbanItemModel::saveKanbanItems()
 {
-	if (mPageId < 0)
+	/*QtConcurrent::run([this]() 
 	{
-		return;
-	}
+		QMutexLocker lock(mMutex);
+		std::for_each(mKanbanItems.begin(), mKanbanItems.end(), [db = &mDb](KanbanItem& item)
+		{
+			db->mManagerKanbanItem.insertItem(item);
+		});
+	});*/
+
+	std::for_each(mKanbanItems.begin(), mKanbanItems.end(), [db = &mDb](KanbanItem& item)
+	{
+		db->mManagerKanbanItem.insertItem(item);
+	});
 }

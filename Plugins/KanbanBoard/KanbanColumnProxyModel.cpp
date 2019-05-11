@@ -4,13 +4,14 @@
 #include <QMimeData>
 #include <QDataStream>
 
-
 bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent)
 {
 	QByteArray encodedData = data->data("application/vnd.text.list");
 	QDataStream stream(&encodedData, QIODevice::ReadOnly);
 
-	bool isInserted = true;
+	bool isInserted = false;
+
+	std::vector<KanbanItem> itemsToAdd;
 	while (!stream.atEnd())
 	{
 		QString text;
@@ -19,13 +20,41 @@ bool KanbanColumnProxyModel::dropMimeData(const QMimeData* data, Qt::DropAction 
 
 		stream >> text >> color >> columnName;
 
-		auto model = static_cast<KanbanItemModel*>(sourceModel());
-		const QModelIndex idx = model->addKanban(text, color, mName);
-
-		if (!idx.isValid())
-			isInserted = false;
+		KanbanItem item(-1, text, color, mName);
+		itemsToAdd.push_back(item);
 	}
 
+	auto model = static_cast<KanbanItemModel*>(sourceModel());
+	auto idxList = model->addKanbanList(itemsToAdd, mName);
+
+	// if at least one item is inserted and is valid notify the view
+	if (std::any_of(idxList.begin(), idxList.end(), [](const QModelIndex& idx) { return idx.isValid(); }))
+		isInserted = true;
+
+	/*
+	auto model = static_cast<KanbanItemModel*>(sourceModel());
+	for (auto&& item : itemsToAdd)
+	{
+		const QModelIndex idx = model->addKanban(item.getText(), item.getColor(), mName);
+
+		// if at least one item is inserted
+		if (idx.isValid())
+			isInserted = true;
+	}
+
+	if (isInserted)
+	{
+		QtConcurrent::run([=]()
+		{
+			auto model = static_cast<KanbanItemModel*>(sourceModel());
+			for (auto&& item : itemsToAdd)
+			{
+				model->addKanbanDB(item.getText(), item.getColor(), mName);
+			}
+		});
+	}
+	*/
+	
 	return isInserted;
 }
 

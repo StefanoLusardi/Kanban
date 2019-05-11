@@ -4,6 +4,7 @@
 #include "KanbanItem.h"
 
 #include <QAbstractListModel>
+#include <QMutexLocker>
 
 class DbManager;
 
@@ -14,7 +15,7 @@ class MODEL_EXPORT KanbanItemModel : public QAbstractListModel
 public:
 	enum Roles {ColumnName = Qt::UserRole+1};
 
-	KanbanItemModel(DbManager& db, int pageId, QObject *parent = Q_NULLPTR) : QAbstractListModel(parent), mDb{db}, mPageId{pageId} {}
+	KanbanItemModel(DbManager& db, int pageId, QObject *parent = Q_NULLPTR) : QAbstractListModel(parent), mDb{db}, mPageId{pageId}, mMutex{new QMutex()} {}
 	virtual ~KanbanItemModel() = default;
 
 	QHash<int, QByteArray> roleNames() const override;
@@ -30,6 +31,7 @@ public:
 	QStringList mimeTypes() const override;
 	QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
+	QModelIndexList addKanbanList(std::vector<KanbanItem>& kanbanItemsToInsert, const QString& columnName);
 	QModelIndex addKanban(const QString& text, const QString& color, const QString& columnName);
 	QModelIndex getKanbanIndex(const QString& kanbanText);
 
@@ -41,4 +43,5 @@ private:
 	DbManager& mDb;
 	const int mPageId;
 	std::vector<KanbanItem> mKanbanItems;
+	QMutex* mMutex;
 };

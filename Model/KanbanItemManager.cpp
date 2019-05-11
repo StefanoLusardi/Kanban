@@ -6,13 +6,15 @@
 #include <QSqlQuery>
 #include <QVariant>
 
+#include <QtConcurrent/QtConcurrent>
+
 KanbanItemManager::KanbanItemManager(QSqlDatabase& db): mDb{db}
 {
 }
 
 void KanbanItemManager::init() const
 {
-    if (!mDb.tables().contains("kanban_items")) 
+	if (!mDb.tables().contains("kanban_items")) 
 	{
         QSqlQuery query(mDb);
         query.exec(QString("CREATE TABLE kanban_items")
@@ -42,20 +44,21 @@ void KanbanItemManager::insertItem(KanbanItem& kanbanItem) const
     query.bindValue(":column", kanbanItem.getColumn());
     query.bindValue(":color", kanbanItem.getColor());
     query.bindValue(":text", kanbanItem.getText());
-    query.exec();
 
-    DbManager::debugQuery(query);
-    kanbanItem.setId(query.lastInsertId().toInt());
+	query.exec();
+
+	DbManager::debugQuery(query);
+	kanbanItem.setId(query.lastInsertId().toInt());
 }
 
 void KanbanItemManager::removeItem(int id) const
 {
-    QSqlQuery query(mDb);
+	QSqlQuery query(mDb);
     query.prepare("DELETE FROM kanban_items WHERE id = (:id)");
     query.bindValue(":id", id);
-    query.exec();
 
-    DbManager::debugQuery(query);
+	query.exec();
+	DbManager::debugQuery(query);
 }
 
 void KanbanItemManager::removeAllItems(int pageId) const
@@ -63,9 +66,9 @@ void KanbanItemManager::removeAllItems(int pageId) const
     QSqlQuery query(mDb);
     query.prepare("DELETE FROM kanban_items WHERE page_id = (:page_id)");
     query.bindValue(":page_id", pageId);
-    query.exec();
 
-    DbManager::debugQuery(query);
+	query.exec();
+	DbManager::debugQuery(query);
 }
 
 void KanbanItemManager::saveAllItems() const
@@ -74,15 +77,15 @@ void KanbanItemManager::saveAllItems() const
 
 void KanbanItemManager::setData(int id, const char* property, const QVariant& value) const
 {
-    QSqlQuery query(mDb);
+	QSqlQuery query(mDb);
     query.prepare("UPDATE kanban_items "
 		"SET " + QString(property) + " = (:value) " +
 		"WHERE id = (:id)");
     query.bindValue(":value", value);
     query.bindValue(":id", id);
-	query.exec();
 
-    DbManager::debugQuery(query);
+	query.exec();
+	DbManager::debugQuery(query);
 }
 
 std::vector<KanbanItem> KanbanItemManager::getItems(int pageId) const
@@ -90,7 +93,7 @@ std::vector<KanbanItem> KanbanItemManager::getItems(int pageId) const
     QSqlQuery query(mDb);
     query.prepare("SELECT * FROM kanban_items WHERE page_id = (:page_id)");
     query.bindValue(":page_id", pageId);
-    query.exec();
+	query.exec();
 
     DbManager::debugQuery(query);
 
@@ -104,6 +107,5 @@ std::vector<KanbanItem> KanbanItemManager::getItems(int pageId) const
 
         kanbanItems.emplace_back(pageId, text, color, column, id);
     }
-
-    return kanbanItems;
+	return kanbanItems;
 }

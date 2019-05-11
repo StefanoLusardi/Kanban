@@ -4,6 +4,7 @@
 #include "PageItemManager.h"
 #include "SettingsManager.h"
 
+class QThreadPool;
 class QSqlQuery;
 class QSqlDatabase;
 
@@ -23,6 +24,7 @@ protected:
 
 private:
     std::unique_ptr<QSqlDatabase> mDb;
+	QThreadPool* mThreadPool;
 
 public:
     const KanbanItemManager mManagerKanbanItem;

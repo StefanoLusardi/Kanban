@@ -42,7 +42,7 @@ void KanbanDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 QSize KanbanDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const
 {
 	const auto size = QStyledItemDelegate::sizeHint(option, index);
-	return QSize(size.width(), size.height());
+	return QSize(size.width(), 2*size.height());
 }
 
 QWidget* KanbanDelegate::createEditor(QWidget* parent, const QStyleOptionViewItem& option, const QModelIndex& index) const
