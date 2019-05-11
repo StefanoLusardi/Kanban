@@ -13,5 +13,11 @@
         <file>images/Dark/icon_lo.png</file>
         <file>images/Light/icon_hi.png</file>
         <file>images/Light/icon_lo.png</file>
+        <file>images/Light/button/add.png</file>
+        <file>images/Light/button/add2.png</file>
+        <file>images/Light/button/delete.png</file>
+        <file>images/Light/button/new_board.png</file>
+        <file>images/Light/button/rename.png</file>
+        <file>images/Light/button/settings.png</file>
     </qresource>
 </RCC>

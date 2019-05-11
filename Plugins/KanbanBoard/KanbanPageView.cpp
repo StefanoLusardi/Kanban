@@ -24,6 +24,24 @@ KanbanPageView::KanbanPageView(const QString& pageName, KanbanItemModel* model, 
 	ui->setupUi(this);
 	setAcceptDrops(true);
 
+	// Create circular button mask
+	auto w = ui->mButtonColumnCreate->iconSize().width();
+	auto h = ui->mButtonColumnCreate->iconSize().height();
+	auto m = std::min(w, h);
+
+	auto bw = ui->mButtonColumnCreate->size().width();
+	auto bh = ui->mButtonColumnCreate->size().height();
+	auto bm = std::min(bw, bh);
+
+	ui->mButtonColumnCreate->setFixedSize(bm, bm);
+
+	auto pad = (bm - m)/2-1;
+
+	QRect rect = QRect(QPoint(pad, pad), QSize(m+1, m+1));
+	QRegion region = QRegion(rect,QRegion::Ellipse);
+	ui->mButtonColumnCreate->setMask(region);
+    //ui->mButtonColumnCreate->setMask(QRegion(QRect(-1, -1, w+2, h+2),QRegion::Ellipse));
+
 	// Kanban Items
 	connect(ui->mButtonKanbanCreate, &QPushButton::clicked, this, &KanbanPageView::onCreateKanban);
 	connect(ui->mButtonKanbanRename, &QPushButton::clicked, this, &KanbanPageView::onRenameKanban);
@@ -33,7 +51,6 @@ KanbanPageView::KanbanPageView(const QString& pageName, KanbanItemModel* model, 
 	connect(ui->mButtonColumnCreate, &QPushButton::clicked, this, &KanbanPageView::onCreateColumn);
 	connect(ui->mButtonColumnRename, &QPushButton::clicked, this, &KanbanPageView::onRenameColumn);
 	connect(ui->mButtonColumnDelete, &QPushButton::clicked, this, &KanbanPageView::onDeleteColumn);
-	connect(ui->mNewSpoilerButton, &QPushButton::clicked, this, &KanbanPageView::onCreateColumn);
 
 	// Splitter (parent of KanbanColumnView items)
 	mSplitterColumnViews = new QSplitter(Qt::Horizontal, this);
