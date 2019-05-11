@@ -1,7 +1,7 @@
 x64/
 GeneratedFiles/
 *.db
-Bin/
+Bin*/
 *.png
 *.pro
 *.pri
