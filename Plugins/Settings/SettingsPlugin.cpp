@@ -14,7 +14,13 @@ SettingsPlugin::SettingsPlugin(QBoxLayout* /*mainViewLayout*/, QBoxLayout* plugi
 	mPluginButton->setCheckable(true);
 	mPluginButton->setChecked(false);
 	mPluginButton->setText(parent->name());
-    pluginButtonsLayout->addWidget(mPluginButton);
+
+	QIcon buttonIcon;
+    buttonIcon.addFile(QString::fromUtf8(":/images/Light/button/settings.png"), QSize(20, 20), QIcon::Normal, QIcon::Off);
+    mPluginButton->setIcon(buttonIcon);
+
+	const auto insertIdx = pluginButtonsLayout->count() - 1;
+    pluginButtonsLayout->insertWidget(insertIdx, mPluginButton);
 
 	// Create Plugin Ui class
 	mPluginDialog = new QDialog();

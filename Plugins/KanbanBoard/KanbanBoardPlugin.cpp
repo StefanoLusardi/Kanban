@@ -16,7 +16,12 @@ KanbanBoardPlugin::KanbanBoardPlugin(QBoxLayout* mainViewLayout, QBoxLayout* plu
 	// Register Plugin Button into pluginButtonsLayout
 	mAddPageButton = new QPushButton();
 	mAddPageButton->setText("New Kanban Board");
-    pluginButtonsLayout->addWidget(mAddPageButton);  // Steals ownership
+	QIcon buttonIcon;
+    buttonIcon.addFile(QString::fromUtf8(":/images/Light/button/new_board.png"), QSize(20, 20), QIcon::Normal, QIcon::Off);
+    mAddPageButton->setIcon(buttonIcon);
+	
+	const auto insertIdx = pluginButtonsLayout->count() - 1;
+    pluginButtonsLayout->insertWidget(insertIdx, mAddPageButton);  // Steals ownership
 
 	connect(mAddPageButton, &QPushButton::clicked, [this]()
 	{

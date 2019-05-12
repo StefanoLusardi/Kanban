@@ -2,7 +2,7 @@
 #include "DbManager.h"
 
 #include <QVariant>
-
+#include <QtConcurrent/QtConcurrent>
 
 SettingsModel::SettingsModel(DbManager& db, QObject* parent) : QObject{parent}, mDb{db}
 {
@@ -32,7 +32,7 @@ void SettingsModel::setStyle(const QString& styleName)
 {
 	mStyle = styleName;
 	emit styleChanged(styleName);
-	mDb.mManagerSettings.setData(1, "style", QVariant(mStyle));
+	QtConcurrent::run([this]{mDb.mManagerSettings.setData(1, "style", QVariant(mStyle));});
 }
 
 QString SettingsModel::getStyle() const

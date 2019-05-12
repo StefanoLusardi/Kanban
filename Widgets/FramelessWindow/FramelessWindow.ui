@@ -71,13 +71,13 @@ background-color:palette(Window);
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>40</height>
+          <height>30</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>40</height>
+          <height>30</height>
          </size>
         </property>
         <property name="autoFillBackground">
@@ -91,13 +91,13 @@ background-color:palette(Window);
           <number>0</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="topMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>1</number>
          </property>
          <property name="bottomMargin">
           <number>0</number>
@@ -122,14 +122,14 @@ background-color:palette(Window);
           <widget class="QLabel" name="icon">
            <property name="minimumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>30</width>
+             <height>30</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>30</width>
+             <height>30</height>
             </size>
            </property>
            <property name="contextMenuPolicy">
@@ -137,6 +137,12 @@ background-color:palette(Window);
            </property>
            <property name="styleSheet">
             <string notr="true">#icon {background-color:palette(window);}</string>
+           </property>
+           <property name="lineWidth">
+            <number>0</number>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -151,6 +157,9 @@ background-color:palette(Window);
            <property name="styleSheet">
             <string notr="true">padding-left:5px;
 color:palette(Text);</string>
+           </property>
+           <property name="lineWidth">
+            <number>0</number>
            </property>
            <property name="text">
             <string>Frameless Window</string>
@@ -173,14 +182,14 @@ color:palette(Text);</string>
           <widget class="QToolButton" name="minimizeButton">
            <property name="minimumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="font">
@@ -207,8 +216,8 @@ color:palette(Text);</string>
            </property>
            <property name="iconSize">
             <size>
-             <width>30</width>
-             <height>30</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="autoRaise">
@@ -220,14 +229,14 @@ color:palette(Text);</string>
           <widget class="QToolButton" name="restoreButton">
            <property name="minimumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -248,8 +257,8 @@ color:palette(Text);</string>
            </property>
            <property name="iconSize">
             <size>
-             <width>30</width>
-             <height>30</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="autoRaise">
@@ -261,14 +270,14 @@ color:palette(Text);</string>
           <widget class="QToolButton" name="maximizeButton">
            <property name="minimumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="styleSheet">
@@ -289,8 +298,8 @@ color:palette(Text);</string>
            </property>
            <property name="iconSize">
             <size>
-             <width>30</width>
-             <height>30</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="autoRaise">
@@ -302,14 +311,14 @@ color:palette(Text);</string>
           <widget class="QToolButton" name="closeButton">
            <property name="minimumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>40</width>
-             <height>40</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="font">
@@ -333,8 +342,8 @@ color:palette(Text);</string>
            </property>
            <property name="iconSize">
             <size>
-             <width>30</width>
-             <height>30</height>
+             <width>24</width>
+             <height>24</height>
             </size>
            </property>
            <property name="autoRaise">
@@ -347,6 +356,12 @@ color:palette(Text);</string>
       </item>
       <item>
        <widget class="QWidget" name="windowContent" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="autoFillBackground">
          <bool>false</bool>
         </property>
@@ -390,7 +405,7 @@ color:palette(Text);</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="../kanban.qrc"/>
+  <include location="../../Kanban/kanban.qrc"/>
  </resources>
  <connections/>
 </ui>

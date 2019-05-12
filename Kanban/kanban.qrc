@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/splash.png</file>
+        <file>images/Light/button/collapse.png</file>
+        <file>images/Light/button/expand.png</file>
         <file>images/Light/icon_window_close.png</file>
         <file>images/Light/icon_window_maximize.png</file>
         <file>images/Light/icon_window_minimize.png</file>
@@ -19,5 +20,9 @@
         <file>images/Light/button/new_board.png</file>
         <file>images/Light/button/rename.png</file>
         <file>images/Light/button/settings.png</file>
+        <file>images/Light/button/add_ico.ico</file>
+    </qresource>
+    <qresource prefix="/svg">
+        <file>images/svg/verified.svg</file>
     </qresource>
 </RCC>

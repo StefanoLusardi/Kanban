@@ -18,17 +18,17 @@ void HorizontalLabel::paintEvent(QPaintEvent*)
 
 	// Draw Background
 	QLinearGradient g(rect().topLeft(), rect().bottomRight());
-	g.setColorAt(0.2, mBackgroundColor);
-	g.setColorAt(1.0, QColor(255, 255, 255, 128));
+	g.setColorAt(0.0, mBackgroundColor);
+	g.setColorAt(0.8, QColor(255, 255, 255, 0));
 	p.fillRect(rect(), g);
 	
 	// Draw Contour if selected
-	if(mIsSelected)
-	{
-		const qreal penWidth {2};
-		p.setPen({mContourColor, penWidth});
-		p.drawRect(rect().adjusted(1, 1, -1, -1));
-	}
+	//if(mIsSelected)
+	//{
+	//	const qreal penWidth {2};
+	//	p.setPen({mContourColor, penWidth});
+	//	p.drawRect(rect().adjusted(1, 1, -1, -1));
+	//}
 
 	// Draw Text
 	p.setPen(mTextColor);

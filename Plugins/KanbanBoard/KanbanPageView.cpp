@@ -40,17 +40,23 @@ KanbanPageView::KanbanPageView(const QString& pageName, KanbanItemModel* model, 
 	QRect rect = QRect(QPoint(pad, pad), QSize(m+1, m+1));
 	QRegion region = QRegion(rect,QRegion::Ellipse);
 	ui->mButtonColumnCreate->setMask(region);
-    //ui->mButtonColumnCreate->setMask(QRegion(QRect(-1, -1, w+2, h+2),QRegion::Ellipse));
+
+	connect(mSelectionKanbanModel, &QItemSelectionModel::selectionChanged, [this](const QItemSelection& s, const QItemSelection& d)
+	{
+		auto ss = mSelectionKanbanModel->selectedIndexes().count();
+		auto dd = d;
+		auto i = 0;
+	});
 
 	// Kanban Items
-	connect(ui->mButtonKanbanCreate, &QPushButton::clicked, this, &KanbanPageView::onCreateKanban);
-	connect(ui->mButtonKanbanRename, &QPushButton::clicked, this, &KanbanPageView::onRenameKanban);
-	connect(ui->mButtonKanbanDelete, &QPushButton::clicked, this, &KanbanPageView::onDeleteKanban);
+	connect(ui->mButtonKanbanCreate, &QToolButton::clicked, this, &KanbanPageView::onCreateKanban);
+	connect(ui->mButtonKanbanRename, &QToolButton::clicked, this, &KanbanPageView::onRenameKanban);
+	connect(ui->mButtonKanbanDelete, &QToolButton::clicked, this, &KanbanPageView::onDeleteKanban);
 
 	// Column Items
-	connect(ui->mButtonColumnCreate, &QPushButton::clicked, this, &KanbanPageView::onCreateColumn);
-	connect(ui->mButtonColumnRename, &QPushButton::clicked, this, &KanbanPageView::onRenameColumn);
-	connect(ui->mButtonColumnDelete, &QPushButton::clicked, this, &KanbanPageView::onDeleteColumn);
+	connect(ui->mButtonColumnCreate, &QToolButton::clicked, this, &KanbanPageView::onCreateColumn);
+	connect(ui->mButtonColumnRename, &QToolButton::clicked, this, &KanbanPageView::onRenameColumn);
+	connect(ui->mButtonColumnDelete, &QToolButton::clicked, this, &KanbanPageView::onDeleteColumn);
 
 	// Splitter (parent of KanbanColumnView items)
 	mSplitterColumnViews = new QSplitter(Qt::Horizontal, this);
@@ -136,7 +142,6 @@ void KanbanPageView::dropEvent(QDropEvent* event)
 			if (parent == child->parentWidget()) { break; } 
 			child = child->parentWidget(); 
 		}
-		qDebug() << "###" << child->objectName();
 		return dynamic_cast<KanbanColumnView*>(child);
 	};
 	
@@ -214,7 +219,8 @@ void KanbanPageView::onCreateColumn()
 	bool ok;
 	QString columnName = QInputDialog::getText(this, "Kanban Column", "Create new Kanban column", QLineEdit::Normal, QString(), &ok);
 	
-	const QColor columnColor {Utils::getRandomColor()};
+	QColor columnColor {Utils::getRandomColor()};
+	columnColor.setAlphaF(1);
 
 	if (ok && !columnName.isEmpty())
 	{ 

@@ -61,11 +61,27 @@ bool KanbanItemModel::setData(const QModelIndex& index, const QVariant& value, i
 
 Qt::ItemFlags KanbanItemModel::flags(const QModelIndex& index) const
 {
-	const Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
-	if (index.isValid())
-		return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsEditable | defaultFlags;
-	else
-		return Qt::ItemIsDropEnabled | Qt::ItemIsEditable | defaultFlags;
+	//const Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
+	//if (index.isValid())
+	//	return Qt::ItemIsEnabled 
+	//		| Qt::ItemIsSelectable 
+	//		| Qt::ItemIsDragEnabled 
+	//		| Qt::ItemIsDropEnabled 
+	//		| Qt::ItemIsEditable 
+	//		| defaultFlags;
+	//
+	//return Qt::ItemIsDropEnabled 
+	//| Qt::ItemIsEditable 
+	//| defaultFlags;
+
+	Qt::ItemFlags flags; //= QStringListModel::flags(index);
+ 
+    if (index.isValid())
+        flags =  Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsEnabled;
+    else
+        flags =  Qt::ItemIsSelectable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled  | Qt::ItemIsEnabled;
+
+	return flags;
 }
 
 bool KanbanItemModel::insertRows(int position, int rows, const QModelIndex& parent)
@@ -175,18 +191,17 @@ QModelIndexList KanbanItemModel::addKanbanList(std::vector<KanbanItem>& kanbanIt
 	beginInsertRows(QModelIndex(), row, row + kanbanItemsToInsert.size() - 1);
 	for (auto item : kanbanItemsToInsert)
 	{
+		item.setPageIdx(mPageId);
+
 		const auto alreadyExists = std::any_of(mKanbanItems.begin(), mKanbanItems.end(), [item](const KanbanItem& it) { return it == item; });
-		if (!alreadyExists)
+		//if (!alreadyExists)
 		{
-			item.setPageIdx(mPageId);
 			mKanbanItems.emplace_back(item);
 			auto r = rowCount();
 			idxList.append(index(r, 0, QModelIndex()));
 		}
 	}
-	endInsertRows();
-	
-	idxList.append(index(0, 0, QModelIndex()));
+	endInsertRows();	
 
 	// Add items to DB
 	/*QtConcurrent::run([this, kanbanItems, kanbanItemsSize]() 

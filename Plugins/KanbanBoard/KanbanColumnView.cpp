@@ -9,6 +9,7 @@
 #include <QColor>
 #include <QPaintEvent>
 #include <qmenu.h>
+#include "../Common/Utils.h"
 
 KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnColor, bool isCollapsed, QWidget *parent) :
     QWidget(parent),
@@ -80,8 +81,8 @@ KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnCol
 		static_cast<QPropertyAnimation*>(mAnimation.animationAt(3))->setStartValue(mIsCollapsed);
 		static_cast<QPropertyAnimation*>(mAnimation.animationAt(3))->setEndValue(!mIsCollapsed);
 
-        static_cast<QPropertyAnimation*>(mAnimation.animationAt(4))->setStartValue(mIsCollapsed);
-		static_cast<QPropertyAnimation*>(mAnimation.animationAt(4))->setEndValue(!mIsCollapsed);
+        //static_cast<QPropertyAnimation*>(mAnimation.animationAt(4))->setStartValue(mIsCollapsed);
+		//static_cast<QPropertyAnimation*>(mAnimation.animationAt(4))->setEndValue(!mIsCollapsed);
     	
     	mAnimation.start();
     });
@@ -103,7 +104,7 @@ KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnCol
 
     connect(ui->mButtonOptions, &QToolButton::clicked, [this](bool) { emit columnDeleted(mTitle); });	
 	
-	connect(ui->mButtonAdd, &QPushButton::clicked, [this](bool) { emit kanbanCreated(mTitle); });
+	connect(ui->mButtonAdd, &QToolButton::clicked, [this](bool) { emit kanbanCreated(mTitle); });
 	
 	connect(ui->mListView, &DeselectableListView::deselectAll, [this]() { selectKanbanItems({}); });
 
@@ -173,6 +174,8 @@ void KanbanColumnView::setColor(const QColor& color)
 	mColor = color;
 	ui->mLabelTitle->setBackgroundColor(mColor);
 	ui->mLabelTitleVertical->setBackgroudColor(mColor);
+	ui->mButtonAdd->setStyleSheet("background-color:"+Utils::colorToString(mColor));
+	ui->mButtonOptions->setStyleSheet("background-color:none");
 
 	const auto textColor {Qt::black};
 	ui->mLabelTitle->setTextColor(textColor);
