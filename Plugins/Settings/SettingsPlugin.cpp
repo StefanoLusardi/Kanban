@@ -2,8 +2,8 @@
 #include "SettingsPlugin.h"
 #include "SettingsView.h"
 #include "Model.h"
+#include "../Widgets/Widgets/Widgets.h"
 
-#include <QDialog>
 #include <QBoxLayout>
 #include <QPushButton>
 
@@ -16,28 +16,33 @@ SettingsPlugin::SettingsPlugin(QBoxLayout* /*mainViewLayout*/, QBoxLayout* plugi
 	mPluginButton->setText(parent->name());
 
 	QIcon buttonIcon;
-    buttonIcon.addFile(QString::fromUtf8(":/images/Light/button/settings.png"), QSize(20, 20), QIcon::Normal, QIcon::Off);
+    buttonIcon.addFile(QString::fromUtf8(":/images/Light/button/settings.png"), QSize(20, 20), QIcon::Normal, QIcon::On);
     mPluginButton->setIcon(buttonIcon);
 
 	const auto insertIdx = pluginButtonsLayout->count() - 1;
     pluginButtonsLayout->insertWidget(insertIdx, mPluginButton);
 
 	// Create Plugin Ui class
-	mPluginDialog = new QDialog();
 	mPluginView = new SettingsView(model);
+	
+	mFramelessWindow = new FramelessWindow();
+	mFramelessWindow->setWindowTitle("Settings");
+	mFramelessWindow->setContent(mPluginView);
 
-	mPluginDialog->setLayout(new QVBoxLayout());
-	mPluginDialog->layout()->addWidget(mPluginView); // Steals ownership
-
-	connect(mPluginDialog, &QDialog::finished, [this]()
+	connect(mFramelessWindow, &FramelessWindow::aboutToClose, [this]()
 	{
 		mPluginButton->setChecked(false);
 	});
 
 	connect(mPluginButton, &QPushButton::clicked, [this]()
     {
-        mPluginDialog->setVisible(mPluginButton->isChecked());
+        mFramelessWindow->setVisible(mPluginButton->isChecked());
     });
+
+	mFramelessWindow->connect(model->getSettingsModel().get(), &SettingsModel::styleChanged, [this](const QString styleName)
+	{
+		mFramelessWindow->changeStyle(styleName);
+	});
 }
 
 void SettingsPlugin::initData() const
@@ -51,5 +56,5 @@ void SettingsPlugin::release() const
 	if (mPluginView)
 		mPluginView->saveConfig();
 
-	delete mPluginDialog;
+	delete mFramelessWindow;
 }

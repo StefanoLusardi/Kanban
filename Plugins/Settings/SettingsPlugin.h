@@ -2,10 +2,10 @@
 
 #include <QObject>
 
-class QDialog;
 class QBoxLayout;
 class QPushButton;
 
+class FramelessWindow;
 class Model;
 class SettingsPluginInterface;
 class SettingsView;
@@ -24,5 +24,5 @@ public:
 private:
 	QPushButton* mPluginButton;
 	SettingsView* mPluginView;
-	QDialog* mPluginDialog;
+	FramelessWindow* mFramelessWindow;
 };

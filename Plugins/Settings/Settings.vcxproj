@@ -135,6 +135,9 @@
     <ProjectReference Include="..\..\Style\Style.vcxproj">
       <Project>{7d25c119-1ba1-4c95-9806-8664b64b7ce5}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\Widgets\Widgets\Widgets.vcxproj">
+      <Project>{5efa98f5-e48f-4686-913e-f64347681307}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

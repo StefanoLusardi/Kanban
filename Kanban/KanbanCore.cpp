@@ -82,7 +82,7 @@ bool KanbanCore::createUi(bool status)
 	
 	mFramelessWindow->setWindowTitle("Kanban");
 	mFramelessWindow->setContent(mMainWindow);
-	mFramelessWindow->setWindowState(Qt::WindowMaximized);
+	mFramelessWindow->setWindowState(Qt::WindowFullScreen);
 
 	mUi = std::make_unique<Ui::MainWindowClass>();
 	mUi->setupUi(mMainWindow);
