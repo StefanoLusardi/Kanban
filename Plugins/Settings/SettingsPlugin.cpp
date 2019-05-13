@@ -5,18 +5,21 @@
 #include "../Widgets/Widgets/Widgets.h"
 
 #include <QBoxLayout>
-#include <QPushButton>
+#include <QToolButton>
 
 SettingsPlugin::SettingsPlugin(QBoxLayout* /*mainViewLayout*/, QBoxLayout* pluginButtonsLayout, Model* model, SettingsPluginInterface* parent) : QObject (parent)
 {
 	// Register Plugin Button into pluginButtonsLayout
-	mPluginButton = new QPushButton(); // no smart_ptr because later container->addWidget() steals ownership
+	mPluginButton = new QToolButton(); // no smart_ptr because later container->addWidget() steals ownership
+
+	mPluginButton->setFixedSize(100, 100);
+	mPluginButton->setAutoRaise(true);
+	mPluginButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	mPluginButton->setCheckable(true);
 	mPluginButton->setChecked(false);
 	mPluginButton->setText(parent->name());
-
 	QIcon buttonIcon;
-    buttonIcon.addFile(QString::fromUtf8(":/images/Light/button/settings.png"), QSize(20, 20), QIcon::Normal, QIcon::On);
+    buttonIcon.addFile(QString::fromUtf8(":/images/Light/button/settings.png"), QSize(50, 50), QIcon::Normal, QIcon::On);
     mPluginButton->setIcon(buttonIcon);
 
 	const auto insertIdx = pluginButtonsLayout->count() - 1;
@@ -34,12 +37,12 @@ SettingsPlugin::SettingsPlugin(QBoxLayout* /*mainViewLayout*/, QBoxLayout* plugi
 		mPluginButton->setChecked(false);
 	});
 
-	connect(mPluginButton, &QPushButton::clicked, [this]()
+	connect(mPluginButton, &QToolButton::clicked, [this]()
     {
         mFramelessWindow->setVisible(mPluginButton->isChecked());
     });
 
-	mFramelessWindow->connect(model->getSettingsModel().get(), &SettingsModel::styleChanged, [this](const QString styleName)
+	connect(model->getSettingsModel().get(), &SettingsModel::styleChanged, [this](const QString styleName)
 	{
 		mFramelessWindow->changeStyle(styleName);
 	});

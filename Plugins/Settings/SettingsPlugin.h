@@ -3,7 +3,7 @@
 #include <QObject>
 
 class QBoxLayout;
-class QPushButton;
+class QToolButton;
 
 class FramelessWindow;
 class Model;
@@ -22,7 +22,7 @@ public:
 	void release() const;
 
 private:
-	QPushButton* mPluginButton;
+	QToolButton* mPluginButton;
 	SettingsView* mPluginView;
 	FramelessWindow* mFramelessWindow;
 };

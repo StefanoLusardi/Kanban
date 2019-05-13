@@ -3,7 +3,7 @@
 #include <QObject>
 
 class QBoxLayout;
-class QPushButton;
+class QToolButton;
 
 class Model;
 class KanbanBoardView;
@@ -22,6 +22,6 @@ public:
 
 private:
 	KanbanBoardView* mPluginView;
-	QPushButton* mAddPageButton;
+	QToolButton* mAddPageButton;
 };
 
