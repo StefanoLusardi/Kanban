@@ -27,7 +27,7 @@ protected:
     void dragLeaveEvent(QDragLeaveEvent *event) override;
     void dropEvent(QDropEvent *event) override;
 
-private slots:
+public slots:
 	void onCreateKanban();
 	void onRenameKanban();
 	void onDeleteKanban();
@@ -36,6 +36,7 @@ private slots:
 	void onRenameColumn();
 	void onDeleteColumn();
 
+private slots:
 	void onChangeColumn();
 	void onDeleteColumnView(const QString& deletedColumnName);
 	void onAddColumnViewKanban(const QString& columnName);

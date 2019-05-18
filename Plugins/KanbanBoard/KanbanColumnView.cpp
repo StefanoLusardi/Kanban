@@ -64,6 +64,7 @@ KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnCol
 			// If we are collapsing, the current width is the width of the expanded column.
 			// Store the expanded width to be used when triggering next expansion.
 			mExpandedWidth = width();
+			mCollapsedWidth = ui->mButtonAdd->width();
 		}
 
         const auto targetWidth = mIsCollapsed ? mCollapsedWidth : mExpandedWidth;

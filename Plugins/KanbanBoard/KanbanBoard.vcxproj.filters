@@ -52,6 +52,9 @@
     <ClCompile Include="KanbanBoardView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="KanbanButtonsView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="KanbanBoardPlugin.h">
@@ -78,6 +81,9 @@
     <QtMoc Include="KanbanBoardView.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="KanbanButtonsView.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtUic Include="KanbanDelegateEditor.ui">
@@ -90,6 +96,9 @@
       <Filter>Form Files</Filter>
     </QtUic>
     <QtUic Include="KanbanPageView.ui">
+      <Filter>Form Files</Filter>
+    </QtUic>
+    <QtUic Include="KanbanButtonsView.ui">
       <Filter>Form Files</Filter>
     </QtUic>
   </ItemGroup>

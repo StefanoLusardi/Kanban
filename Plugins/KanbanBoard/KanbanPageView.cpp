@@ -24,39 +24,15 @@ KanbanPageView::KanbanPageView(const QString& pageName, KanbanItemModel* model, 
 	ui->setupUi(this);
 	setAcceptDrops(true);
 
-	// Create circular button mask
-	auto w = ui->mButtonColumnCreate->iconSize().width();
-	auto h = ui->mButtonColumnCreate->iconSize().height();
-	auto m = std::min(w, h);
+	//// Kanban Items
+	//connect(ui->mButtonKanbanCreate, &QToolButton::clicked, this, &KanbanPageView::onCreateKanban);
+	//connect(ui->mButtonKanbanRename, &QToolButton::clicked, this, &KanbanPageView::onRenameKanban);
+	//connect(ui->mButtonKanbanDelete, &QToolButton::clicked, this, &KanbanPageView::onDeleteKanban);
 
-	auto bw = ui->mButtonColumnCreate->size().width();
-	auto bh = ui->mButtonColumnCreate->size().height();
-	auto bm = std::min(bw, bh);
-
-	ui->mButtonColumnCreate->setFixedSize(bm, bm);
-
-	auto pad = (bm - m)/2-1;
-
-	QRect rect = QRect(QPoint(pad, pad), QSize(m+1, m+1));
-	QRegion region = QRegion(rect,QRegion::Ellipse);
-	ui->mButtonColumnCreate->setMask(region);
-
-	connect(mSelectionKanbanModel, &QItemSelectionModel::selectionChanged, [this](const QItemSelection& s, const QItemSelection& d)
-	{
-		auto ss = mSelectionKanbanModel->selectedIndexes().count();
-		auto dd = d;
-		auto i = 0;
-	});
-
-	// Kanban Items
-	connect(ui->mButtonKanbanCreate, &QToolButton::clicked, this, &KanbanPageView::onCreateKanban);
-	connect(ui->mButtonKanbanRename, &QToolButton::clicked, this, &KanbanPageView::onRenameKanban);
-	connect(ui->mButtonKanbanDelete, &QToolButton::clicked, this, &KanbanPageView::onDeleteKanban);
-
-	// Column Items
-	connect(ui->mButtonColumnCreate, &QToolButton::clicked, this, &KanbanPageView::onCreateColumn);
-	connect(ui->mButtonColumnRename, &QToolButton::clicked, this, &KanbanPageView::onRenameColumn);
-	connect(ui->mButtonColumnDelete, &QToolButton::clicked, this, &KanbanPageView::onDeleteColumn);
+	//// Column Items
+	//connect(ui->mButtonColumnCreate, &QToolButton::clicked, this, &KanbanPageView::onCreateColumn);
+	//connect(ui->mButtonColumnRename, &QToolButton::clicked, this, &KanbanPageView::onRenameColumn);
+	//connect(ui->mButtonColumnDelete, &QToolButton::clicked, this, &KanbanPageView::onDeleteColumn);
 
 	// Splitter (parent of KanbanColumnView items)
 	mSplitterColumnViews = new QSplitter(Qt::Horizontal, this);

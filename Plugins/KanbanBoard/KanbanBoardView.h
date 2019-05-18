@@ -1,7 +1,10 @@
 #pragma once
 
 #include <QWidget>
+#include "KanbanPageView.h"
 class Model;
+class QBoxLayout;
+class KanbanButtonsView;
 
 namespace Ui { class KanbanBoardView; };
 
@@ -11,7 +14,7 @@ class KanbanBoardView : public QWidget
 	const QString mConfigFile {"Kanban Board.json"};
 
 public:
-	KanbanBoardView(Model* model, QWidget *parent = Q_NULLPTR);
+	KanbanBoardView(Model* model,  QBoxLayout* pluginButtonsLayout,  QWidget *parent = Q_NULLPTR);
 	~KanbanBoardView();
 
 	void loadConfig();
@@ -22,5 +25,8 @@ public:
 
 private:
 	Ui::KanbanBoardView *ui;
+	KanbanButtonsView* mButtonsUi;
 	Model* mModel;
+	
+	void setupPageConnections(KanbanPageView* page, bool connecting = true) const;
 };

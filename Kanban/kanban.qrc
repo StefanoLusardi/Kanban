@@ -21,6 +21,7 @@
         <file>images/Light/button/rename.png</file>
         <file>images/Light/button/settings.png</file>
         <file>images/Light/button/add_ico.ico</file>
+        <file alias="github_icon">images/github-icon-png-29.jpg</file>
     </qresource>
     <qresource prefix="/svg">
         <file>images/svg/verified.svg</file>

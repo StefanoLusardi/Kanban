@@ -12,15 +12,17 @@ SettingsPlugin::SettingsPlugin(QBoxLayout* /*mainViewLayout*/, QBoxLayout* plugi
 	// Register Plugin Button into pluginButtonsLayout
 	mPluginButton = new QToolButton(); // no smart_ptr because later container->addWidget() steals ownership
 
-	mPluginButton->setFixedSize(100, 100);
+	mPluginButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	mPluginButton->setMinimumSize(QSize(100, 100));
 	mPluginButton->setAutoRaise(true);
 	mPluginButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 	mPluginButton->setCheckable(true);
 	mPluginButton->setChecked(false);
 	mPluginButton->setText(parent->name());
 	QIcon buttonIcon;
-    buttonIcon.addFile(QString::fromUtf8(":/images/Light/button/settings.png"), QSize(50, 50), QIcon::Normal, QIcon::On);
+    buttonIcon.addFile(QString::fromUtf8(":/images/Light/button/settings.png"), QSize(), QIcon::Normal, QIcon::Off);
     mPluginButton->setIcon(buttonIcon);
+    mPluginButton->setIconSize(QSize(50, 50));
 
 	const auto insertIdx = pluginButtonsLayout->count() - 1;
     pluginButtonsLayout->insertWidget(insertIdx, mPluginButton);

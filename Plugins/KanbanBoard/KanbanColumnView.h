@@ -46,7 +46,7 @@ private:
 	QString mTitle;
 	QColor mColor;
 	int mExpandedWidth;
-	const int mCollapsedWidth {40};
+	int mCollapsedWidth;
 	int mAnimationTime {250}; // milliseconds
 	bool mIsCollapsed;
 
