@@ -26,7 +26,7 @@ void Model::loadData() const
 
 void Model::saveData() const
 {
-	mPageModel->savePageItems();	
+	mPageModel->savePageItems();
 	for (auto&& page : mPageModel->pages())
 	{
 		mKanbanModel.at(page.getPageIdx())->saveKanbanItems();

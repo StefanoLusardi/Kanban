@@ -17,7 +17,7 @@ public:
     void removeItem(int id) const override;
 	std::vector<KanbanItem> getItems(int pageId) const override;
 	void removeAllItems(int pageId) const override;
-	void saveAllItems() const override;
+	void saveAllItems(std::vector<KanbanItem> kanbanItems) const override;
 	void setData(int id, const char* property, const QVariant& value) const;
 
 private:

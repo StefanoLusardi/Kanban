@@ -2,6 +2,8 @@
 
 #include "ItemManager.h"
 #include "PageItem.h"
+#include "KanbanItem.h"
+#include <vector>
 
 class QSqlDatabase;
 
@@ -14,7 +16,7 @@ public:
 	void removeItem(int id) const override;
 	std::vector<PageItem> getItems(int id) const override;
 	void removeAllItems(int pageId) const override;
-	void saveAllItems() const override;
+	void saveAllItems(std::vector<PageItem> kanbanItems) const override;
 
 private:
     QSqlDatabase& mDb;

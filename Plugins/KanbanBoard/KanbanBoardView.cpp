@@ -25,6 +25,7 @@ KanbanBoardView::KanbanBoardView(Model* model, QBoxLayout* pluginButtonsLayout, 
 		if (auto page = dynamic_cast<KanbanPageView*>(w); page)
 		{
 			page->repaint();
+			mButtonsUi->setCurrentPage(page->getPageName());
 		}
 	});
 }

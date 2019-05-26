@@ -25,14 +25,15 @@ public:
 	bool setData(const QModelIndex& index, const QVariant& value, int role) override;
 	bool insertRows(int position, int rows, const QModelIndex& parent) override;
 	bool removeRows(int row, int count, const QModelIndex& parent) override;
+	//bool moveRows(const QModelIndex& sourceParent, int sourceRow, int count, const QModelIndex& destinationParent, int destinationChild) override;
 
 	Qt::DropActions supportedDropActions() const override;
 	Qt::DropActions supportedDragActions() const override;
 	QStringList mimeTypes() const override;
 	QMimeData* mimeData(const QModelIndexList& indexes) const override;
 
-	QModelIndexList addKanbanList(std::vector<KanbanItem>& kanbanItemsToInsert, const QString& columnName);
-	QModelIndex addKanban(const QString& text, const QString& color, const QString& columnName);
+	QModelIndexList addKanbanList(std::vector<KanbanItem> kanbanItemsToInsert, const QString& columnName);
+	QModelIndex addKanban(KanbanItem&& item);
 	QModelIndex getKanbanIndex(const QString& kanbanText);
 
 	void loadKanbanItems();

@@ -25,7 +25,7 @@ void SettingsModel::loadSettings()
 
 void SettingsModel::saveSettings()
 {
-	mDb.mManagerSettings.saveAllItems();
+	mDb.mManagerSettings.saveAllItems(std::vector<SettingsItem>{});
 }
 
 void SettingsModel::setStyle(const QString& styleName)

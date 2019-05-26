@@ -13,5 +13,5 @@ public:
     virtual void removeItem(int id) const = 0;
 	virtual std::vector<Item> getItems(int pageId = -1) const = 0;
 	virtual void removeAllItems(int pageId = -1) const = 0;
-	virtual void saveAllItems() const = 0;
+	virtual void saveAllItems(std::vector<Item> kanbanItems) const = 0;
 };

@@ -20,6 +20,7 @@ public:
 
 	void loadConfig(const QJsonObject& pageConfig);
 	void saveConfig(QJsonArray& config) const;
+	QString getPageName() const;
 
 protected:
     void dragEnterEvent(QDragEnterEvent *event) override;
@@ -28,16 +29,15 @@ protected:
     void dropEvent(QDropEvent *event) override;
 
 public slots:
-	void onCreateKanban();
-	void onRenameKanban();
-	void onDeleteKanban();
+	void onCreateKanban(const QString& page);
+	void onRenameKanban(const QString& page);
+	void onDeleteKanban(const QString& page);
 
-	void onCreateColumn();
-	void onRenameColumn();
-	void onDeleteColumn();
+	void onCreateColumn(const QString& page);
+	void onRenameColumn(const QString& page);
+	void onDeleteColumn(const QString& page);
 
 private slots:
-	void onChangeColumn();
 	void onDeleteColumnView(const QString& deletedColumnName);
 	void onAddColumnViewKanban(const QString& columnName);
 	void onKanbanSelected(const QString& columnSenderName, const QStringList& kanbanTextList);

@@ -7,7 +7,7 @@
 class MODEL_EXPORT KanbanItem
 {
 public:
-	explicit KanbanItem(int pageIdx, const QString& text, const QString& color, const QString& column, int id=-1) 
+	KanbanItem(int pageIdx, const QString& text, const QString& color, const QString& column, int id=-1) 
 	: mId{id}, 
 	mPageIdx{pageIdx},
 	mText{text}, 

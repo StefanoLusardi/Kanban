@@ -77,7 +77,9 @@ void PageItemManager::removeAllItems(int /*pageId*/) const
 	// TODO: implement
 }
 
-void PageItemManager::saveAllItems() const
+void PageItemManager::saveAllItems(std::vector<PageItem> pageItems) const
 {
-
+	QSqlQuery query(mDb);
+	query.exec("DELETE FROM kanban_items");
+	query.exec("VACUUM");
 }

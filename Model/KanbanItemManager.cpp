@@ -71,8 +71,33 @@ void KanbanItemManager::removeAllItems(int pageId) const
 	DbManager::debugQuery(query);
 }
 
-void KanbanItemManager::saveAllItems() const
+void KanbanItemManager::saveAllItems(std::vector<KanbanItem> kanbanItems) const
 {
+	QSqlQuery query(mDb);
+	query.exec("PRAGMA synchronous = OFF");
+	query.exec("PRAGMA Journal_model = MEMORY");
+	query.exec("BEGIN TRANSACTION");
+	
+
+    query.prepare(QString("INSERT INTO kanban_items")
+        + " (page_id, column, color, text)"
+        + " VALUES ("
+        + ":page_id, "
+        + ":column, "
+        + ":color, "
+        + ":text"
+        + ")");
+
+	std::for_each(kanbanItems.begin(), kanbanItems.end(), [&query](KanbanItem& item)
+	{
+	    query.bindValue(":page_id", item.getPageIdx());
+	    query.bindValue(":column", item.getColumn());
+	    query.bindValue(":color", item.getColor());
+	    query.bindValue(":text", item.getText());
+		query.exec();
+	});
+
+	query.exec("END TRANSACTION");
 }
 
 void KanbanItemManager::setData(int id, const char* property, const QVariant& value) const

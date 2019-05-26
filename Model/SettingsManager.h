@@ -15,7 +15,7 @@ public:
 	void removeItem(int id) const override {}
 	std::vector<SettingsItem> getItems(int id) const override;
 	void removeAllItems(int pageId) const override {}
-	void saveAllItems() const override {}
+	void saveAllItems(std::vector<SettingsItem> settingsItems) const override {}
 	void setData(int id, const char* property, const QVariant& value) const;
 
 private:

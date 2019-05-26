@@ -24,16 +24,6 @@ KanbanPageView::KanbanPageView(const QString& pageName, KanbanItemModel* model, 
 	ui->setupUi(this);
 	setAcceptDrops(true);
 
-	//// Kanban Items
-	//connect(ui->mButtonKanbanCreate, &QToolButton::clicked, this, &KanbanPageView::onCreateKanban);
-	//connect(ui->mButtonKanbanRename, &QToolButton::clicked, this, &KanbanPageView::onRenameKanban);
-	//connect(ui->mButtonKanbanDelete, &QToolButton::clicked, this, &KanbanPageView::onDeleteKanban);
-
-	//// Column Items
-	//connect(ui->mButtonColumnCreate, &QToolButton::clicked, this, &KanbanPageView::onCreateColumn);
-	//connect(ui->mButtonColumnRename, &QToolButton::clicked, this, &KanbanPageView::onRenameColumn);
-	//connect(ui->mButtonColumnDelete, &QToolButton::clicked, this, &KanbanPageView::onDeleteColumn);
-
 	// Splitter (parent of KanbanColumnView items)
 	mSplitterColumnViews = new QSplitter(Qt::Horizontal, this);
 	mSplitterColumnViews->setFrameShape(QFrame::Box);
@@ -79,6 +69,11 @@ void KanbanPageView::saveConfig(QJsonArray& config) const
 	pageNode.insert("page", QJsonValue(mPageName));
 	
 	config.append(pageNode);
+}
+
+QString KanbanPageView::getPageName() const
+{
+	return mPageName;
 }
 
 void KanbanPageView::dragEnterEvent(QDragEnterEvent* event)
@@ -144,8 +139,11 @@ void KanbanPageView::dropEvent(QDropEvent* event)
 	event->acceptProposedAction();
 }
 
-void KanbanPageView::onCreateKanban()
+void KanbanPageView::onCreateKanban(const QString& page)
 {
+	if (page != mPageName) { return; }
+	if (mSelectedColumnName == QString()) {return;}
+
 	bool ok;
 	QString text = QInputDialog::getText(this, "Kanban Text", "Set text for the new Kanban item", QLineEdit::Normal, QString(), &ok);
 
@@ -155,8 +153,9 @@ void KanbanPageView::onCreateKanban()
 	}
 }
 
-void KanbanPageView::onRenameKanban()
+void KanbanPageView::onRenameKanban(const QString& page)
 {
+	if (page != mPageName) { return; }
 	if (mSelectionKanbanModel->selectedIndexes().isEmpty()) { return; }
 
 	const QModelIndex firstSelectedIdx = mSelectionKanbanModel->selectedIndexes().first();
@@ -174,8 +173,9 @@ void KanbanPageView::onRenameKanban()
 	}
 }
 
-void KanbanPageView::onDeleteKanban()
+void KanbanPageView::onDeleteKanban(const QString& page)
 {
+	if (page != mPageName) { return; }
 	if (mSelectionKanbanModel->selectedIndexes().isEmpty()) { return; }
 
 	// Sort selected indexes in reverse order before deleting them, otherwise the model is screwed up.
@@ -190,8 +190,10 @@ void KanbanPageView::onDeleteKanban()
 	}
 }
 
-void KanbanPageView::onCreateColumn()
+void KanbanPageView::onCreateColumn(const QString& page)
 {
+	if (page != mPageName) { return; }
+
 	bool ok;
 	QString columnName = QInputDialog::getText(this, "Kanban Column", "Create new Kanban column", QLineEdit::Normal, QString(), &ok);
 	
@@ -204,9 +206,10 @@ void KanbanPageView::onCreateColumn()
 	}
 }
 
-void KanbanPageView::onRenameColumn()
+void KanbanPageView::onRenameColumn(const QString& page)
 {
-	//Q_ASSERT(mSelectedColumnName != QString{} );
+	if (page != mPageName) { return; }
+	if (mSelectedColumnName == QString()) {return;}
 
 	bool ok;
 	QString text = QInputDialog::getText(this, "Column Name", "Set new text for the selected column", QLineEdit::Normal, mSelectedColumnName, &ok);
@@ -232,8 +235,9 @@ void KanbanPageView::onRenameColumn()
 	}
 }
 
-void KanbanPageView::onDeleteColumn()
+void KanbanPageView::onDeleteColumn(const QString& page)
 {
+	if (page != mPageName) { return; }
 	onDeleteColumnView(mSelectedColumnName);
 }
 
@@ -270,26 +274,6 @@ void KanbanPageView::onAddColumnViewKanban(const QString& columnName)
 		if (const auto column = findColumn(columnName); *column!=nullptr)
 		{
 			createKanban(text, (*column)->getColor(), columnName);
-		}
-	}
-}
-
-// UNUSED
-void KanbanPageView::onChangeColumn()
-{
-	if (mSelectionKanbanModel->selectedIndexes().isEmpty()) { return; }
-
-	const QModelIndex firstSelectedIdx = mSelectionKanbanModel->selectedIndexes().first();
-	const QString oldColumn = mKanbanModel->data(firstSelectedIdx, KanbanItemModel::Roles::ColumnName).toString();
-
-	bool ok;
-	QString newColumn = QInputDialog::getText(this, "Kanban Column", "Set new column for the selected Kanban(s)", QLineEdit::Normal, oldColumn, &ok);
-
-	if (ok && !newColumn.isEmpty())
-	{ 
-		for (auto&& idx : mSelectionKanbanModel->selectedIndexes())
-		{
-			mKanbanModel->setData(idx, newColumn, KanbanItemModel::Roles::ColumnName);
 		}
 	}
 }
@@ -338,7 +322,7 @@ void KanbanPageView::setSelectedColumnView(const QString& selectedColumnName)
 
 void KanbanPageView::createKanban(const QString& text, const QColor& color, const QString& columnName) const
 {
-	const QModelIndex idx = mKanbanModel->addKanban(text, Utils::colorToString(color), columnName);
+	const QModelIndex idx = mKanbanModel->addKanban({-1, text, Utils::colorToString(color), columnName});
 }
 
 std::vector<KanbanColumnView*>::iterator KanbanPageView::findColumn(const QString& columnName)
