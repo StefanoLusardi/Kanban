@@ -13,6 +13,20 @@ The application is entirely **cross-platform** (tested on Windows and Linux). It
 
 ### Ok, now show me something!
 
+## Basic Usage:
+![](Gifs/KanbanGif_1_Intro.gif)
 
+## Bulk edits and Animations
+![](Gifs/KanbanGif_2_BulkAnimation.gif)
 
+## MultiBoards
+![](Gifs/KanbanGif_3_MultiBoard.gif)
 
+## Item Color Editing
+![](Gifs/KanbanGif_4_Colors.gif)
+
+## Items Properties Editing
+![](Gifs/KanbanGif_5_Edit.gif)
+
+## Themes
+![](Gifs/KanbanGif_6_Theme.gif)
