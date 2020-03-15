@@ -6,8 +6,6 @@
 #include <QSqlQuery>
 #include <QVariant>
 
-#include <QtConcurrent/QtConcurrent>
-
 KanbanItemManager::KanbanItemManager(QSqlDatabase& db): mDb{db}
 {
 }

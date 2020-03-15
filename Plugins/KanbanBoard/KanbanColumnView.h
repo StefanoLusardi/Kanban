@@ -23,6 +23,7 @@ public:
 	void setColor(const QColor& color);
 	QColor getColor() const;
 
+	void setColumnSelection(bool isSelected) const;
 	void setFilter(const QString& filter) const;
 	void setModel(QSortFilterProxyModel* model) const;
 	void setDelegate(QStyledItemDelegate* delegate) const;
@@ -49,6 +50,4 @@ private:
 	int mCollapsedWidth;
 	int mAnimationTime {250}; // milliseconds
 	bool mIsCollapsed;
-
-	void setColumnSelection(bool isSelected) const;
 };

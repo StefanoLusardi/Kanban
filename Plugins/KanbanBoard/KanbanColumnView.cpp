@@ -22,6 +22,7 @@ KanbanColumnView::KanbanColumnView(const QString& title, const QColor& columnCol
     ui->mButtonSpoiler->setCheckable(true);
     ui->mLabelTitleVertical->setVisible(false);
 	ui->mListView->setFrameShape(QFrame::Shape::NoFrame);
+	ui->mListView->setAcceptDrops(true);
 
 	setTitle(title);
 	setColor(columnColor);

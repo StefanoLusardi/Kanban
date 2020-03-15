@@ -4,7 +4,6 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QSqlQuery>
-#include <QThreadPool>
 
 
 void DbManager::debugQuery(const QSqlQuery& query)
@@ -28,15 +27,12 @@ DbManager& DbManager::instance()
 
 DbManager::DbManager(const QString& path) :
     mDb(new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"))),
-	mThreadPool{QThreadPool::globalInstance()},
     mManagerKanbanItem(*mDb), 
 	mManagerPageItem(*mDb),
 	mManagerSettings(*mDb)
 {
     mDb->setDatabaseName(path);
-
-	const bool openStatus = mDb->open();
-    qDebug() << "Database connection: " << (openStatus ? "OK" : "Error");
+	mDb->open();
 
     mManagerKanbanItem.init();
     mManagerPageItem.init();

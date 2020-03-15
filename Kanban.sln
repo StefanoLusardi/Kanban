@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2041
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Kanban", "Kanban\Kanban.vcxproj", "{B12702AD-ABFB-343A-A199-8E24837244A3}"
 EndProject
@@ -95,7 +95,7 @@ Global
 		{7D99C55D-AD54-41B8-91BB-F060F9FC9053} = {499A5FA3-2399-44D7-80B7-A8506AE4600F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		Qt5Version = Qt5.12.0_msvc2017_64
 		SolutionGuid = {36FC0E69-7128-4A58-8C29-C17B8209B39E}
+		Qt5Version = Qt
 	EndGlobalSection
 EndGlobal

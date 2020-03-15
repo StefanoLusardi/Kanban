@@ -1,13 +1,21 @@
 #pragma once
 
 #include <QStyledItemDelegate>
+#include <QPushButton>
+#include <QLabel>
 
 class KanbanDelegate : public QStyledItemDelegate
 {
 	Q_OBJECT
 
 public:
-	KanbanDelegate(QObject *parent = Q_NULLPTR) : QStyledItemDelegate(parent) {}
+	QLabel* l;
+	QPushButton* b;
+	KanbanDelegate(QObject *parent = Q_NULLPTR) : QStyledItemDelegate(parent)
+	{
+		b = new QPushButton("AAA");
+		l = new QLabel("AAA");
+	}
 	~KanbanDelegate() = default;
 
 	void paint(QPainter* painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override;

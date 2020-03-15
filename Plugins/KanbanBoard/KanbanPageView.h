@@ -55,7 +55,7 @@ private:
 	void setModel(KanbanItemModel* kanbanModel);
 	void setSelectedColumnView(const QString& selectedColumnName);
 	void createColumn(const QString& columnName, const QColor& columnColor, bool isCollapsed = false);
-	void createKanban(const QString& text, const QColor& color, const QString& columnName) const;
+	void createKanban(const QString& text, const QColor& color, const QString& columnName);// const;
 
 	std::vector<KanbanColumnView*>::iterator findColumn(const QString& columnName);
 };

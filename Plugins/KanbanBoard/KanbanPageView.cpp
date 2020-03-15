@@ -19,10 +19,8 @@ KanbanPageView::KanbanPageView(const QString& pageName, KanbanItemModel* model, 
 	ui{new Ui::KanbanPageView()},
 	mPageName{pageName}
 {	
-	setModel(model);
-	
+	setModel(model);	
 	ui->setupUi(this);
-	setAcceptDrops(true);
 
 	// Splitter (parent of KanbanColumnView items)
 	mSplitterColumnViews = new QSplitter(Qt::Horizontal, this);
@@ -320,7 +318,7 @@ void KanbanPageView::setSelectedColumnView(const QString& selectedColumnName)
 	mSelectedColumnName = selectedColumnName;
 }
 
-void KanbanPageView::createKanban(const QString& text, const QColor& color, const QString& columnName) const
+void KanbanPageView::createKanban(const QString& text, const QColor& color, const QString& columnName) //const
 {
 	const QModelIndex idx = mKanbanModel->addKanban({-1, text, Utils::colorToString(color), columnName});
 }
@@ -347,6 +345,12 @@ void KanbanPageView::createColumn(const QString& columnName, const QColor& colum
 
 	mSplitterColumnViews->addWidget(columnView);
 	mColumnViews.emplace_back(columnView);
+
+	if (mSelectedColumnName == QString())
+	{
+		columnView->setColumnSelection(true);
+		setSelectedColumnView(columnName);
+	}
 }
 
 QStringList KanbanPageView::getColumnViewNames() const

@@ -8,7 +8,7 @@ void KanbanDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 { 
 	painter->save();
 	painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing); 
-	
+
 	// Draw contour (item selected or mouse over)
     QColor contourColor = Qt::transparent;	
 	if (option.state.testFlag(QStyle::State_Selected)) 
@@ -35,8 +35,7 @@ void KanbanDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option
 	const QString text = index.model()->data(index, Qt::DisplayRole).toString();
     painter->setPen(Qt::black);
 	painter->drawText(option.rect, Qt::AlignCenter, text);	
-
-    painter->restore();
+	painter->restore();
 }
 
 QSize KanbanDelegate::sizeHint(const QStyleOptionViewItem& option, const QModelIndex& index) const

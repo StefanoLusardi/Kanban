@@ -4,9 +4,9 @@
 #include <QDebug>
 #include <QMimeData>
 #include <QDataStream>
-#include <QtConcurrent/QtConcurrent>
 
-QHash<int, QByteArray> KanbanItemModel::roleNames() const {
+QHash<int, QByteArray> KanbanItemModel::roleNames() const 
+{
     QHash<int, QByteArray> roles;
     roles[Qt::DisplayRole] = "text";
     roles[Qt::DecorationRole] = "color";
@@ -55,13 +55,12 @@ bool KanbanItemModel::setData(const QModelIndex& index, const QVariant& value, i
 	}
 
 	emit dataChanged(index, index);
-	//mDb.mManagerKanbanItem.setData(item.getId(), roleNames()[role], value); 
 	return true;
 }
 
 Qt::ItemFlags KanbanItemModel::flags(const QModelIndex& index) const
 {
-	Qt::ItemFlags defaultFlags = QAbstractItemModel::flags(index);
+	const Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
 	if(index.isValid())
 		return defaultFlags | Qt::ItemIsDropEnabled | Qt::ItemIsDragEnabled | Qt::ItemIsEditable;
 	else
@@ -70,7 +69,7 @@ Qt::ItemFlags KanbanItemModel::flags(const QModelIndex& index) const
 
 bool KanbanItemModel::insertRows(int position, int rows, const QModelIndex& parent)
 {
-	beginInsertRows(QModelIndex(), position, position + rows - 1);
+	beginInsertRows(parent, position, position + rows - 1);
 	for (int row = 0; row < rows; ++row)
 	{
 		mKanbanItems.insert(mKanbanItems.begin()+position, KanbanItem{mPageId, "", "", ""});
@@ -83,17 +82,10 @@ bool KanbanItemModel::removeRows(int row, int count, const QModelIndex& parent)
 {
 	if (row < 0 || row > rowCount() || count < 0 || (row + count) > rowCount()) { return false; }
 
-	std::vector<int> deleteItems;
-	{
-		beginRemoveRows(parent, row, row + count - 1);
-		for (auto it = mKanbanItems.begin() + row; it < mKanbanItems.begin() + row + count; ++it)
-		{
-			deleteItems.push_back(it->getId());
-		}
-		mKanbanItems.erase(mKanbanItems.begin() + row, mKanbanItems.begin() + row + count);
-		endRemoveRows();
-	}
-		
+	beginRemoveRows(parent, row, row + count - 1);
+	mKanbanItems.erase(mKanbanItems.begin() + row, mKanbanItems.begin() + row + count);
+	endRemoveRows();
+	
 	return true;
 }
 
@@ -122,41 +114,40 @@ QMimeData* KanbanItemModel::mimeData(const QModelIndexList& indexes) const
 		}
 	}
 
-	mimeData->setData("application/vnd.text.list", encodedData);
+	mimeData->setData(mimeTypes().first(), encodedData);
 	return mimeData;
 }
 
 QModelIndex KanbanItemModel::addKanban(KanbanItem&& item)
 {
 	QModelIndex idx;
+	const int row = rowCount();
+	
+	beginInsertRows(QModelIndex(), row, row);
 	item.setPageIdx(mPageId);
-	//const auto alreadyExists = std::any_of(mKanbanItems.begin(), mKanbanItems.end(), [item](const KanbanItem& it) { return it == item; });
-	//if (!alreadyExists)
-	{	
-		const int row = rowCount();
-		beginInsertRows(QModelIndex(), row, row);
-		mKanbanItems.emplace_back(item);
-		endInsertRows();
-		idx = index(row, 0, QModelIndex());
-	}
+	mKanbanItems.emplace_back(item);
+	endInsertRows();
 
-	return idx;
+	return index(row, 0, QModelIndex());
 }
 
-QModelIndexList KanbanItemModel::addKanbanList(std::vector<KanbanItem> kanbanItemsToInsert, const QString& columnName)
+void KanbanItemModel::addKanbanItems(int row, std::vector<KanbanItem> kanbanItems)
 {
-	QModelIndexList idxList;
-	for (auto&& item : kanbanItemsToInsert)
+	const int first = row;
+	const int last  = row + kanbanItems.size() - 1;
+	
+	beginInsertRows(QModelIndex(), first, last);
+	for (auto&& item : kanbanItems)
 	{
-		idxList.push_back(addKanban(std::move(item)));
+		item.setPageIdx(mPageId);
+		mKanbanItems.insert(mKanbanItems.begin()+first, item);
 	}
-	return idxList;
+	endInsertRows();
 }
 
 QModelIndex KanbanItemModel::getKanbanIndex(const QString& kanbanText)
 {
-	const auto item = std::find_if(mKanbanItems.begin(), mKanbanItems.end(),
-									[&kanbanText](const KanbanItem& k) { return kanbanText == k.getText(); });
+	const auto item = std::find_if(mKanbanItems.begin(), mKanbanItems.end(), [&kanbanText](const KanbanItem& k) { return kanbanText == k.getText(); });
 
 	if (item != mKanbanItems.end())
 	{

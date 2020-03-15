@@ -22,9 +22,9 @@ KanbanBoardView::KanbanBoardView(Model* model, QBoxLayout* pluginButtonsLayout, 
 	connect(ui->tabWidget, &QTabWidget::currentChanged, [this](int idx)
 	{
 		const auto w = ui->tabWidget->widget(idx);
-		if (auto page = dynamic_cast<KanbanPageView*>(w); page)
+		if (const auto page = dynamic_cast<KanbanPageView*>(w); page)
 		{
-			page->repaint();
+			//page->repaint();
 			mButtonsUi->setCurrentPage(page->getPageName());
 		}
 	});
